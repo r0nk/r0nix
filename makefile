@@ -9,3 +9,5 @@ clean:
 	rm *.o
 	rm *.iso	
 	rm *.bin
+run:
+	qemu-system-i386 -kernel myos.bin
