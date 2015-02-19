@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "terminal.h"
+#include "string.h"
 
 enum vga_color
 {
@@ -21,13 +22,6 @@ enum vga_color
 	COLOR_LIGHT_BROWN = 14,
 	COLOR_WHITE = 15,
 };
-/*TODO this should be moved elsewhere*/
-size_t strlen(const char* str)
-{
-	size_t ret = 0;
-	while ( str[ret++] != 0 );
-	return ret;
-}
 
 uint8_t make_color(enum vga_color fg, enum vga_color bg)
 {
@@ -40,7 +34,6 @@ uint16_t make_vgaentry(char c, uint8_t color)
 	uint16_t color16 = color;
 	return c16 | color16 << 8;
 }
-
 
 void terminal_initialize()
 {
@@ -73,13 +66,10 @@ void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 void terminal_putchar(char c)
 {
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-	if ( ++terminal_column == VGA_WIDTH )
-	{
+	if ( ++terminal_column == VGA_WIDTH ){
 		terminal_column = 0;
 		if ( ++terminal_row == VGA_HEIGHT )
-		{
 			terminal_row = 0;
-		}
 	}
 }
 
