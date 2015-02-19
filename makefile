@@ -5,3 +5,7 @@ all:
 	cp myos.bin isodir/boot/myos.bin
 	cp grub.cfg isodir/boot/grub/grub.cfg
 	grub-mkrescue -d /usr/lib/grub/i386-pc -o myos.iso isodir
+clean:
+	rm *.o
+	rm *.iso	
+	rm *.bin
