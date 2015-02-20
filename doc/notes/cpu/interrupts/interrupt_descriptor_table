@@ -1,5 +1,3 @@
-
-"
 The Interupt descriptor table (IDT) is an array of 256 8-byte descriptors.
 
 The IDT may reside anywhere in the linear address space.
@@ -66,7 +64,6 @@ in the EFLAGS register.
  | |      Segment Selector         |      Offset 15...0            |    |
  | +-------------------------------+-------------------------------+    |
  |                                                                      |
- |                                                                      |
  | 	DPL		Descriptor Privilege Level                      |
  |	Offset		Offset to procedure entry Point                 |
  |	P		Segment Present flag                            |
@@ -80,9 +77,8 @@ in the EFLAGS register.
 The processor handles calls to exception and interrupt handlers similar to the
 way it handles calls with a CALL instruction to a pointer or a task. When 
 responding to an exception or interrupt, the processor uses the exception or 
-interrupt vector as an index to a descriptor in the IDT. If the inderx points
+interrupt vector as an index to a descriptor in the IDT. If the index points
 to an interrupt gate or trap gate, the processor calls the exception or 
 interrupt handler in a manner similar to a CALL to a call gate. If index points
 to a task gate, the processor executes a task switch to the exception or 
 interrupt handler task in a manner similar to a CALL to a task gate.
-"

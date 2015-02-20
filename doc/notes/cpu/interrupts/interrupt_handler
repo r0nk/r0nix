@@ -1,0 +1,10 @@
+Ok, our interrupt handler, let's plan that out.
+
+For starters, we'll just have something that calls a C function, which prints
+out something like 'INTERRUPT'. We'll call that function iprint.
+
+To do that we need to setup our IDT to all go to iprint.
+
+To do that, we need to figure out exactly what each entry of the IDT table
+should look like. Then we implement each entry in a IDT table, then we tell the
+cpu what out IDT is with the LIDT instruction.
