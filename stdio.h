@@ -1,3 +1,7 @@
-#include <stdargs.h>
+#ifndef STDIO
+#define STDIO 1
 
-int kprintf(const char * format,...);
+void kprint_int(unsigned int x);
+void kprint_string(char * s);
+
+#endif

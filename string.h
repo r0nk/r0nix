@@ -1,3 +1,5 @@
+#include <stdint.h>
+#include <stddef.h>
 #ifndef STRING
 #define STRING 1
 

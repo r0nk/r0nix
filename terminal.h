@@ -1,3 +1,5 @@
+#include <stdint.h>
+#include <stddef.h>
 #ifndef TERMINAL
 #define TERMINAL 1
 

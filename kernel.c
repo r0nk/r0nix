@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "terminal.h"
+#include "stdio.h"
 
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -14,5 +15,12 @@
 void kernel_main()
 {
 	terminal_initialize();
-	terminal_writestring("Hello, r0nk!\n");
+	kprint_string("hello r0nk!\n");
+	unsigned int beef = 0xDEADBEEF;
+	unsigned int * dead = &beef;
+	kprint_int(0xC0DEC0DE);
+	kprint_string("\n");
+	kprint_int(*dead);
+	kprint_string("\n");
+	kprint_int((unsigned int)dead);
 }
