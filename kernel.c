@@ -22,5 +22,12 @@ void kernel_main()
 	kprint_string("\n");
 	kprint_int(*dead);
 	kprint_string("\n");
+	kprint_string("dead:");
 	kprint_int((unsigned int)dead);
+	kprint_string("\n");
+	kprint_string("kernel_main:");
+	kprint_int((unsigned int)kernel_main);
+	kprint_string("\n");
+	kprint_string("kprint_int:");
+	kprint_int((unsigned int)kprint_int);
 }
