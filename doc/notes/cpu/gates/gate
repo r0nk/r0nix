@@ -1,0 +1,27 @@
+from 64-32intel_manual:
+"
+Code modules in lower privilege segments can only access modules operating at
+higher privilege segments by means of a tightly controlled and protected 
+interface called a gate. Attempts to access higher privilege segments without
+going through a protection gate and without having sufficient access rights
+causes a general-protection exception (#GP) to be generated.
+
+if an operating system or executive uses this multilevel protection mechanism,
+a call to a procedure that is in a more privileged protection level than the 
+calling procedure is handled in a similar manner as a far call;with a few 
+differences:
+	* The segment selector provided in the CALL instruction references a 
+	special data structure called a call gate descriptor. Among other 
+	things, the call gate descriptor provides the following:
+	- access rights information
+	- the segment selector for the code segment of the called procedure
+	- an offset into the code segment (that is, the instruction pointer
+			for the called procedure)
+	* The processor switches to a new stach to execute the called 
+	procedure. Each privilege level has its own stack. The segment selector
+	and stack pointer for the privilege level 3 stack are stored in the SS
+	and ESP registers, respectively, and are automatically saved when a
+	call to a more privileged level occurs. The segment selectors and stack
+	pointers for the privilege level 2, 1, and 0 stacks are stored in a 
+	system segment called the task state segment (TSS).
+"

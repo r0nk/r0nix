@@ -1,0 +1,88 @@
+
+"
+The Interupt descriptor table (IDT) is an array of 256 8-byte descriptors.
+
+The IDT may reside anywhere in the linear address space.
+
+The LIDT (load IDT register) and SIDT (store IDT register) instructions load 
+and store the contents of the IDTR register, respectively. The LIDT instruction
+loads the IDTR register with the base address and limit held in a memory 
+operand. This instruction can be executed only when the CPL is 0. It normally is
+used by the initalization code of an operating system when creating an IDT. An
+operating system also may use it to change from one IDT to another. The SIDT
+instruction copies the base and limit value stored in IDTR to memory. This 
+instruction can be executed at any privilege level. 
+
+/* basically, SIDT is the getter, LIDT is the setter. */
+
+If a vector references a descriptor beyond the limit of the IDT, a 
+general-protection exception (#GP) is generated.
+
+The IDT may contain any of three kinds of gate descriptors:
+* Task-gate descriptor
+* Interrupt-gate descriptor
+* Trap-gate descriptor
+
+The format of a task gate used in a IDT is the same as that of a task gate
+used in the GDT or an LDT. The gate contains the segment selector for a TSS for
+an exception and/or interrupt handler task.
+
+Interrupt and trap gates are very similar to call gates. They contain a far 
+pointer(segment selector and offset) that the processor uses to transfer 
+program execution to a handler procedure in a exception- or interrupt-handler
+code segment. These gates differ in the way the processor handles the IF flag
+in the EFLAGS register.
+
+/* time for some ascii art */
+
+ IDT Gate descriptors:
+ +----------------------------------------------------------------------+
+ |                                                                      |
+ |	Task Gate                                                       |
+ |	---------                                                       |
+ |                                                                      |
+ |                                                                      |
+ | 64                                15   13      8                32   |
+ | +-------------------------------+-------------------------------+    |
+ | |###############################| P| DPL|  00101|###############|    |
+ | +-------------------------------+-------------------------------+    |
+ |                                                                      |
+ | 31                              16                              0    |
+ | +-------------------------------+-------------------------------+    |
+ | |      TSS Segment Selector     |###############################|    |
+ | +-------------------------------+-------------------------------+    |
+ |                                                                      |
+ |                                                                      |
+ | 	Interrupt & Trap Gate                                           |
+ |	---------------------                                           |
+ |                                                                      |
+ | 64                                             8 7     5 4      32   |
+ | +-------------------------------+-------------------------------+    |
+ | |   Offset 31...16              | P| DPL|  0D110|    000|#######|    |
+ | +-------------------------------+-------------------------------+    |
+ |                                                                      |
+ | 31                              16                              0    |
+ | +-------------------------------+-------------------------------+    |
+ | |      Segment Selector         |      Offset 15...0            |    |
+ | +-------------------------------+-------------------------------+    |
+ |                                                                      |
+ |                                                                      |
+ | 	DPL		Descriptor Privilege Level                      |
+ |	Offset		Offset to procedure entry Point                 |
+ |	P		Segment Present flag                            |
+ |	Selector	Segment Selector for destination code segment   |
+ |	D		Size of gate: 1 = 32 bit; 0 = 16 bits           |
+ |	#		Reserved                                        |
+ |                                                                      |
+ +----------------------------------------------------------------------+
+
+
+The processor handles calls to exception and interrupt handlers similar to the
+way it handles calls with a CALL instruction to a pointer or a task. When 
+responding to an exception or interrupt, the processor uses the exception or 
+interrupt vector as an index to a descriptor in the IDT. If the inderx points
+to an interrupt gate or trap gate, the processor calls the exception or 
+interrupt handler in a manner similar to a CALL to a call gate. If index points
+to a task gate, the processor executes a task switch to the exception or 
+interrupt handler task in a manner similar to a CALL to a task gate.
+"

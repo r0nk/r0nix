@@ -51,29 +51,14 @@ from software by means of an INT, INTO, INT 3, or BOUND instruction. The
 interrupt vector provides an index into the IDT. If the descriptor is a task
 gate, the handler is accessed through a task switch.
 "
-same book, different chapter:
-"
-The IDT is an array of 256 8-byte descriptors.
-
-The IDT may reside anywhere in the linear address space.
-
-The LIDT (load IDT register) and SIDT (store IDT register) instructions load 
-and store the contents of the IDTR register, respectively. The LIDT instruction
-loads the IDTR register with the base address and limit held in a memory 
-operand. This instruction can be executed only when the CPL is 0. It normally is
-used by the initalization code of an operating system when creating an IDT. An
-operating system also may use it to change from one IDT to another. The SIDT
-instruction copies the base and limit value stored in IDTR to memory. This 
-instruction can be executed at any privilege level. 
-
-/* basically, SIDT is the getter, LIDT is the setter. */
-
-If a vector references a descriptor beyond the limit of the IDT, a 
-general-protection exception (#GP) is generated.
-"
 	*	*	*
 
 "These two fields perform the same function as the pointer operand in a far 
 control-transfer instruction."
 
 Ok, so we next need to lookup-n-understand far control-transfer instructions.
+
+We should be fine as were staying in ring 0 for now, we should see about 
+changing that when we can.
+
+We need to insert a LIDT instruction, after we have created a IDT.
