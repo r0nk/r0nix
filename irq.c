@@ -8,6 +8,7 @@
 
 void generic_interrupt_handler()
 {
+	/*FIXME so this guy never gets reached...*/
 	kprint_string("INTERRUPT OCCURED!\n");
 }
 

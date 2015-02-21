@@ -1,5 +1,5 @@
 
-CFLAGS=-ffreestanding -fbuiltin -Wall -Wextra
+CFLAGS=-ffreestanding -fbuiltin -Wall -Wextra -g
 LIBS=-nostdlib  -lgcc
 
 all:
@@ -14,4 +14,8 @@ clean:
 	rm *.bin
 	rm *.iso	
 run:
-	qemu-system-i386 -kernel r0nix
+	qemu-system-i386 -monitor stdio -kernel r0nix 
+debug:
+	qemu-system-i386 -s -S -kernel r0nix &
+	gdb -s r0nix -ex "target remote localhost:1234"
+	pkill qemu
