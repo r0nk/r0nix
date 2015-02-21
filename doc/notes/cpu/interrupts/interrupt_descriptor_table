@@ -54,12 +54,12 @@ in the EFLAGS register.
  | 	Interrupt & Trap Gate                                           |
  |	---------------------                                           |
  |                                                                      |
- | 64                                             8 7     5 4      32   |
+ | 31                            16 15   13 12    8 7     5 4      0    |
  | +-------------------------------+-------------------------------+    |
- | |   Offset 31...16              | P| DPL|  0D110|    000|#######|    |
+ | |   Offset 31...16              | P| DPL|  0D110|    000|#######|4   |
  | +-------------------------------+-------------------------------+    |
  |                                                                      |
- | 31                              16                              0    |
+ | 31                            16 15                             0    |
  | +-------------------------------+-------------------------------+    |
  | |      Segment Selector         |      Offset 15...0            |    |
  | +-------------------------------+-------------------------------+    |
@@ -82,3 +82,4 @@ to an interrupt gate or trap gate, the processor calls the exception or
 interrupt handler in a manner similar to a CALL to a call gate. If index points
 to a task gate, the processor executes a task switch to the exception or 
 interrupt handler task in a manner similar to a CALL to a task gate.
+
