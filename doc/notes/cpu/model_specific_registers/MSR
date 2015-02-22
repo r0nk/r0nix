@@ -1,0 +1,5 @@
+Model Specific Register(MSR)
+There are a colection of 'Model Specific Registers' that allow configuration
+of various os related things, such as memeory type-range, sysenter/exit, 
+local APUC, etc. These are accessed using special, priviledged, instructions,
+such as RDMSR (Read MSR), WRMSR (Write MSR), and RDTSC.
