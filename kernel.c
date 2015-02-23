@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "irq.h"
 #include "desc.h"
+#include "msr.h"
 
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -28,23 +29,4 @@ void kernel_main()
 {
 	terminal_initialize();
 	kprint_string("hello r0nk!\n");
-	int i=0;
-
-	kprint_string("idt_table:");
-	kprint_int((unsigned int) idt_table);
-	kprint_string("\n");
-
-
-	for(i=0;i<8;i++){
-		asdf(i);
-	}
-	kprint_string("\n");
-	initalize_interrupts();
-	for(i=0;i<8;i++){
-		asdf(i);
-	}
-	kprint_string("\n");
-	kprint_string("generic_interrupt_handler:");
-	kprint_int((unsigned int)generic_interrupt_handler);
-	kprint_string("\n");
 }
