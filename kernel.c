@@ -15,6 +15,11 @@
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
+
+void fake_int(){
+	asm("int $2");
+}
+
 void asdf(int i){
 	kprint_string("idt_table[");
 	kprint_int(i);
@@ -28,5 +33,21 @@ void asdf(int i){
 void kernel_main()
 {
 	terminal_initialize();
-	kprint_string("hello r0nk!\n");
+	initalize_interrupts();
+	kprint_string("hello r0nk!\n\n");
+
+	kprint_string("idt_table:");
+	kprint_int((unsigned int)idt_table);
+	kprint_string("\n");
+
+	asdf(0);
+	asdf(1);
+	asdf(2);
+	asdf(3);
+
+	kprint_string("generic interrupt handler:");
+	kprint_int((unsigned long)generic_interrupt_handler);
+	kprint_string("\n");
+
+	fake_int();
 }

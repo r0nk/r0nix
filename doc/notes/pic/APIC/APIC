@@ -76,7 +76,3 @@ Local APICS can recieve interrupts from the following sources:
     When an error condition is recognized within the local APIC (such as an 
     attempt to access an unimplemented register), the APIC can be programmed
     to send an interrupt to is associated processor.
-
-
-
-

@@ -8,13 +8,13 @@
 
 void generic_interrupt_handler()
 {
-	/*FIXME so this guy never gets reached...*/
 	kprint_string("INTERRUPT OCCURED!\n");
+	while(1);//just hang for now
 }
 
 void initalize_idt()
 {
-	unsigned int addr = (unsigned int)generic_interrupt_handler;
+	unsigned long addr = (unsigned long)generic_interrupt_handler;
 	int high_address = addr & 0xFFFF0000;
 	int low_address  = addr & 0x0000FFFF;
 	int DPL = 0;//descriptor privilege level
@@ -22,6 +22,10 @@ void initalize_idt()
 	int Selector = 0;//segment selector for destination code segment
 	int D = 1;//size of gate: 1=32bit;0=16bit
 	int i;
+	kprint_string("\n h:\n");
+	kprint_int(high_address);
+	kprint_string("\n l:\n");
+	kprint_int(low_address);
 	for(i=0;i<256;i++){
 		idt_table[i].a=high_address;
 		idt_table[i].a+=P<<15;
@@ -38,9 +42,9 @@ void initalize_interrupts()
 {
 	/* load the table into idt */
 	idt_descr.size=(256*8);
-	idt_descr.address=(unsigned long)idt_table;
+	idt_descr.address=(unsigned int)idt_table;
 	/* then initalize the table contents */
 	initalize_idt();
 
-	native_load_idt(&idt_descr);
-}
+	load_idt(&idt_descr);
+	}

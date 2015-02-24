@@ -1,8 +1,10 @@
-/* Much of this is taken from linux source */
+#ifndef DESC
+#define DESC 1
+#include <stdint.h>
 
 struct desc_ptr {
-	unsigned short size;
-	unsigned long address;
+	uint16_t size;
+	uint32_t address;
 } __attribute__((packed));
 
 struct gate_desc {
@@ -13,7 +15,9 @@ struct gate_desc {
 struct desc_ptr idt_descr;
 struct gate_desc idt_table[256];
 
-static inline void native_load_idt(const struct desc_ptr *dtr)
+static inline void load_idt(const struct desc_ptr *dtr)
 {
 	asm volatile("lidt %0"::"m" (*dtr));
 }
+
+#endif
