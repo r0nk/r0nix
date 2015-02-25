@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "irq.h"
 #include "desc.h"
+#include "gdt.h"
 #include "msr.h"
 
 #if defined(__linux__)
@@ -33,6 +34,7 @@ void asdf(int i){
 void kernel_main()
 {
 	terminal_initialize();
+	initalize_gdt();
 	initalize_interrupts();
 	kprint_string("hello r0nk!\n\n");
 
@@ -41,9 +43,6 @@ void kernel_main()
 	kprint_string("\n");
 
 	asdf(0);
-	asdf(1);
-	asdf(2);
-	asdf(3);
 
 	kprint_string("generic interrupt handler:");
 	kprint_int((unsigned long)generic_interrupt_handler);

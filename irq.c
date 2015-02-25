@@ -40,11 +40,10 @@ void initalize_idt()
 
 void initalize_interrupts()
 {
-	/* load the table into idt */
+	/* initalize the table contents */
+	initalize_idt();
 	idt_descr.size=(256*8);
 	idt_descr.address=(unsigned int)idt_table;
-	/* then initalize the table contents */
-	initalize_idt();
 
 	load_idt(&idt_descr);
-	}
+}

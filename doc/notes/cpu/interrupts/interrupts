@@ -62,3 +62,6 @@ We should be fine as were staying in ring 0 for now, we should see about
 changing that when we can.
 
 We need to insert a LIDT instruction, after we have created a IDT.
+
+Apparently we have to have the GDT table set up before we setup the IDT. (ty thePowersGang) "When an interrupt fires, the CPU loads CS from the IDT, which 
+requires that GDT be valid."

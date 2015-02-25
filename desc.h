@@ -15,9 +15,17 @@ struct gate_desc {
 struct desc_ptr idt_descr;
 struct gate_desc idt_table[256];
 
+struct desc_ptr gdt_descr;
+uint64_t gdt_table[256];//TODO this should be a desc_ptr
+
 static inline void load_idt(const struct desc_ptr *dtr)
 {
 	asm volatile("lidt %0"::"m" (*dtr));
+}
+
+static inline void load_gdt(const struct desc_ptr *dtr)
+{
+	asm volatile("lgdt %0"::"m" (*dtr));
 }
 
 #endif
