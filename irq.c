@@ -42,7 +42,7 @@ void initalize_interrupts()
 {
 	/* initalize the table contents */
 	initalize_idt();
-	idt_descr.size=(256*8);
+	idt_descr.size=(256*8)-1;
 	idt_descr.address=(unsigned int)idt_table;
 
 	load_idt(&idt_descr);

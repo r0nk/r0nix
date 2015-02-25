@@ -21,7 +21,7 @@ void fake_int(){
 	asm("int $2");
 }
 
-void asdf(int i){
+void print_idt_entry(int i){
 	kprint_string("idt_table[");
 	kprint_int(i);
 	kprint_string("]: ");
@@ -42,7 +42,8 @@ void kernel_main()
 	kprint_int((unsigned int)idt_table);
 	kprint_string("\n");
 
-	asdf(0);
+	print_idt_entry(0);
+	print_idt_entry(42);
 
 	kprint_string("generic interrupt handler:");
 	kprint_int((unsigned long)generic_interrupt_handler);
