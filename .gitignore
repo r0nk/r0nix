@@ -3,3 +3,4 @@
 *.bin
 isodir/boot/*.bin
 r0nix
+qemu.log
