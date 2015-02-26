@@ -267,23 +267,9 @@ extern void interrupt_wrapper_255();
 
 void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
-	kprint_string("INTERRUPT OCCURED!\n");
-	kprint_string("eax:");
-	kprint_int(s.eax);
-	kprint_string("\n");
-	kprint_string("ecx:");
-	kprint_int(s.ecx);
-	kprint_string("\n");
-	kprint_string("edx:");
-	kprint_int(s.edx);
-	kprint_string("\n");
-	kprint_string("ebx:");
-	kprint_int(s.ebx);
-	kprint_string("\n");
-	kprint_string("vector:");
-	kprint_int(vector);
-	kprint_string("\n");
-	while(1);//just hang for now
+	vector++;
+	s.eax++;
+	s.eax--;
 }
 
 void initalize_idt_entry(int vector, void (*func)(void))
@@ -529,8 +515,6 @@ void initalize_idt(){
 	initalize_idt_entry(218,interrupt_wrapper_218);
 	initalize_idt_entry(219,interrupt_wrapper_219);
 	initalize_idt_entry(220,interrupt_wrapper_220);
-	initalize_idt_entry(221,interrupt_wrapper_221);
-	initalize_idt_entry(222,interrupt_wrapper_222);
 	initalize_idt_entry(223,interrupt_wrapper_223);
 	initalize_idt_entry(224,interrupt_wrapper_224);
 	initalize_idt_entry(225,interrupt_wrapper_225);

@@ -17,6 +17,10 @@
 #endif
 
 
+void hang(){
+	asm("hlt");
+}
+
 void fake_int(){
 	asm("int $42");
 }
@@ -54,4 +58,6 @@ void kernel_main()
 	kprint_string("\n");
 
 	fake_int();
+	kprint_string("\nafter int handler\n");
+	hang();
 }

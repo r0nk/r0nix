@@ -16,26 +16,12 @@
 
 generic_interrupt_wrapper:
 	/* aparently gcc doesn't recognize pushad...*/
-	push %eax
-	push %ecx
-	push %edx
-	push %ebx
-	push %ebp
-	push %esi
-	push %edi
+	pushal
 	call generic_interrupt_handler
-	push %edi
-	push %esi
-	push %ebp
-	push %ebx
-	push %edx
-	push %ecx
-	push %eax
-	add $8,%esp/* to get rid of the int vector */
+	popal
+	add $4,%esp/* to get rid of the int vector */
 	iret
 
-/* yay vim macros! */
-.globl interrupt_wrapper_0
 interrupt_wrapper_0:
 	push $0
 	jmp generic_interrupt_wrapper
