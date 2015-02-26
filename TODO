@@ -1,0 +1,10 @@
+in the everlasting hunt to figure where I broke interrupts, I've found
+that interrupts cause a triple fault. Now just to find where I can fix them...
+
+I looked at the code-base of qemu, and It found that exceptions are caused
+by the following if in the code base (@ target-i386/seg_helper.c)
+
+if (!(e2 & DESC_S_MASK) || !(e2 & (DESC_CS_MASK))) {
+	raise_exception_err(env, EXCP0D_GPF, selector & 0xfffc);
+}
+

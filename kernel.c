@@ -18,7 +18,7 @@
 
 
 void fake_int(){
-	asm("int $2");
+	asm("int $42");
 }
 
 void print_idt_entry(int i){
@@ -49,5 +49,6 @@ void kernel_main()
 	kprint_int((unsigned long)generic_interrupt_handler);
 	kprint_string("\n");
 
+	//while(1);
 	fake_int();
 }

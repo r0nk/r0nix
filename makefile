@@ -14,6 +14,8 @@ clean:
 	rm r0nix
 	rm *.bin
 	rm *.iso	
+r:
+	qemu-system-i386 -curses -kernel r0nix -d int -D qemu.log -no-reboot 
 run:
 	qemu-system-i386 -monitor stdio -kernel r0nix -d int -D qemu.log -no-reboot 
 debug:
