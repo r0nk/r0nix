@@ -5,6 +5,7 @@ LIBS=-nostdlib  -lgcc
 all:
 	i686-elf-as boot.s -o boot.o
 	i686-elf-as reload_segments.s -o reload_segments.o
+	i686-elf-as interrupt_handler.s -o interrupt_handler.o
 	i686-elf-gcc -c *.c  $(CFLAGS) $(LIBS)
 	i686-elf-gcc -T linker.ld -o r0nix $(CFLAGS) *.o $(LIBS)
 
