@@ -267,7 +267,11 @@ extern void interrupt_wrapper_255();
 
 void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
-	vector++;
+	kprint_string("INTERRUPT\n");
+	kprint_string(" vector=");
+	kprint_int(vector);
+	kprint_string("\n");
+	//just to keep the compiler from complaining
 	s.eax++;
 	s.eax--;
 }
@@ -549,6 +553,12 @@ void initalize_idt(){
 	initalize_idt_entry(253,interrupt_wrapper_253);
 	initalize_idt_entry(254,interrupt_wrapper_254);
 	initalize_idt_entry(254,interrupt_wrapper_255);
+}
+
+void test_interrupts(){
+	kprint_string("Testing interrupts...\n");	
+	asm("int $42");
+	kprint_string("Finished testing interrupts.\n");	
 }
 
 void initalize_interrupts()

@@ -35,7 +35,7 @@ uint16_t make_vgaentry(char c, uint8_t color)
 	return c16 | color16 << 8;
 }
 
-void terminal_initialize()
+void initialize_terminal()
 {
 	terminal_row = 0;
 	terminal_column = 0;

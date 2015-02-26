@@ -21,44 +21,15 @@ void hang(){
 	asm("hlt");
 }
 
-void fake_int(){
-	asm("int $42");
-}
-
-void print_idt_entry(int i){
-	kprint_string("idt_table[");
-	kprint_int(i);
-	kprint_string("]: ");
-	kprint_int(idt_table[i].a);
-	kprint_string(" ");
-	kprint_int(idt_table[i].b);
-	kprint_string("\n");
-}
-
 void kernel_main()
 {
-	terminal_initialize();
+	initialize_terminal();
+	kprint_string("hello r0nk!\n"); 
+
 	initalize_gdt();
 	initalize_interrupts();
-	kprint_string("hello r0nk!\n\n");
+	test_interrupts();
+//	initalize_apic();
 
-	kprint_string("idt_table:");
-	kprint_int((unsigned int)idt_table);
-	kprint_string("\n");
-
-	kprint_string("gdt_table:");
-	kprint_int((unsigned int)gdt_table);
-	kprint_string("\n");
-
-	print_idt_entry(0);
-	print_idt_entry(42);
-
-	kprint_string("generic interrupt handler:");
-	kprint_int((unsigned long)generic_interrupt_handler);
-	kprint_string("\n");
-
-	fake_int();
-	kprint_string("\nafter int handler\n");
-	kprint_string("\nafter int handler\n");
 	hang();
 }
