@@ -22,6 +22,7 @@ generic_interrupt_wrapper:
 	add $4,%esp/* to get rid of the int vector */
 	iret
 
+.globl interrupt_wrapper_0
 interrupt_wrapper_0:
 	push $0
 	jmp generic_interrupt_wrapper

@@ -295,6 +295,7 @@ void initalize_idt_entry(int vector, void (*func)(void))
 
 void initalize_idt(){
 	/* see you on the far side */
+	initalize_idt_entry(0,interrupt_wrapper_0);
 	initalize_idt_entry(1,interrupt_wrapper_1);
 	initalize_idt_entry(2,interrupt_wrapper_2);
 	initalize_idt_entry(3,interrupt_wrapper_3);

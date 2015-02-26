@@ -1,6 +1,0 @@
-IDTR - Interrupt Descriptor table register
-
-The IDTR register holds the base address (32 bits in protected mode; 64 bits in
-IA-32e mode) and 16-bit table limit for the IDT. The base address specifies the
-linear address of byte 0 of the IDT; the table limit specifies the number of
-bytes in the table. 

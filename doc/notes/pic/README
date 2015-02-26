@@ -1,1 +1,0 @@
-It is important to note that APIC has replaced the 8259 PIC in more modern systems, especially those with multiple cores/processors.

@@ -1,9 +1,0 @@
-ok, so the osdev wiki has a little section on how to program interrupts,
-which basically goes like this:
-
-	[x] make space for the interrupt descriptor table
-	[x] Tell the CPU where that space is (lidt)
-	[WIP] Tell the PIC that you no longer want to use the BIOS defaults
-	[] Write a couple of ISR handlers for both IRQs and exceptions
-	[] Put the addresses of the ISR handlers in the appropriate descriptors
-	[] Enable all supported interrupts in the IRQ mask (of the PIC)

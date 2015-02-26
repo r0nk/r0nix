@@ -1,8 +1,0 @@
-RDMSR - Read from Model Specific Register
-
-Read the MSR specified by ECX into EDX:EAX.
-
-The EDX register is loaded with the high-order 32 bits of the MSR and the EAX
-register is loaded with the low-order 32 bits. If fewer than 64 bits are 
-implemented in the MSR being read, the values returned to EDX:EAX in 
-unimplemented bit locations are undefined.

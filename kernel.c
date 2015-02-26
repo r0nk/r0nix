@@ -59,5 +59,6 @@ void kernel_main()
 
 	fake_int();
 	kprint_string("\nafter int handler\n");
+	kprint_string("\nafter int handler\n");
 	hang();
 }
