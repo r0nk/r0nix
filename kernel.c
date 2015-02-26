@@ -42,6 +42,10 @@ void kernel_main()
 	kprint_int((unsigned int)idt_table);
 	kprint_string("\n");
 
+	kprint_string("gdt_table:");
+	kprint_int((unsigned int)gdt_table);
+	kprint_string("\n");
+
 	print_idt_entry(0);
 	print_idt_entry(42);
 
@@ -49,6 +53,5 @@ void kernel_main()
 	kprint_int((unsigned long)generic_interrupt_handler);
 	kprint_string("\n");
 
-	//while(1);
 	fake_int();
 }

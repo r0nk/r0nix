@@ -19,7 +19,7 @@ void initalize_idt()
 	int low_address  = addr & 0x0000FFFF;
 	int DPL = 0;//descriptor privilege level
 	int P = 1;//selector present flag
-	int Selector = 8<<3;//segment selector for destination code segment. 
+	int Selector = 1<<3;//segment selector for destination code segment. 
 	int D = 1;//size of gate: 1=32bit;0=16bit
 	int type=14;
 	int i;
