@@ -8,11 +8,20 @@ enum vga_color;
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 
-size_t terminal_row;
-size_t terminal_column;
-uint8_t terminal_color;
-uint16_t* terminal_buffer;
 
+
+struct Terminal{
+	size_t row;
+	size_t column;
+	uint8_t color;
+	uint16_t* buffer;
+};
+
+
+/* This probably shouldn't be a global, but Its going to be a while till we 
+ * have more then one terminal.
+ */
+struct Terminal term;
 
 uint8_t make_color(enum vga_color fg, enum vga_color bg);
 uint16_t make_vgaentry(char c, uint8_t color);
