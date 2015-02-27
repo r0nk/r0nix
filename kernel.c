@@ -2,11 +2,13 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "terminal.h"
+#include "keyboard.h"
 #include "stdio.h"
 #include "irq.h"
 #include "desc.h"
 #include "gdt.h"
 #include "msr.h"
+#include "apic.h"
 
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -29,7 +31,8 @@ void kernel_main()
 	initalize_gdt();
 	initalize_interrupts();
 	test_interrupts();
-//	initalize_apic();
+	initalize_apic();
+	enable_keyboard();
 
 	hang();
 }

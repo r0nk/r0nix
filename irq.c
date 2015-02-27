@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "irq.h"
 #include "cpu.h"
+#include "io.h"
 
 /*
  * This file handles setting up the interrupts.
@@ -265,15 +266,24 @@ extern void interrupt_wrapper_253();
 extern void interrupt_wrapper_254();
 extern void interrupt_wrapper_255();
 
+void acknowledge_interrupt(int vector){
+	/*
+	 * At least, I'm pretty sure that's what this does, I'm on a flight
+	 * So I cant find the right way to do this, yanking it from POS_C9*/
+	if (vector >= 20)
+		outb(0xA0,0x20);
+	outb(0x20,0x20);
+}
+
 void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
 	kprint_string("INTERRUPT\n");
 	kprint_string(" vector=");
 	kprint_int(vector);
 	kprint_string("\n");
-	//just to keep the compiler from complaining
-	s.eax++;
-	s.eax--;
+	s.eax++;s.eax--;//just to keep the compiler from complaining
+	
+	acknowledge_interrupt(vector);
 }
 
 void initalize_idt_entry(int vector, void (*func)(void))
@@ -552,11 +562,16 @@ void initalize_idt(){
 	initalize_idt_entry(252,interrupt_wrapper_252);
 	initalize_idt_entry(253,interrupt_wrapper_253);
 	initalize_idt_entry(254,interrupt_wrapper_254);
-	initalize_idt_entry(254,interrupt_wrapper_255);
+	initalize_idt_entry(255,interrupt_wrapper_255);
 }
 
 void test_interrupts(){
 	kprint_string("Testing interrupts...\n");	
+	kprint_string("first interrupt:\n");	
+	asm("int $42");
+	kprint_string("second interrupt:\n");	
+	asm("int $42");
+	kprint_string("third interrupt:\n");	
 	asm("int $42");
 	kprint_string("Finished testing interrupts.\n");	
 }

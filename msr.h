@@ -1,12 +1,7 @@
 #ifndef MSR
-#define MSR
+#define MSR 1
 
-inline unsigned long long read_msr(unsigned int msr)
-{
-	unsigned long long val;
 
-	asm volatile("rdmsr" :"=A" (val) : "c" (msr));
-	return val;
-}
+unsigned long long read_msr(unsigned int msr);
 
 #endif
