@@ -49,6 +49,7 @@ void keyboard_irq()
 	str[0]='\0';str[1]='\0';
 	scancode = inb(0x60);
 	if(KEY_RELEASED(scancode)){
+		scancode &= 0x7F;
 		if(SHIFT_CODE(scancode))
 			shift_down=0;
 		return;
