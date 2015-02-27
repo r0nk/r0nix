@@ -8,7 +8,7 @@
 #include "desc.h"
 #include "gdt.h"
 #include "msr.h"
-#include "apic.h"
+#include "pic.h"
 
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -31,7 +31,8 @@ void kernel_main()
 	initalize_gdt();
 	initalize_interrupts();
 	test_interrupts();
-	initalize_apic();
+	initalize_pic(0x20,0x28);
+//	initalize_apic(); //TODO
 	enable_keyboard();
 
 	hang();

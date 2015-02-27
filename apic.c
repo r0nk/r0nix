@@ -26,6 +26,7 @@ void * apic_base_address()
 
 void initalize_apic()
 {
+	//disable_pic(); //TODO
 	write_apic_register(read_apic_register(0xF0) | 0x100,0xF0);
 }
 

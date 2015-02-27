@@ -1,4 +1,6 @@
+#include "keyboard.h"
 #include "desc.h"
+#include "pic.h"
 #include "stdio.h"
 #include "irq.h"
 #include "cpu.h"
@@ -266,14 +268,6 @@ extern void interrupt_wrapper_253();
 extern void interrupt_wrapper_254();
 extern void interrupt_wrapper_255();
 
-void acknowledge_interrupt(int vector){
-	/*
-	 * At least, I'm pretty sure that's what this does, I'm on a flight
-	 * So I cant find the right way to do this, yanking it from POS_C9*/
-	if (vector >= 20)
-		outb(0xA0,0x20);
-	outb(0x20,0x20);
-}
 
 void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
@@ -282,8 +276,11 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 	kprint_int(vector);
 	kprint_string("\n");
 	s.eax++;s.eax--;//just to keep the compiler from complaining
-	
+	if(vector==0x21){
+		keyboard_irq();
+	}
 	acknowledge_interrupt(vector);
+	
 }
 
 void initalize_idt_entry(int vector, void (*func)(void))

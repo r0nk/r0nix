@@ -8,3 +8,12 @@ if (!(e2 & DESC_S_MASK) || !(e2 & (DESC_CS_MASK))) {
 	raise_exception_err(env, EXCP0D_GPF, selector & 0xfffc);
 }
 
+---
+
+K, interrupts are now (finally) working. 
+
+Up next is to reprogram the pic. I want to get the APIC working, so I Have to
+Disable the PIC first, and figure out what else To do.
+
+actually, we'll add PIC support first because theres more resources, then
+we'll work on apic support stuff.

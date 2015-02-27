@@ -46,6 +46,9 @@ void keyboard_irq()
 	char str[2];
 	str[0]='\0';str[1]='\0';
 	scancode = inb(0x60);
+	kprint_string("key scancode:");
+	kprint_int(scancode);
+	kprint_string("\n");
 	if(KEY_RELEASED(scancode)){
 		if(SHIFT_CODE(scancode))
 			shift_down=0;
