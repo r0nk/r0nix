@@ -20,6 +20,7 @@
 
 
 void hang(){
+	while(1);
 	asm("hlt");
 }
 

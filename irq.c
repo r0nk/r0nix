@@ -271,16 +271,11 @@ extern void interrupt_wrapper_255();
 
 void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
-	kprint_string("INTERRUPT\n");
-	kprint_string(" vector=");
-	kprint_int(vector);
-	kprint_string("\n");
 	s.eax++;s.eax--;//just to keep the compiler from complaining
 	if(vector==0x21){
 		keyboard_irq();
 	}
 	acknowledge_interrupt(vector);
-	
 }
 
 void initalize_idt_entry(int vector, void (*func)(void))
