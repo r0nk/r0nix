@@ -18,12 +18,6 @@
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
-
-void hang(){
-	while(1);
-	asm("hlt");
-}
-
 void kernel_main()
 {
 	initialize_terminal();
@@ -31,10 +25,8 @@ void kernel_main()
 
 	initalize_gdt();
 	initalize_interrupts();
-	test_interrupts();
 	initalize_pic(0x20,0x28);
-//	initalize_apic(); //TODO
 	enable_keyboard();
 
-	hang();
+	while(1);
 }

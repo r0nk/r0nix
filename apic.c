@@ -17,6 +17,7 @@ inline unsigned int read_apic_register(int offset)
 	unsigned int * a = apic_register_address(offset);
 	return (*a);
 }
+
 void * apic_base_address()
 {
 	unsigned long msr = read_msr(0x1b);//0x1b is for APIC

@@ -50,7 +50,8 @@ void initialize_terminal()
 	}
 }
 
-inline void terminal_shift_up(){
+inline void terminal_shift_up()
+{
 	int x,y;
 	int n,i=1;
 	for ( y = 0; y < (VGA_HEIGHT); y++ ){

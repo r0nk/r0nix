@@ -8,7 +8,8 @@
 /*
  * Converts a integer to a hex representation in ascii
  */
-void itoha(unsigned int in,char * s){
+void itoha(unsigned int in,char * s)
+{
 	int len=strlen(s)-1;
 	int shifta=0;
 	int train=0xf;

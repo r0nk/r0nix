@@ -557,17 +557,6 @@ void initalize_idt(){
 	initalize_idt_entry(255,interrupt_wrapper_255);
 }
 
-void test_interrupts(){
-	kprint_string("Testing interrupts...\n");	
-	kprint_string("first interrupt:\n");	
-	asm("int $42");
-	kprint_string("second interrupt:\n");	
-	asm("int $42");
-	kprint_string("third interrupt:\n");	
-	asm("int $42");
-	kprint_string("Finished testing interrupts.\n");	
-}
-
 void initalize_interrupts()
 {
 	initalize_idt();

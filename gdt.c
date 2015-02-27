@@ -44,29 +44,7 @@ SEG_PRIV(3)     | SEG_CODE_EXRD
 	SEG_LONG(0)     | SEG_SIZE(1) | SEG_GRAN(1) | \
 SEG_PRIV(3)     | SEG_DATA_RDWR
 
-
-
-
-
-
-
 extern void reload_segments();
-/*
-   struct gate_desc create_descriptor(uint32_t base, uint32_t limit, uint16_t flag)
-   {
-   struct gate_desc descriptor;
-
-   descriptor.a  =  limit       & 0x000F0000;
-   descriptor.a |= (flag <<  8) & 0x00F0FF00;
-   descriptor.a |= (base >> 16) & 0x000000FF;
-   descriptor.a |=  base        & 0xFF000000;
-
-   descriptor.b |= base  << 16;
-   descriptor.b |= limit  & 0x0000FFFF;
-
-   return descriptor;
-   }
- */
 
 uint64_t create_descriptor(uint32_t base, uint32_t limit, uint16_t flag)
 {
@@ -88,7 +66,8 @@ uint64_t create_descriptor(uint32_t base, uint32_t limit, uint16_t flag)
 
 }
 
-void initalize_gdt(){
+void initalize_gdt()
+{
 	gdt_table[0] = create_descriptor(0,0,0);
 	gdt_table[1] = create_descriptor(0,0xffffffff,GDT_CODE_PL0);
 	gdt_table[2] = create_descriptor(0,0xffffffff,GDT_DATA_PL0);

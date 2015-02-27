@@ -27,14 +27,16 @@ TAB, 'Q', 'W',   'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',   '{', '}', ENTER, 0,
 KF1,   KF2, KF3, KF4, KF5, KF6, KF7, KF8, KF9, KF10, 0, 0,
 KHOME, KUP, KPGUP, '-', KLEFT, '5',   KRIGHT, '+', KEND, KDOWN, KPGDN, KINS, KDEL, 0, 0, 0, KF11, KF12 };
 
-static char scancode_to_ascii(int scancode){
+static char scancode_to_ascii(int scancode)
+{
 	if(shift_down)
 		return asciiShift[scancode];
 	else
 		return asciiNonShift[scancode];
 }
 
-void enable_keyboard(){
+void enable_keyboard()
+{
 	outb(0x21,0xfd);
 	outb(0xa1,0xff);
 	asm("sti");
