@@ -1,5 +1,5 @@
-#include "desc.h"
-#include "gdt.h"
+#include "include/desc.h"
+#include "include/gdt.h"
 
 // Each define here is for a specific flag in the descriptor.
 // Refer to the intel documentation for a description of what each one does.

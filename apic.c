@@ -1,5 +1,5 @@
-#include "msr.h"
-#include "apic.h"
+#include "include/msr.h"
+#include "include/apic.h"
 
 inline void * apic_register_address(int offset)
 {

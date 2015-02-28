@@ -1,10 +1,10 @@
-#include "keyboard.h"
-#include "desc.h"
-#include "pic.h"
-#include "stdio.h"
-#include "irq.h"
-#include "cpu.h"
-#include "io.h"
+#include "include/keyboard.h"
+#include "include/desc.h"
+#include "include/pic.h"
+#include "include/stdio.h"
+#include "include/irq.h"
+#include "include/cpu.h"
+#include "include/io.h"
 
 /*
  * This file handles setting up the interrupts.

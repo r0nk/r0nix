@@ -1,7 +1,7 @@
-#include "keyboard.h"
-#include "stdio.h"
-#include "io.h"
-#include "terminal.h"
+#include "include/keyboard.h"
+#include "include/stdio.h"
+#include "include/io.h"
+#include "include/terminal.h"
 
 #define KEY_RELEASED(s) (s&0x80)
 #define SHIFT_CODE(x) (x == KRLEFT_SHIFT || x == KRRIGHT_SHIFT)

@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
-#include "terminal.h"
-#include "string.h"
+#include "include/terminal.h"
+#include "include/string.h"
 
 enum vga_color
 {
