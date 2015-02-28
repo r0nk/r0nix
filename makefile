@@ -1,13 +1,14 @@
-
 CFLAGS=-ffreestanding -fbuiltin -Wall -Wextra -g
 LIBS=-nostdlib  -lgcc
+CC=i686-elf-gcc
+AS=i686-elf-as
 
 all:
-	i686-elf-as boot.s -o boot.o
-	i686-elf-as reload_segments.s -o reload_segments.o
-	i686-elf-as interrupt_handler.s -o interrupt_handler.o
-	i686-elf-gcc -c *.c  $(CFLAGS) $(LIBS)
-	i686-elf-gcc -T linker.ld -o r0nix $(CFLAGS) *.o $(LIBS)
+	$(AS) boot.s -o boot.o
+	$(AS) reload_segments.s -o reload_segments.o
+	$(AS) interrupt_handler.s -o interrupt_handler.o
+	$(CC) -c *.c  $(CFLAGS) $(LIBS)
+	$(CC) -T linker.ld -o r0nix $(CFLAGS) *.o $(LIBS)
 
 clean:
 	rm *.o
