@@ -12,14 +12,9 @@ all:
 
 clean:
 	rm *.o
-	rm std/*.o
 	rm r0nix
-	rm *.bin
-	rm *.iso	
-r:
-	qemu-system-i386 -curses -kernel r0nix -d int -D qemu.log -no-reboot 
 run:
-	qemu-system-i386 -monitor stdio -kernel r0nix -d int -D qemu.log -no-reboot 
+	qemu-system-i386 -monitor stdio -kernel r0nix -no-reboot 
 debug:
 	qemu-system-i386 -s -S -kernel r0nix &
 	gdb -s r0nix -ex "target remote localhost:1234"
