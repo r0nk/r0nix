@@ -14,7 +14,7 @@ clean:
 	rm *.o
 	rm r0nix
 run:
-	qemu-system-i386 -fda /dev/loop0 -monitor stdio -kernel r0nix -no-reboot 
+	qemu-system-i386  -monitor stdio -kernel r0nix -no-reboot 
 debug:
 	qemu-system-i386 -s -S -kernel r0nix &
 	gdb -s r0nix -ex "target remote localhost:1234"

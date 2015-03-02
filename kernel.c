@@ -28,5 +28,6 @@ void kernel_main()
 	initalize_pic(0x20,0x28);
 	enable_keyboard();
 
-	while(1);
+	while(1)
+		asm("hlt");
 }
