@@ -5,6 +5,7 @@
 #ifndef MULTI_BOOT
 #define MULTI_BOOT 1
 #include <stddef.h>
+#include <stdint.h>
 
 struct Multiboot_Module{
 	uint32_t mod_start;
@@ -19,7 +20,7 @@ struct Multiboot_Syms{
 	uint32_t c;
 };
 
-struct Mutliboot_Information{
+struct Multiboot_Information{
 	uint32_t flags;
 	uint32_t mem_lower;
 	uint32_t mem_upper;
@@ -27,7 +28,7 @@ struct Mutliboot_Information{
 	uint32_t cmdline;
 	uint32_t mods_count;
 	uint32_t mods_addr;
-	Multiboot_Syms syms;
+	struct Multiboot_Syms syms;
 	uint32_t mmap_length;
 	uint32_t mmap_addr;
 	uint32_t drives_length;
@@ -41,9 +42,9 @@ struct Mutliboot_Information{
 	uint32_t vbe_interface_seg;
 	uint32_t vbe_interface_off;
 	uint32_t vbe_interface_len;
-};
+}__attribute__((packed));
 
-void parse_multi_boot(void * multiboot_data);
+void parse_multiboot(void * multiboot_data);
 
 #endif
 

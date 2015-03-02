@@ -7,14 +7,14 @@ all:
 	$(AS) boot.s -o boot.o
 	$(AS) reload_segments.s -o reload_segments.o
 	$(AS) interrupt_handler.s -o interrupt_handler.o
-	$(CC) -c *.c  $(CFLAGS) $(LIBS)
+	$(CC) -c *.c drivers/*.c  $(CFLAGS) $(LIBS)
 	$(CC) -T linker.ld -o r0nix $(CFLAGS) *.o $(LIBS)
 
 clean:
 	rm *.o
 	rm r0nix
 run:
-	qemu-system-i386  -monitor stdio -kernel r0nix -no-reboot 
+	qemu-system-i386 -monitor stdio -kernel r0nix -no-reboot -initrd initrd
 debug:
 	qemu-system-i386 -s -S -kernel r0nix &
 	gdb -s r0nix -ex "target remote localhost:1234"
