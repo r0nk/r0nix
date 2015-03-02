@@ -1,0 +1,7 @@
+ok, so now the next goal is getting a shell working.
+
+In order to do that, I'm going to want to have a ton of stuff
+ * filesystem
+ * processes
+ * syscalls
+

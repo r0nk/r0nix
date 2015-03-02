@@ -21,15 +21,10 @@ stack_top:
 .type _start, @function
 _start:
 movl $stack_top, %esp
+push %ebx
 
 call kernel_main
 
-# In case the function returns, we'll want to put the computer into an
-# infinite loop. To do that, we use the clear interrupt ('cli') instruction
-# to disable interrupts, the halt instruction ('hlt') to stop the CPU until
-# the next interrupt arrives, and jumping to the halt instruction if it ever
-# continues execution, just to be safe. We will create a local label rather
-# than real symbol and jump to there endlessly.
 cli
 hlt
 .Lhang:

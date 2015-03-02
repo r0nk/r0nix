@@ -1,13 +1,3 @@
-ok, so now the next goal is getting a shell working.
-
-In order to do that, I'm going to want to have a ton of stuff
- * processes
- * filesystem
- * syscalls
-
-I've already got a version of input/output with ps2/terminal, so we should be
-fine on that end.
-
 Filesystems are just an abstraction on disks (and in unix, a few others). 
 According to OSDev, the main Driver interface for disks is ATA, so thats next
 on the study list
@@ -21,3 +11,12 @@ far down the line that a ATA/SATA driver will be more resonable
 
 Yeah, the ATA drivers are a directory in linux, floppy.c is a single file. We'll
 start with floppies.
+
+...actually, I don't think were going to run out of memory at all if we just
+use ramdisks for a while. Thats what the osdevwiki Lino Commando uses, I really
+don't see why I shouldn't. The ram I have is more then enough, so we'll just
+use that till we need more.
+
+Yeah, we'll define a common interface between all block devices so that we can
+just use that everywhere else, so that the drivers are just specific, and 
+the kernel will interact through the interface.

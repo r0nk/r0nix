@@ -18,10 +18,12 @@
 #error "This tutorial needs to be compiled with a ix86-elf compiler"
 #endif
 
-void kernel_main()
+void kernel_main(void * multiboot_information)
 {
 	initialize_terminal();
+	kprint_int((unsigned int)multiboot_information);
 	kprint_string("hello r0nk!\n"); 
+	kprint_int((unsigned int)multiboot_information);
 
 	initalize_gdt();
 	initalize_interrupts();
