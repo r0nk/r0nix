@@ -1,6 +1,6 @@
 /* 
- * this handles the multiboot information data structure, as specified
- * in the multiboot specification.
+ * This handles the multiboot information data structure, as specified in the 
+ *ication.
  */
 #ifndef MULTI_BOOT
 #define MULTI_BOOT 1

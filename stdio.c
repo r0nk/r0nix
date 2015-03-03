@@ -15,4 +15,3 @@ void kprint_int(unsigned int x)
 	itoha(x,s);
 	kprint_string(s);
 }
-
