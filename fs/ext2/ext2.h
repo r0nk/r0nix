@@ -103,7 +103,9 @@ struct ext2_block_alloc_info {
 #define EXT2_FRAG_SIZE(s)		(EXT2_SB(s)->s_frag_size)
 #define EXT2_FRAGS_PER_BLOCK(s)		(EXT2_SB(s)->s_frags_per_block)
 
+
 /* Structure of a blocks group descriptor */
+/* (the Block Group Descriptor Table is just an array of these) */
 struct ext2_group_desc
 {
 	__le32	bg_block_bitmap;		/* Blocks bitmap block */
@@ -183,6 +185,8 @@ struct ext2_group_desc
 #define EXT2_IOC32_GETVERSION		FS_IOC32_GETVERSION
 #define EXT2_IOC32_SETVERSION		FS_IOC32_SETVERSION
 
+
+/* NOTE: _ INODE ADDRESSES START AT 1 _ */
 /* Structure of an inode on the disk */
 struct ext2_inode {
 	__le16	i_mode;		/* File mode */
@@ -501,3 +505,8 @@ struct ext2_mount_options {
 
 /* Inode dynamic state flags */
 #define EXT2_STATE_NEW			0x00000001 /* inode is newly created */
+
+/* Helper functions */
+
+/* Read off the super disk structure from disk */
+struct ext2_super_block ext2_get_super_block(int disk_num);
