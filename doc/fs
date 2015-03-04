@@ -1,22 +1,5 @@
 Filesystems are just an abstraction on disks (and in unix, a few others). 
-According to OSDev, the main Driver interface for disks is ATA, so thats next
-on the study list
 
-Also, loopback devices should allow us have a harddrive without breaking our current disk, I think using on of those would make a lot of sense.
+We're going to be using ext2, simply because its a linux classic, and im 
+already using ext4.
 
-Ok, so loopback devices work best with floopy devices, floppies have a good 
-amount of documentation on the osdev wiki, so I think that I'm first going to 
-write a Floppy Disk Controller (if I run out of space for floppies, I'll be so 
-far down the line that a ATA/SATA driver will be more resonable
-
-Yeah, the ATA drivers are a directory in linux, floppy.c is a single file. We'll
-start with floppies.
-
-...actually, I don't think were going to run out of memory at all if we just
-use ramdisks for a while. Thats what the osdevwiki Lino Commando uses, I really
-don't see why I shouldn't. The ram I have is more then enough, so we'll just
-use that till we need more.
-
-Yeah, we'll define a common interface between all block devices so that we can
-just use that everywhere else, so that the drivers are just specific, and 
-the kernel will interact through the interface.
