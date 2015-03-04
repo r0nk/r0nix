@@ -1,7 +1,11 @@
+/* Wasn't really sure where to put this guy, so I just threw him in arch.
+ * He maybe should be moved somwhere else.
+ */
+
 #include <stdint.h>
 #include <stddef.h>
-#include "include/terminal.h"
-#include "include/string.h"
+#include <terminal.h>
+#include <string.h>
 
 enum vga_color
 {
@@ -68,7 +72,7 @@ inline void terminal_shift_up()
 	term.row--;
 }
 
-/* Fix terminal location, scroll terminal, etc. */
+/* Fix terminal cursor location, scroll terminal, etc. */
 static void terminal_normalize()
 {
 	if (term.column >= VGA_WIDTH){
@@ -79,7 +83,7 @@ static void terminal_normalize()
 		terminal_shift_up();
 }
 
-void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
+inline void terminal_putentryat(char c, uint8_t color, size_t x, size_t y)
 {
 	term.buffer[(y * VGA_WIDTH + x)] = make_vgaentry(c, color);
 }

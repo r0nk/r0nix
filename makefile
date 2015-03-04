@@ -3,13 +3,13 @@ LIBS=-Iinclude -nostdlib  -lgcc
 CC=i686-elf-gcc
 AS=i686-elf-as
 
-MODULES=drivers/*.c block/*.c lib/*.c init/*.c
+MODULES=drivers/*.c block/*.c lib/*.c init/*.c arch/*.c
 
 all:
 	$(AS) init/boot.s -o boot.o
-	$(AS) reload_segments.s -o reload_segments.o
-	$(AS) interrupt_handler.s -o interrupt_handler.o
-	$(CC) -c *.c $(MODULES) $(CFLAGS) $(LIBS)
+	$(AS) arch/reload_segments.s -o reload_segments.o
+	$(AS) arch/interrupt_handler.s -o interrupt_handler.o
+	$(CC) -c $(MODULES) $(CFLAGS) $(LIBS)
 	$(CC) -T linker.ld -o r0nix $(CFLAGS) *.o $(LIBS)
 
 clean:

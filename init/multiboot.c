@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <drivers/block/ramdisk.h>
 
-
 void trace_multiboot_info(void * mp){
 	struct Multiboot_Information * mi = mp;
 	kprint_string("\n MultiBoot info:\n");

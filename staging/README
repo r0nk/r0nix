@@ -1,0 +1,2 @@
+staging is for files that aren't ready to be a part of the kernel for any reason
+, such as not being finished, or being broken

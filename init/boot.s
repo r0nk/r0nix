@@ -20,15 +20,15 @@ stack_top:
 .global _start
 .type _start, @function
 _start:
-movl $stack_top, %esp
-push %ebx
+	movl $stack_top, %esp
+	push %ebx
 
-call kernel_main
+	call kernel_main
 
-cli
-hlt
+	cli
 .Lhang:
-jmp .Lhang
+	hlt
+	jmp .Lhang
 
 # Set the size of the _start symbol to the current location '.' minus its start.
 # This is useful when debugging or when you implement call tracing.

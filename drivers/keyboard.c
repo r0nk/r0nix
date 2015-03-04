@@ -1,3 +1,7 @@
+/* This is the PS/2 keyboard that is commonly in use, but this doesn't handle
+ * all keyboards, thus it should probably be renamed.
+ */
+
 #include <keyboard.h>
 #include <stdio.h>
 #include <io.h>
@@ -8,7 +12,7 @@
 
 static int shift_down;
 
-/*TODO we should change the way this is handled */
+/*TODO we should clean up the way this is handled */
 /* Non-Shifted scancodes to ASCII: */
 static char asciiNonShift[] = {
 0 , ESC, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', BACKSPACE,
@@ -62,3 +66,4 @@ void keyboard_irq()
 		}
 	}
 }
+
