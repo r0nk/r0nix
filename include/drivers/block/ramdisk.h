@@ -1,6 +1,7 @@
 #ifndef RAMDISK
 #define RAMDISK 1 
+#include <block.h>
 
-void init_ramdisk(void * mp);
+struct Block_Device init_ramdisk(void * mp);
 
 #endif

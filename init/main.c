@@ -12,7 +12,10 @@
 #include <msr.h>
 #include <pic.h>
 #include <block.h>
-#include <disk.h>
+#include <init_fs.h>
+
+#include <drivers/block/ramdisk.h>
+
 
 #if defined(__linux__)
 #error "You must use a cross compiler."
@@ -30,6 +33,11 @@ void panic_hlt(){
 		asm("hlt");/* sleep till we get a interrupt */
 }
 
+void init_disk(void * mbi){
+	gbda[0]=init_ramdisk(mbi);
+	init_fs(gbda[0]);
+}
+
 void initalize_kernel(void * multiboot_information)
 {
 	/* we initalize the terminal early so we can see errors */
@@ -40,8 +48,7 @@ void initalize_kernel(void * multiboot_information)
 	initalize_interrupts();
 	initalize_pic(0x20,0x28);
 
-	parse_multiboot(multiboot_information);
-	init_disk();
+	init_disk(multiboot_information);
 
 	enable_keyboard();
 }

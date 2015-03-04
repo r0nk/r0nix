@@ -3,7 +3,7 @@ LIBS=-Iinclude -nostdlib  -lgcc
 CC=i686-elf-gcc
 AS=i686-elf-as
 
-MODULES=drivers/*.c block/*.c lib/*.c init/*.c arch/*.c fs/ext2/*.c
+MODULES=drivers/*.c block/*.c lib/*.c init/*.c arch/*.c fs/*.c fs/ext2/*.c
 
 #TODO this should place the .o files someplace else
 all:
