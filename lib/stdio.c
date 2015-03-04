@@ -1,6 +1,6 @@
-#include "include/terminal.h"
-#include "include/stdio.h"
-#include "include/stdlib.h"
+#include <terminal.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 //TODO make this all kprintf
 

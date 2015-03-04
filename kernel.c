@@ -1,16 +1,16 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "include/multiboot.h"
-#include "include/terminal.h"
-#include "include/keyboard.h"
-#include "include/stdio.h"
-#include "include/irq.h"
-#include "include/desc.h"
-#include "include/gdt.h"
-#include "include/msr.h"
-#include "include/pic.h"
-#include "include/block.h"
+#include <multiboot.h>
+#include <terminal.h>
+#include <keyboard.h>
+#include <stdio.h>
+#include <irq.h>
+#include <desc.h>
+#include <gdt.h>
+#include <msr.h>
+#include <pic.h>
+#include <block.h>
 
 #if defined(__linux__)
 #error "You are not using a cross-compiler, you will most certainly run into trouble"

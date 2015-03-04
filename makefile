@@ -1,5 +1,5 @@
 CFLAGS=-ffreestanding -fbuiltin -Wall -Wextra -g
-LIBS=-nostdlib  -lgcc
+LIBS=-Iinclude -nostdlib  -lgcc 
 CC=i686-elf-gcc
 AS=i686-elf-as
 
@@ -7,7 +7,7 @@ all:
 	$(AS) boot.s -o boot.o
 	$(AS) reload_segments.s -o reload_segments.o
 	$(AS) interrupt_handler.s -o interrupt_handler.o
-	$(CC) -c *.c drivers/*.c  $(CFLAGS) $(LIBS)
+	$(CC) -c *.c drivers/*.c block/*.c lib/*.c $(CFLAGS) $(LIBS)
 	$(CC) -T linker.ld -o r0nix $(CFLAGS) *.o $(LIBS)
 
 clean:

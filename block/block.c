@@ -1,5 +1,5 @@
-#include "include/block.h"
-#include "include/stdio.h"
+#include <block.h>
+#include <stdio.h>
 
 void write_to_block_device(int which, unsigned long location, uint8_t value){
 	if(location > gbda[which].size){

@@ -1,7 +1,7 @@
 #include <stdint.h>
-#include "../include/multiboot.h"
-#include "../include/block.h"
-#include "ramdisk.h"
+#include <multiboot.h>
+#include <block.h>
+#include <drivers/block/ramdisk.h>
 
 void * ramdisk1_addr; /*TODO FIXME this is a horrible ugly way of doing it*/
 
