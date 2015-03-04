@@ -1,0 +1,5 @@
+There are some tags related to grep back for when we finish other parts of
+the kernel.
+
+MM = grep when memory management is finished.
+

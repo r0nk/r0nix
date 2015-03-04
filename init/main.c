@@ -12,6 +12,7 @@
 #include <msr.h>
 #include <pic.h>
 #include <block.h>
+#include <disk.h>
 
 #if defined(__linux__)
 #error "You must use a cross compiler."
@@ -40,6 +41,7 @@ void initalize_kernel(void * multiboot_information)
 	initalize_pic(0x20,0x28);
 
 	parse_multiboot(multiboot_information);
+	init_disk();
 
 	enable_keyboard();
 }
