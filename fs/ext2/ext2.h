@@ -458,4 +458,5 @@ enum {
 /* Helper functions */
 
 /* Read off the super disk structure from disk */
+void ext2_trace_super_block(struct ext2_super_block);
 struct ext2_super_block ext2_get_super_block(int disk_num);

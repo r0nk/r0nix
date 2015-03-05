@@ -99,11 +99,3 @@ void terminal_putchar(char c)
 	}
 	terminal_normalize();
 }
-
-void terminal_writestring(const char* data)
-{
-	size_t datalen = strlen(data);
-	size_t i;
-	for ( i = 0; i < datalen; i++ )
-		terminal_putchar(data[i]);
-}

@@ -2,6 +2,7 @@
 #include <multiboot.h>
 #include <block.h>
 #include <drivers/block/ramdisk.h>
+#include <kprint.h>
 
 void * ramdisk1_addr; /*TODO FIXME this is a horrible ugly way of doing it*/
 
@@ -19,9 +20,11 @@ void ramdisk_write(unsigned long location,uint8_t value)
 
 struct Block_Device init_ramdisk(void * mp)
 {
+	/*FIXME this gets passed  wrong struct, it should be multi-boot info*/
 	struct Multiboot_Module * mm = mp;
 	struct Block_Device bd;
 	ramdisk1_addr = (void *) mm->mod_start;
+	kprintf("ramdisk1_addr= %x\n",(unsigned int)ramdisk1_addr);
 	bd.size = mm->mod_start - mm->mod_end;
 	bd._read = ramdisk_read;
 	bd._write = ramdisk_write;

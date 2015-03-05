@@ -2,10 +2,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <kprint.h>
 #include <multiboot.h>
 #include <terminal.h>
 #include <keyboard.h>
-#include <stdio.h>
 #include <irq.h>
 #include <desc.h>
 #include <gdt.h>
@@ -27,15 +27,19 @@
 
 /* TODO this should be moved else-where */
 /* stops the cpu forever */
-void panic_hlt(){
+void panic_hlt()
+{
 	asm("cli");/* disable all interrupts*/
 	while(1)
 		asm("hlt");/* sleep till we get a interrupt */
 }
 
-void init_disk(void * mbi){
-	gbda[0]=init_ramdisk(mbi);
-	init_fs(gbda[0]);
+void init_disk(struct Multiboot_Information * mbi)
+{
+	struct Multiboot_Module * mm;
+	mm = (void *)mbi->mods_addr;
+	gbda[0]=init_ramdisk(mm);
+	init_fs(0);
 }
 
 void initalize_kernel(void * multiboot_information)

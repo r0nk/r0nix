@@ -3,9 +3,9 @@
  */
 
 #include <keyboard.h>
-#include <stdio.h>
 #include <io.h>
 #include <terminal.h>
+#include <kprint.h>
 
 #define KEY_RELEASED(s) (s&0x80)
 #define SHIFT_CODE(x) (x == KRLEFT_SHIFT || x == KRRIGHT_SHIFT)
@@ -62,7 +62,7 @@ void keyboard_irq()
 			shift_down=1;
 		}else{
 			str[0]=scancode_to_ascii(scancode);
-			kprint_string(str);
+			kprintf("%s",str);
 		}
 	}
 }

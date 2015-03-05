@@ -1,7 +1,6 @@
 #include <keyboard.h>
 #include <desc.h>
 #include <pic.h>
-#include <stdio.h>
 #include <irq.h>
 #include <cpu.h>
 #include <io.h>
