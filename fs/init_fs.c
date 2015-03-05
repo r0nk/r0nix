@@ -11,4 +11,8 @@ void init_fs(int disk_num){
 	ext2_trace_group_desc(desc);
 	struct ext2_inode root_inode = ext2_get_inode(disk_num,2);
 	ext2_trace_inode(root_inode);
+	struct ext2_dir_entry_2 dir = ext2_get_dir_entry(disk_num,
+							root_inode.i_block[0],
+							0);
+	ext2_trace_dir(dir);
 }

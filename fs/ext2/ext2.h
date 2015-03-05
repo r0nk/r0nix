@@ -464,3 +464,6 @@ struct ext2_group_desc ext2_get_bgdt(int disk_num);
 
 void ext2_trace_inode(struct ext2_inode inode);
 struct ext2_inode ext2_get_inode(int disk_num,int inode);
+
+void ext2_trace_dir(struct ext2_dir_entry_2 dir);
+struct ext2_dir_entry_2 ext2_get_dir_entry(int disk_num,int block_num,int index);
