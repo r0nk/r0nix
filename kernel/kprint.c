@@ -19,26 +19,6 @@ static void f_hex(unsigned int x)
 	f_string(s);
 }
 
-inline static void escaped_char(char format,va_list args){
-	/*TODO this isn't quite finished */
-	switch(format){
-		case 'x':
-			f_hex(va_arg(args,unsigned int));
-			break;
-		case 's':
-			f_string(va_arg(args,char *));
-			break;
-		case '%':
-			terminal_putchar('%');
-			break;
-		default:
-			f_string("\n printf_Err, unrecognized option:");
-			terminal_putchar(format);
-			f_string("\n");
-			break;
-	}
-}
-
 void kprintf(const char * format,...)
 {
 	va_list args;
@@ -50,7 +30,22 @@ void kprintf(const char * format,...)
 	for(i=0;i<max;i++){
 		if(format[i]=='%'){
 			i++;
-			escaped_char(format[i],args);
+			switch(format[i]){
+				case 'x':
+					f_hex(va_arg(args,unsigned int));
+					break;
+				case 's':
+					f_string(va_arg(args,char *));
+					break;
+				case '%':
+					terminal_putchar('%');
+					break;
+				default:
+					f_string("\n printf_Err, unrecognized option:");
+					terminal_putchar(format[i]);
+					f_string("\n");
+					break;
+			}
 		}else{
 			terminal_putchar(format[i]);
 		}

@@ -26,12 +26,12 @@ void ext2_trace_super_block(struct ext2_super_block sb)
 	kprintf("s_state                  %x\n",sb.s_state);
 	kprintf("s_errors                 %x\n",sb.s_errors);
 	kprintf("s_minor_rev_level        %x\n",sb.s_minor_rev_level);
+	/*
 	kprintf("s_lastcheck              %x\n",sb.s_lastcheck);
 	kprintf("s_checkinterval          %x\n",sb.s_checkinterval);
 	kprintf("s_creator_os             %x\n",sb.s_creator_os);
 	kprintf("s_rev_level              %x\n",sb.s_rev_level);
 	kprintf("s_def_resuid             %x\n",sb.s_def_resuid);
-	/* Just so it will fit on screen, we comment a few out
 	kprintf("s_def_resgid             %x\n",sb.s_def_resgid);
 	kprintf("s_first_ino              %x\n",sb.s_first_ino);
 	kprintf("s_inode_size             %x\n",sb.s_inode_size);
@@ -69,8 +69,7 @@ struct ext2_super_block ext2_get_super_block(int disk_num)
 	struct ext2_super_block sb;
 	char * p = (char *)&sb;
 	int i;
-	for(i=0;i<1024;i++){
+	for(i=0;i<1024;i++)
 		p[i]=read_from_block_device(disk_num,i+1024);
-	}
 	return sb;
 }

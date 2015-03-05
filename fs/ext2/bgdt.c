@@ -22,9 +22,8 @@ struct ext2_group_desc ext2_get_bgdt(int disk_num){
 	struct ext2_group_desc desc;
 	char * p = (char *)&desc;
 	int i;
-	/* (192) should be replaced with (number of descriptors * desc_size) */
-	for(i=0;i<(192);i++){
+	/* (24) should be replaced with (number of descriptors * desc_size) */
+	for(i=0;i<(24);i++)
 		p[i]=read_from_block_device(disk_num,i+BGDT_OFFSET);
-	}
 	return desc;
 }

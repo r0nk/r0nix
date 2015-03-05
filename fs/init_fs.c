@@ -9,4 +9,6 @@ void init_fs(int disk_num){
 	ext2_trace_super_block(sb);
 	struct ext2_group_desc desc = ext2_get_bgdt(disk_num);
 	ext2_trace_group_desc(desc);
+	struct ext2_inode root_inode = ext2_get_inode(disk_num,2);
+	ext2_trace_inode(root_inode);
 }
