@@ -5,6 +5,7 @@
 /* thank visus */
 void ext2_trace_super_block(struct ext2_super_block sb)
 {
+	kprintf(" ext2 super_block trace: \n");
 	/*int i=0;*/
 	kprintf("s_inodes_count           %x\n",sb.s_inodes_count);
 	kprintf("s_blocks_count           %x\n",sb.s_blocks_count);
@@ -30,7 +31,7 @@ void ext2_trace_super_block(struct ext2_super_block sb)
 	kprintf("s_creator_os             %x\n",sb.s_creator_os);
 	kprintf("s_rev_level              %x\n",sb.s_rev_level);
 	kprintf("s_def_resuid             %x\n",sb.s_def_resuid);
-	/*
+	/* Just so it will fit on screen, we comment a few out
 	kprintf("s_def_resgid             %x\n",sb.s_def_resgid);
 	kprintf("s_first_ino              %x\n",sb.s_first_ino);
 	kprintf("s_inode_size             %x\n",sb.s_inode_size);

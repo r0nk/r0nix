@@ -64,8 +64,8 @@ typedef unsigned long ext2_fsblk_t;
 /* (the Block Group Descriptor Table is just an array of these) */
 struct ext2_group_desc
 {
-	uint32_t	bg_block_bitmap;		/* Blocks bitmap block */
-	uint32_t	bg_inode_bitmap;		/* Inodes bitmap block */
+	uint32_t	bg_block_bitmap;	/* Blocks bitmap block, _NOT_ the actual bitmap */
+	uint32_t	bg_inode_bitmap;	/* Inodes bitmap block */
 	uint32_t	bg_inode_table;		/* Inodes table block */
 	uint16_t	bg_free_blocks_count;	/* Free blocks count */
 	uint16_t	bg_free_inodes_count;	/* Free inodes count */
@@ -456,7 +456,11 @@ enum {
 #define EXT2_STATE_NEW			0x00000001 /* inode is newly created */
 
 /* Helper functions */
-
-/* Read off the super disk structure from disk */
-void ext2_trace_super_block(struct ext2_super_block);
 struct ext2_super_block ext2_get_super_block(int disk_num);
+void ext2_trace_super_block(struct ext2_super_block);
+
+void ext2_trace_group_desc(struct ext2_group_desc d);
+struct ext2_group_desc ext2_get_bgdt(int disk_num);
+
+void ext2_trace_inode(struct ext2_inode inode);
+struct ext2_inode ext2_get_inode(int disk_num,int inode);
