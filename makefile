@@ -18,6 +18,6 @@ clean:
 run:
 	qemu-system-i386 -monitor stdio -kernel r0nix -no-reboot -initrd misc/initrd 
 debug:
-	qemu-system-i386 -s -S -kernel r0nix &
+	qemu-system-i386 -s -S -kernel r0nix -initrd misc/initrd &
 	gdb -s r0nix -ex "target remote localhost:1234"
 	pkill qemu
