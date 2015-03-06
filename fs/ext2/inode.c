@@ -5,7 +5,6 @@
 void ext2_trace_inode(struct ext2_inode in)
 {
 	int i;
-
 	kprintf("i_mode: %x\n",in.i_mode);
 	kprintf("i_uid: %x\n",in.i_uid);
 	kprintf("i_size: %x\n",in.i_size);
@@ -30,7 +29,7 @@ struct ext2_inode ext2_get_inode(int disk_num, int inode_num)
 {
 	struct ext2_inode inode;
 	struct ext2_super_block sb = ext2_get_super_block(0);
-	/*TODO: here we just assume it's the first bgdt, which is bad*/
+	/* TODO: here we just assume it's the first bgdt, which is bad */
 	struct ext2_group_desc bgdt = ext2_get_bgdt(0);
 	int block_size = 1024 << sb.s_log_block_size;
 	//int inodes_block_group = (inode_num-1) / sb.s_inodes_per_group;TODO

@@ -15,4 +15,12 @@ void init_fs(int disk_num){
 							root_inode.i_block[0],
 							0);
 	ext2_trace_dir(dir);
+	dir = ext2_get_dir_entry(disk_num, root_inode.i_block[0], 1);
+	ext2_trace_dir(dir);
+	dir = ext2_get_dir_entry(disk_num, root_inode.i_block[0], 2);
+	ext2_trace_dir(dir);
+	dir = ext2_get_dir_entry(disk_num, root_inode.i_block[0], 3);
+	ext2_trace_dir(dir);
 }
+
+//0x109b7c
