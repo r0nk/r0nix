@@ -43,3 +43,8 @@ struct ext2_inode ext2_get_inode(int disk_num, int inode_num)
 		p[i]=read_from_block_device(disk_num,i+inode_offset);
 	return inode;
 }
+
+struct ext2_inode ext2_get_root_inode(int disk_num)
+{
+	return ext2_get_inode(disk_num,2);/* root dir always 2 */
+}
