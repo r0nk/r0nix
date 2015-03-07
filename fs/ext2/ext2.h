@@ -404,6 +404,10 @@ struct ext2_super_block {
 #define EXT3_DEFM_JMODE_ORDERED	0x0040
 #define EXT3_DEFM_JMODE_WBACK	0x0060
 
+
+
+#define EXT2_NAME_LEN 256
+
 /* Structure of a directory entry */
 struct ext2_dir_entry {
 	uint32_t	inode;			/* Inode number */
@@ -423,7 +427,10 @@ struct ext2_dir_entry_2 {
 	uint16_t	rec_len;		/* Directory entry length */
 	uint8_t	name_len;		/* Name length */
 	uint8_t	file_type;
-	char	name[];			/* File name, up to EXT2_NAME_LEN */
+	char	name[EXT2_NAME_LEN];	/* File name.*/
+	/*TODO the filename here takes up more then it needs to, we can't use
+	 * pointers to fix it, because we don't have memory management yet 
+	 */
 };
 
 /*
