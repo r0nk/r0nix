@@ -428,7 +428,7 @@ struct ext2_dir_entry_2 {
 	uint8_t	name_len;		/* Name length */
 	uint8_t	file_type;
 	char	name[EXT2_NAME_LEN];	/* File name.*/
-	/*TODO the filename here takes up more then it needs to, we can't use
+	/*TODO the filename here takes up more then it needs to,but we can't use
 	 * pointers to fix it, because we don't have memory management yet 
 	 */
 };

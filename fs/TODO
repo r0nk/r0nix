@@ -1,0 +1,9 @@
+The syscalls we should implement next:
+
+read
+open
+close
+
+There are obviously more we are going to want in the future, but those 
+operations are the only ones we need in order to get a shell up.
+
