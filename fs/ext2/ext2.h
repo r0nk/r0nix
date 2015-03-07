@@ -463,15 +463,15 @@ enum {
 #define EXT2_STATE_NEW			0x00000001 /* inode is newly created */
 
 /* Helper functions */
-struct ext2_super_block ext2_get_super_block(int disk_num);
+struct ext2_super_block ext2_get_super_block();
 void ext2_trace_super_block(struct ext2_super_block);
 
 void ext2_trace_group_desc(struct ext2_group_desc d);
-struct ext2_group_desc ext2_get_bgdt(int disk_num);
+struct ext2_group_desc ext2_get_bgdt();
 
 void ext2_trace_inode(struct ext2_inode inode);
-struct ext2_inode ext2_get_inode(int disk_num,int inode);
-struct ext2_inode ext2_get_root_inode(int disk_num);
+struct ext2_inode ext2_get_inode(int inode);
+struct ext2_inode ext2_get_root_inode();
 
 void ext2_trace_dir(struct ext2_dir_entry_2 dir);
-struct ext2_dir_entry_2 ext2_get_dir_entry(int disk_num,int block_num,int index);
+struct ext2_dir_entry_2 ext2_get_dir_entry(struct ext2_inode inode,int index);

@@ -14,7 +14,7 @@ void ext2_trace_group_desc(struct ext2_group_desc d){
 	kprintf("bg_used_dirs_count;    %x\n",d.bg_used_dirs_count);
 }
 
-struct ext2_group_desc ext2_get_bgdt(int disk_num){
+struct ext2_group_desc ext2_get_bgdt(){
 	/*
 	 * TODO this should assume more then one descriptor, but
 	 * for now, we only worry about one descriptor
@@ -24,6 +24,6 @@ struct ext2_group_desc ext2_get_bgdt(int disk_num){
 	int i;
 	/* (24) should be replaced with (number of descriptors * desc_size) */
 	for(i=0;i<(24);i++)
-		p[i]=read_from_block_device(disk_num,i+BGDT_OFFSET);
+		p[i]=read_from_block_device(i+BGDT_OFFSET);
 	return desc;
 }

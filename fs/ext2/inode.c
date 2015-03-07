@@ -25,7 +25,7 @@ void ext2_trace_inode(struct ext2_inode in)
 	/* theres more here, but we cheat */
 };
 
-struct ext2_inode ext2_get_inode(int disk_num, int inode_num)
+struct ext2_inode ext2_get_inode( int inode_num)
 {
 	struct ext2_inode inode;
 	struct ext2_super_block sb = ext2_get_super_block(0);
@@ -40,11 +40,11 @@ struct ext2_inode ext2_get_inode(int disk_num, int inode_num)
 	char * p = (char *)&inode;
 	int i;
 	for(i=0;i<sb.s_inode_size;i++)
-		p[i]=read_from_block_device(disk_num,i+inode_offset);
+		p[i]=read_from_block_device(i+inode_offset);
 	return inode;
 }
 
-struct ext2_inode ext2_get_root_inode(int disk_num)
+struct ext2_inode ext2_get_root_inode()
 {
-	return ext2_get_inode(disk_num,2);/* root dir always 2 */
+	return ext2_get_inode(2);/* root dir always 2 */
 }

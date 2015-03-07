@@ -2,6 +2,6 @@
 #define INIT_FS 1
 #include <block.h>
 
-void init_fs(int which);
+void init_fs();
 
 #endif
