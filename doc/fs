@@ -3,3 +3,10 @@ Filesystems are just an abstraction on disks (and in unix, a few others).
 We're going to be using ext2, simply because its a linux classic, and im 
 already using ext4.
 
+Ok, so how are we going to handle the open syscall?
+
+It hands us a path, and we have to find the inode based on that path.
+
+We start at the root directory, then we search for each part of the directory 
+path, steping through the inodes along the way.
+

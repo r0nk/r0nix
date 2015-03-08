@@ -42,5 +42,6 @@ struct ext2_dir_entry_2 ext2_get_dir_entry(struct ext2_inode inode,int index)
 	int dir_length=dir_size(offset);
 	for(i=0;i<dir_length;i++)
 		p[i]=read_from_block_device(offset+i);
+	p[++i]='\0';/*make sure the name is null terminated*/
 	return dir;
 }
