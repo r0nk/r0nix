@@ -25,7 +25,7 @@ void ext2_trace_inode(struct ext2_inode in)
 	/* theres more here, but we cheat */
 };
 
-struct ext2_inode ext2_get_inode( int inode_num)
+struct ext2_inode ext2_get_inode(int inode_num)
 {
 	struct ext2_inode inode;
 	struct ext2_super_block sb = ext2_get_super_block(0);

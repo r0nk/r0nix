@@ -39,7 +39,7 @@ int inode_by_path(char * path,struct ext2_inode * inode)
 loop:
 	next = till_next_slash(&path);
 	if(!next)/* if no more places to look, then we found it */
-		return 1;
+		return i_inode;
 	i_inode = inode_in_dir(*inode,next);
 	if(!inode)/* then one of the elements in the path doesn't exist */
 		return 0;

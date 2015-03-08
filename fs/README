@@ -10,3 +10,10 @@ Hmm...
 
 I think that will work for now, we will just have to figure out how to handle
 user space when we get there.
+
+Actually, we don't need full file handlers yet. 
+
+Every file has a different Inode, so we can just use inodes as fd's
+
+hacky and not the best way, but we can always improve it once we get it on its
+feet.

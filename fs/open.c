@@ -1,8 +1,7 @@
 #include "ext2/ext2.h"
 
-int open(const char *path/*, int oflag*/){
-	struct ext2_inode inode	
-	if(!inode_by_path(path,&inode))
-		return 0;
-	return get_fd(inode);
+/*TODO HACK this just returns the inode as the fd, which is bad mkay.*/
+int open(char *path/*, int oflag*/){
+	struct ext2_inode inode;
+	return inode_by_path(path,&inode);
 }

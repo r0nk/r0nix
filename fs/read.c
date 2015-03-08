@@ -1,6 +1,13 @@
-//int read(int fildes,void * buf, int nbyte){
-	/*figure out what the fildes is actually pointing to*/
-	/*read from it (if possible*/
-	/*return the number of bytes read*/
-	;
-//}
+#include "ext2/ext2.h"
+
+int read(int fildes,char * buf, int nbyte){
+	int i;
+	int c=0;
+	for(i=0;i<nbyte;i++){
+		c=ext2_read(ext2_get_inode(fildes),i);
+		if(c<0)
+			return -1;
+		buf[i]=c;
+	}
+	return i;
+}
