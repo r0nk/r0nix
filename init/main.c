@@ -12,7 +12,7 @@
 #include <msr.h>
 #include <pic.h>
 #include <block.h>
-#include <init_fs.h>
+#include <fs.h>
 
 #include <drivers/block/ramdisk.h>
 
@@ -53,6 +53,12 @@ void initalize_kernel(void * multiboot_information)
 	initalize_pic(0x20,0x28);
 
 	init_disk(multiboot_information);
+
+	init_fs();
+
+	int f=open("/MAGICAL_FILE");
+	char a[9];
+	kprintf("First char :%x\n",read(f,a,1));
 
 	enable_keyboard();
 }

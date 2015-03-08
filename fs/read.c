@@ -1,6 +1,8 @@
 #include "ext2/ext2.h"
+#include <fs.h>
 
-int read(int fildes,char * buf, int nbyte){
+int read(int fildes,char * buf, int nbyte)
+{
 	int i;
 	int c=0;
 	for(i=0;i<nbyte;i++){
