@@ -1,5 +1,6 @@
-int close(int fildes){
-	fildes++;
-	/*close the file*/
-	return fildes;
+/*
+void close(int fildes){
+	//find the file descriptor in the table,
+	//free it from the table
 }
+*/

@@ -475,3 +475,5 @@ struct ext2_inode ext2_get_root_inode();
 
 void ext2_trace_dir(struct ext2_dir_entry_2 dir);
 struct ext2_dir_entry_2 ext2_get_dir_entry(struct ext2_inode inode,int index);
+
+int inode_by_path(char * path,struct ext2_inode * inode);
