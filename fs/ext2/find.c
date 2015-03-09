@@ -19,12 +19,13 @@ static char * till_next_slash(char ** path)
 int inode_in_dir(struct ext2_inode dir,char * name)
 {
 	int i;
+	i=0;/* should've been there when I caught this heisenburg man...*/
 	struct ext2_dir_entry_2 entry;
 	while(1){
 		i++;
 		entry = ext2_get_dir_entry(dir,i);
 		if(!entry.inode)
-			break;
+			return 0;
 		if(!strcmp(entry.name,name)){
 			return entry.inode;
 		}
@@ -32,29 +33,20 @@ int inode_in_dir(struct ext2_inode dir,char * name)
 	return 0;
 }
 
-/* FIXME this appears to infinite loop */
-/* ok, _WHAT_.
- * It loops if and only if I don't print the value of i 
- * what on earth is this thing doing? 
- *
- * actually it looks like it's still looping, just not printing.
- * wat.
- */
-
 int inode_by_path(char * path,struct ext2_inode * inode)
 {
 	int i_inode=0;
 	*inode=ext2_get_root_inode(0);
 	char * next;
-loop:
-	kprintf(".");
-	next = till_next_slash(&path);
-	if(!next)/* if no more places to look, then we found it */
-		return i_inode;
-	i_inode = inode_in_dir(*inode,next);
-	if(!inode)/* then one of the elements in the path doesn't exist */
-		return 0;
-	*inode = ext2_get_inode(i_inode);
-	goto loop;
+	while(1){
+		next = till_next_slash(&path);
+		kprintf("next: %s\n",next);
+		if(!next)/* if no more places to look, then we found it */
+			return i_inode;
+		i_inode = inode_in_dir(*inode,next);
+		if(!inode)/*then one of the elements in the path doesn't exist*/
+			return 0;
+		*inode = ext2_get_inode(i_inode);
+	}
 	return 0;
 }
