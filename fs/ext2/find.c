@@ -19,7 +19,7 @@ static char * till_next_slash(char ** path)
 int inode_in_dir(struct ext2_inode dir,char * name)
 {
 	int i;
-	i=0;/* should've been there when I caught this heisenburg man...*/
+	i=0;/* you should've been there when I caught this heisenburg man...*/
 	struct ext2_dir_entry_2 entry;
 	while(1){
 		i++;

@@ -16,6 +16,11 @@ stack_bottom:
 .skip 16384 # 16 KiB
 stack_top:
 
+.section .bootstrap_stack, "aw", @nobits
+heap_bottom:
+.skip 16384 # 16 KiB
+heap_top:
+
 .section .text
 .global _start
 .type _start, @function

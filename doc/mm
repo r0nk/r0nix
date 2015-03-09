@@ -1,0 +1,7 @@
+k, were outgrowing our stack, and we're starting to need a heap.
+
+We need some form of kmalloc(), and some form of a kfree()
+
+We can define a section of memory for the heap, like we did with the stack.
+In fact, we can just throw it beside the stack.
+
