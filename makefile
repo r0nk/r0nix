@@ -21,10 +21,10 @@ r0nix: $(OBJFILES)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(LIBS) $< -o $@
-
 clean:
 	rm $(OBJFILES)
 	rm init/boot.o
 	rm arch/reload_segments.o
 	rm arch/interrupt_handler.o
 	rm r0nix
+

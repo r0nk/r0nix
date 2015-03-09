@@ -1,4 +1,5 @@
 #include <string.h>
+#include <kprint.h>
 #include "ext2.h"
 
 /*move path to next char, returning the characters moved over*/
@@ -31,12 +32,22 @@ int inode_in_dir(struct ext2_inode dir,char * name)
 	return 0;
 }
 
+/* FIXME this appears to infinite loop */
+/* ok, _WHAT_.
+ * It loops if and only if I don't print the value of i 
+ * what on earth is this thing doing? 
+ *
+ * actually it looks like it's still looping, just not printing.
+ * wat.
+ */
+
 int inode_by_path(char * path,struct ext2_inode * inode)
 {
-	int i_inode;
+	int i_inode=0;
 	*inode=ext2_get_root_inode(0);
 	char * next;
 loop:
+	kprintf(".");
 	next = till_next_slash(&path);
 	if(!next)/* if no more places to look, then we found it */
 		return i_inode;

@@ -48,7 +48,6 @@ void initalize_kernel(void * multiboot_information)
 	initialize_terminal();
 	kprintf("Hello r0nk!\n");
 
-
 	/* hmm, not sure this should go before initing the disk...*/
 	initalize_gdt();
 	initalize_interrupts();
@@ -58,9 +57,10 @@ void initalize_kernel(void * multiboot_information)
 
 	init_fs();
 
-	int f=open("/MAGICAL_FILE");
+	int f=open("/MAGICAL_FILE");//this appears to never return 
 	char a[9];
-	kprintf("First char :%x\n",read(f,a,1));
+	int c = read(f,a,1);
+	kprintf("First char :%x\n",c);
 
 	enable_keyboard();
 }
@@ -70,5 +70,6 @@ void kernel_main(void * multiboot_information)
 {
 	initalize_kernel(multiboot_information);
 	/* run_init_shell(); TODO:this is what were shooting for. */ 
+	kprintf("Bye r0nk! \n");
 	panic_hlt();/*because run_init_shell should never return*/
 }
