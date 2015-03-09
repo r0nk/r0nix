@@ -46,6 +46,8 @@ void initalize_kernel(void * multiboot_information)
 {
 	/* we initalize the terminal early so we can see errors */
 	initialize_terminal();
+	kprintf("Hello r0nk!\n");
+
 
 	/* hmm, not sure this should go before initing the disk...*/
 	initalize_gdt();
