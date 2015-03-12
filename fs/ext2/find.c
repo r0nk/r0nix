@@ -5,10 +5,12 @@
 /*move path to next char, returning the characters moved over*/
 static char * till_next_slash(char ** path)
 {
+	if(**path=='\0')
+		return 0;
 	if(**path=='/')
 		(*path)++;
 	char *r = *path;
-	while(**path!='/' && **path!='\0')
+	while(!(**path=='/' || **path=='\0'))
 		(*path)++;
 	**path='\0';
 	(*path)++;
@@ -18,11 +20,9 @@ static char * till_next_slash(char ** path)
 /* return inode num if it's name is in dir */
 int inode_in_dir(struct ext2_inode dir,char * name)
 {
-	int i;
-	i=0;/* you should've been there when I caught this heisenburg man...*/
+	int i=0;
 	struct ext2_dir_entry_2 entry;
-	while(1){
-		i++;
+	for(i=0;;i++){
 		entry = ext2_get_dir_entry(dir,i);
 		if(!entry.inode)
 			return 0;

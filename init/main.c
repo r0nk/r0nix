@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <string.h>
 #include <kprint.h>
 #include <panic.h>
 #include <multiboot.h>
@@ -36,8 +37,10 @@ void init_disk(struct Multiboot_Information * mbi)
 
 void test_fs()
 {
+	char * path = strdup("/MAGICAL_FILE");
 	kprintf("Testing Filesystem...\n");
-	int f=open("/MAGICAL_FILE");//this appears to never return 
+	int f=open(path);//this appears to never return 
+	free(path);
 	char a[9];
 	int c = read(f,a,1);
 	kprintf("First char :%x\n",c);
