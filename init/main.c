@@ -42,11 +42,13 @@ void init_disk(struct Multiboot_Information * mbi)
 	init_fs(0);
 }
 
-void initalize_kernel(void * multiboot_information)
+void initalize_kernel(void * heap,void * multiboot_information)
 {
 	/* we initalize the terminal early so we can see errors */
 	initialize_terminal();
 	kprintf("Hello r0nk!\n");
+
+	init_mm(heap);
 
 	/* hmm, not sure this should go before initing the disk...*/
 	initalize_gdt();
@@ -66,9 +68,9 @@ void initalize_kernel(void * multiboot_information)
 }
 
 /* this gets called ASAP after boot.s */
-void kernel_main(void * multiboot_information)
+void kernel_main(void * heap,void * multiboot_information)
 {
-	initalize_kernel(multiboot_information);
+	initalize_kernel(heap,multiboot_information);
 	/* run_init_shell(); TODO:this is what were shooting for. */ 
 	kprintf("Bye r0nk! \n");
 	panic_hlt();/*because run_init_shell should never return*/

@@ -27,8 +27,8 @@ heap_top:
 _start:
 	movl $stack_top, %esp
 
-	/*TODO push relevent heap info here as well.*/
 	push %ebx /*Multi-boot header*/
+	push $heap_bottom
 
 	call kernel_main
 
