@@ -4,6 +4,7 @@
 
 #include "ext2/ext2.h"
 
+/*TODO make this actually do things.*/
 void init_fs()
 {
 	/*

@@ -18,7 +18,6 @@
 
 #include <drivers/block/ramdisk.h>
 
-
 #if defined(__linux__)
 #error "You must use a cross compiler."
 #endif
@@ -27,14 +26,12 @@
 #error "This kernel has to be compiled with a ix86-elf compiler."
 #endif
 
-
 /* TODO this should probably be moved elsewhere. */
 void init_disk(struct Multiboot_Information * mbi)
 {
-	struct Multiboot_Module * mm;
-	mm = (void *)mbi->mods_addr;
-	gbda[0]=init_ramdisk(mm);
-	init_fs(0);
+	struct Multiboot_Module * ram_mod;
+	ram_mod = (void *)mbi->mods_addr;
+	gbda[0]=init_ramdisk(ram_mod);
 }
 
 void test_fs()
@@ -46,27 +43,6 @@ void test_fs()
 	kprintf("First char :%x\n",c);
 }
 
-void test_mm(){
-	char * p1 = kmalloc(10);
-	char * p2 = kmalloc(10);
-	p1[0]='h';
-	p1[1]='e';
-	p1[2]='l';
-	p1[3]='l';
-	p1[4]='o';
-
-	p2[0]='w';
-	p2[1]='o';
-	p2[2]='r';
-	p2[3]='l';
-	p2[4]='d';
-
-	kprintf("p1:%s,p2:%s\n",p1,p2);
-	free(p1);
-	free(p2);
-}
-
-
 void initalize_kernel(void * heap,void * multiboot_information)
 {
 	/* we initalize the terminal early so we can see errors */
@@ -74,7 +50,6 @@ void initalize_kernel(void * heap,void * multiboot_information)
 	kprintf("Hello r0nk!\n");
 
 	init_mm(heap,16384);
-	test_mm();
 
 	/* hmm, not sure this should go before initing the disk...*/
 	initalize_gdt();
@@ -89,11 +64,10 @@ void initalize_kernel(void * heap,void * multiboot_information)
 	enable_keyboard();
 }
 
-/* this gets called ASAP after boot.s */
+/* this gets called right after boot.s */
 void kernel_main(void * heap,void * multiboot_information)
 {
 	initalize_kernel(heap,multiboot_information);
 	/* run_init_shell(); TODO:this is what were shooting for. */ 
-
-	panic("reached end of kernel main");
+	panic("reached end of kernel_main");
 }

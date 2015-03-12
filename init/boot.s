@@ -27,7 +27,7 @@ heap_top:
 _start:
 	movl $stack_top, %esp
 
-	push %ebx /*Multi-boot header*/
+	push %ebx /*Multi-boot header is stored in ebx, so we push it*/
 	push $heap_bottom
 
 	call kernel_main
