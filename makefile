@@ -9,7 +9,7 @@ SRCFILES:= $(shell find $(PROJDIRS) -type f -name "*.c")
 
 OBJFILES:= $(patsubst %.c,%.o,$(SRCFILES))
 
-.PHONY:all clean
+.PHONY:all clean run
 
 all: r0nix
 
@@ -27,4 +27,6 @@ clean:
 	rm arch/reload_segments.o
 	rm arch/interrupt_handler.o
 	rm r0nix
+run:
+	./scripts/vmrun.sh
 
