@@ -1,0 +1,12 @@
+This is the directory for memory management.
+
+Our implementation of memory management is a simple bitmap,
+
+Our heap size is 16384 bytes.
+
+(By heap I mean free store, not the data structure).
+
+For filesizes, we use 1024 size blocks, so we mine as well use the same size for
+our heap.
+
+That only gives us 16 different mallocs, but we don't even need that many for now, so If we need an improved system mm, we can add fancy linked lists and stuff later.

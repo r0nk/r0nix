@@ -16,7 +16,7 @@ stack_bottom:
 .skip 16384 # 16 KiB
 stack_top:
 
-.section .bootstrap_stack, "aw", @nobits
+.section .heap, "aw", @nobits
 heap_bottom:
 .skip 16384 # 16 KiB
 heap_top:
@@ -26,7 +26,9 @@ heap_top:
 .type _start, @function
 _start:
 	movl $stack_top, %esp
-	push %ebx
+
+	/*TODO push relevent heap info here as well.*/
+	push %ebx /*Multi-boot header*/
 
 	call kernel_main
 
