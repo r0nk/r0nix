@@ -2,9 +2,10 @@
 #include <panic.h>
 
 static void * mm_heap;
+static unsigned long long mm_heapsize;
 static unsigned int mm_heap_bitmap;
 
-void init_mm(void * heap){
+void init_mm(void * heap,unsigned long long heapsize){
 	mm_heap = heap;
 	mm_heap_bitmap=0;
 }

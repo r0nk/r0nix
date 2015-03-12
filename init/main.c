@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include <kprint.h>
+#include <panic.h>
 #include <multiboot.h>
 #include <terminal.h>
 #include <keyboard.h>
@@ -13,6 +14,7 @@
 #include <pic.h>
 #include <block.h>
 #include <fs.h>
+#include <mm.h>
 
 #include <drivers/block/ramdisk.h>
 
@@ -25,14 +27,6 @@
 #error "This kernel has to be compiled with a ix86-elf compiler."
 #endif
 
-/* TODO this should be moved else-where */
-/* stops the cpu forever */
-void panic_hlt()
-{
-	asm("cli");/* disable all interrupts*/
-	while(1)
-		asm("hlt");/* sleep till we get a interrupt */
-}
 
 void init_disk(struct Multiboot_Information * mbi)
 {
@@ -48,7 +42,7 @@ void initalize_kernel(void * heap,void * multiboot_information)
 	initialize_terminal();
 	kprintf("Hello r0nk!\n");
 
-	init_mm(heap);
+	init_mm(heap,16384);
 
 	/* hmm, not sure this should go before initing the disk...*/
 	initalize_gdt();
