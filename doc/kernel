@@ -5,3 +5,11 @@ Hmm, because our OS will have its own syscalls, we will need to let our
 compiler know that...
 
 To the wiki!
+
+Ok, so the best way to do this is to write a standard C library, to link with
+the compiler. 
+
+We already link with a kernel version, so actually, writing a C library 
+shouldn't be too hard at all, as it's simply a wrapper around syscalls.
+
+*the more you know*
