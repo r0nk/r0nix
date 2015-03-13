@@ -8,17 +8,16 @@ void system_call(struct Cpu_state *s)
 {
 	switch(s->eax){
 		case SYSCALL_OPEN:
-			s->eax = open(s->ebx);
+			s->eax = open((void *)s->ebx);
 			return;
 		case SYSCALL_READ:
-			s->eax = read(s->ebx,s->ecx,s->edi);
-			return
+			s->eax = read(s->ebx,(void *)s->ecx,s->edi);
+			return;
 		case SYSCALL_CLOSE:
 		case SYSCALL_WRITE:
 		case SYSCALL_FORK:
 		case SYSCALL_EXEC:
-			panic("nyi syscalled %x\n",s->eax);
+			panic("nyi syscalled \n");
 			break;
-
 	}
 }
