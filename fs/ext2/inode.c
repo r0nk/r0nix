@@ -30,7 +30,7 @@ struct ext2_inode ext2_get_inode(int inode_num)
 	struct ext2_inode inode;
 	struct ext2_super_block sb = ext2_get_super_block(0);
 	int inodes_block_group = (inode_num-1) / sb.s_inodes_per_group;
-	struct ext2_group_desc gd = ext2_get_bgdt(inodes_block_group);
+	struct ext2_group_desc gd = ext2_get_group_desc(inodes_block_group);
 	int inode_table_location = gd.bg_inode_table * ext2_block_size;
 	int index = (inode_num-1)%sb.s_inodes_per_group;
 	int inode_offset = inode_table_location + (index * sb.s_inode_size);

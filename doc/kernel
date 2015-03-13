@@ -1,0 +1,7 @@
+Ok, now that we can read a file from the disk, lets see about getting our
+program up and running.
+
+Hmm, because our OS will have its own syscalls, we will need to let our 
+compiler know that...
+
+To the wiki!
