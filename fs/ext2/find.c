@@ -21,7 +21,6 @@ static char * till_next_slash(char ** path)
 /* return inode num if it's name is in dir */
 int inode_in_dir(struct ext2_inode dir,char * name)
 {
-	kprintf("looking for inode in dir\n");
 	int i=0;
 	struct ext2_dir_entry_2 entry;
 	for(i=0;;i++){
@@ -31,7 +30,6 @@ int inode_in_dir(struct ext2_inode dir,char * name)
 			return 0;
 		}
 		if(!strcmp(entry.name,name)){
-			kprintf("!strcmp, returning inode in dir\n");
 			return entry.inode;
 		}
 	}
@@ -41,20 +39,18 @@ int inode_in_dir(struct ext2_inode dir,char * name)
 
 int inode_by_path(char * path,struct ext2_inode * inode)
 {
-	kprintf("finding inode by path: %s \n",path);
 	int i_inode=0;
 	*inode=ext2_get_root_inode(0);
 	char * next;
 	while(1){
 		next = till_next_slash(&path);
 		if(!next){/* if no more places to look, then we found it */
-			kprintf("no more places to look, returning i_inode:%x\n",i_inode);
 			return i_inode;
 		}
 		i_inode = inode_in_dir(*inode,next);
 		if(!i_inode){
 			/*then one of the elements in the path doesn't exist*/
-			kprintf("!i_inode, returning 0\n");
+			kprintf("non-existant element in path, returning 0\n");
 			return 0;
 		}
 		*inode = ext2_get_inode(i_inode);

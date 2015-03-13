@@ -5,7 +5,7 @@
 /* stops the cpu forever */
 void panic_hlt()
 {
-	asm("cli");/* disable all interrupts*/
+//	asm("cli");/* disable all interrupts*/
 	while(1)
 		asm("hlt");/* sleep till we get a interrupt */
 }

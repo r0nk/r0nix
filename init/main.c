@@ -41,9 +41,10 @@ void test_fs()
 	kprintf("Testing Filesystem...\n");
 	int f=open(path);//this appears to never return 
 	free(path);
-	char a[9];
-	int c = read(f,a,1);
-	kprintf("First char :%x\n",c);
+	char a[55];
+	int c = read(f,a,54);
+	a[54]=0;
+	kprintf("in file:%s\n",a);
 }
 
 void initalize_kernel(void * heap,void * multiboot_information)
