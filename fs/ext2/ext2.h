@@ -236,7 +236,6 @@ struct ext2_inode {
 #define EXT2_MOUNT_DAX			0
 #endif
 
-
 #define clear_opt(o, opt)		o &= ~EXT2_MOUNT_##opt
 #define set_opt(o, opt)			o |= EXT2_MOUNT_##opt
 #define test_opt(sb, opt)		(EXT2_SB(sb)->s_mount_opt & \
@@ -404,8 +403,6 @@ struct ext2_super_block {
 #define EXT3_DEFM_JMODE_ORDERED	0x0040
 #define EXT3_DEFM_JMODE_WBACK	0x0060
 
-
-
 #define EXT2_NAME_LEN 256
 
 /* Structure of a directory entry */
@@ -467,7 +464,7 @@ struct ext2_super_block ext2_get_super_block();
 void ext2_trace_super_block(struct ext2_super_block);
 
 void ext2_trace_group_desc(struct ext2_group_desc d);
-struct ext2_group_desc ext2_get_bgdt();
+struct ext2_group_desc ext2_get_group_desc();
 
 void ext2_trace_inode(struct ext2_inode inode);
 struct ext2_inode ext2_get_inode(int inode);
@@ -479,3 +476,7 @@ struct ext2_dir_entry_2 ext2_get_dir_entry(struct ext2_inode inode,int index);
 int inode_by_path(char * path,struct ext2_inode * inode);
 
 int ext2_read(struct ext2_inode inode, unsigned int head);
+
+/*related globals used by r0nix*/
+
+int ext2_block_size;

@@ -4,7 +4,8 @@
 #include "ext2.h"
 
 /* Returns the size of the dir_entry that starts at the offset on the disk */
-static int dir_size(int offset){
+static int dir_size(int offset)
+{
 	int i;
 	struct ext2_dir_entry_2 dir;
 	char * p = (char *)&dir;
@@ -13,7 +14,8 @@ static int dir_size(int offset){
 	return dir.rec_len;
 }
 
-void ext2_trace_dir(struct ext2_dir_entry_2 dir){
+void ext2_trace_dir(struct ext2_dir_entry_2 dir)
+{
 	kprintf(" ---EXT2 DIR TRACE---\n");
 	kprintf("inode: %x \n",dir.inode);
 	kprintf("rec_len: %x \n",dir.rec_len);
@@ -22,14 +24,13 @@ void ext2_trace_dir(struct ext2_dir_entry_2 dir){
 	kprintf("name: \"%s\" \n",(dir.name));
 }
 
-/*FIXME somethings not right here */
 struct ext2_dir_entry_2 ext2_get_dir_entry(struct ext2_inode inode,int index)
 {
 	struct ext2_super_block sb = ext2_get_super_block(0);
 	int block_size = 1024<<sb.s_log_block_size;
 
 	/* find the dir */
-	int offset = inode.i_block[0]*block_size;/*TODO it might not be at 0 */
+	int offset = inode.i_block[0]*block_size;/*TODO it might not be at 0*/
 	int i;
 	for(i=0;i<index;i++)
 		offset+=dir_size(offset);

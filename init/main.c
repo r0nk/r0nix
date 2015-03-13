@@ -42,7 +42,7 @@ void test_fs()
 	int f=open(path);//this appears to never return 
 	free(path);
 	char a[55];
-	int c = read(f,a,54);
+	read(f,a,54);
 	a[54]=0;
 	kprintf("in file:%s\n",a);
 }

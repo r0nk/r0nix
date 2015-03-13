@@ -1,4 +1,4 @@
-/* Block Group Descriptor Table(bgdt) */
+/* Block Group Descriptor */
 #define BGDT_OFFSET 2048
 #include <block.h>
 #include <kprint.h>
@@ -14,15 +14,11 @@ void ext2_trace_group_desc(struct ext2_group_desc d){
 	kprintf("bg_used_dirs_count;    %x\n",d.bg_used_dirs_count);
 }
 
-struct ext2_group_desc ext2_get_bgdt(){
-	/*
-	 * TODO this should assume more then one descriptor, but
-	 * for now, we only worry about one descriptor
-	 */	
+struct ext2_group_desc ext2_get_group_desc(){
 	struct ext2_group_desc desc;
 	char * p = (char *)&desc;
 	int i;
-	/* (24) should be replaced with (number of descriptors * desc_size) */
+	/*TODO (24) should be replaced with (number of descriptors * desc_size) */
 	for(i=0;i<(24);i++)
 		p[i]=read_from_block_device(i+BGDT_OFFSET);
 	return desc;
