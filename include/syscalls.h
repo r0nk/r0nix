@@ -9,7 +9,7 @@
 #define SYSCALL_FORK  4 
 #define SYSCALL_EXEC  5 
 
-void system_call(struct Cpu_state s);
+void system_call(struct Cpu_state * s);
 
 #endif
 

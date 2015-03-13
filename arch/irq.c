@@ -275,7 +275,7 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 		keyboard_irq();
 	}
 	if(vector==0x80){
-		system_call(s);
+		system_call(&s);
 	}
 	acknowledge_interrupt(vector);
 }
