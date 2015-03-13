@@ -1,9 +1,3 @@
-The syscalls we should implement next:
+close syscall
 
-read
-open
-close
-
-There are obviously more we are going to want in the future, but those 
-operations are the only ones we need in order to get a shell up.
-
+We also need to get indirect pointers working
