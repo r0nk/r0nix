@@ -1,5 +1,6 @@
 #ifndef CPU
 #define CPU
+#include <stdint.h>
 
 struct Cpu_state{
 	uint32_t edi;

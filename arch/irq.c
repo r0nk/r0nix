@@ -4,6 +4,7 @@
 #include <irq.h>
 #include <cpu.h>
 #include <io.h>
+#include <syscalls.h>
 
 /*
  * This file handles setting up the interrupts.
@@ -270,9 +271,11 @@ extern void interrupt_wrapper_255();
 
 void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
-	s.eax++;s.eax--;//just to keep the compiler from complaining
 	if(vector==0x21){
 		keyboard_irq();
+	}
+	if(vector==0x80){
+		system_call(s);
 	}
 	acknowledge_interrupt(vector);
 }
