@@ -41,9 +41,9 @@ void test_fs()
 	kprintf("Testing Filesystem...\n");
 	int f=open(path);//this appears to never return 
 	free(path);
-	char a[1024];
-	read(f,a,1024);
-	a[1024]=0;
+	char a[2048];
+	read(f,a,2048);
+	a[2048]=0;
 	kprintf("file contents:\n");
 	kprintf("%s\n",a);
 }
