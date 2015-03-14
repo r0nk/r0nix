@@ -273,10 +273,14 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
 	if(vector==0x21){
 		keyboard_irq();
+		goto ret;
 	}
 	if(vector==0x80){
 		system_call(&s);
+		goto ret;
 	}
+	panic("non-handled interrupt");
+ret:
 	acknowledge_interrupt(vector);
 }
 
