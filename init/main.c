@@ -39,13 +39,13 @@ void test_fs()
 {
 	char * path = strdup("/The Raven");
 	kprintf("Testing Filesystem...\n");
-	kprintf("path:%s\n",path);
 	int f=open(path);//this appears to never return 
 	free(path);
-	char a[55];
-	read(f,a,54);
-	a[54]=0;
-	kprintf("in file:%s\n",a);
+	char a[1024];
+	read(f,a,1024);
+	a[1024]=0;
+	kprintf("file contents:\n");
+	kprintf("%s\n",a);
 }
 
 void initalize_kernel(void * heap,void * multiboot_information)
