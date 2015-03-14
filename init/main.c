@@ -37,8 +37,9 @@ void init_disk(struct Multiboot_Information * mbi)
 
 void test_fs()
 {
-	char * path = strdup("/MAGICAL_FILEE.swpx");
+	char * path = strdup("/The Raven");
 	kprintf("Testing Filesystem...\n");
+	kprintf("path:%s\n",path);
 	int f=open(path);//this appears to never return 
 	free(path);
 	char a[55];

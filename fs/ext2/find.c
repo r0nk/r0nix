@@ -25,8 +25,9 @@ int inode_in_dir(struct ext2_inode dir,char * name)
 	struct ext2_dir_entry_2 entry;
 	for(i=0;;i++){
 		entry = ext2_get_dir_entry(dir,i);
+		kprintf("entry.name: %s\n",entry.name);
 		if(!entry.inode){
-			kprintf("!entry.inode\n");
+			kprintf("In inode_in_dir(): !entry.inode\n");
 			return 0;
 		}
 		if(!strcmp(entry.name,name)){
