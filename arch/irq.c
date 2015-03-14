@@ -5,6 +5,7 @@
 #include <cpu.h>
 #include <io.h>
 #include <syscalls.h>
+#include <panic.h>
 
 /*
  * This file handles setting up the interrupts.

@@ -137,7 +137,7 @@ typedef struct elf32_rel {
   Elf32_Word	r_info;
 } Elf32_Rel;
 
-typedef struct elf32_rela{
+typedef struct elf32_rela {
   Elf32_Addr	r_offset;
   Elf32_Word	r_info;
   Elf32_Sword	r_addend;
@@ -177,6 +177,7 @@ typedef struct elf32_hdr{
 #define PF_W		0x2
 #define PF_X		0x1
 
+/*program header*/
 typedef struct elf32_phdr{
   Elf32_Word	p_type;
   Elf32_Off	p_offset;
@@ -222,6 +223,7 @@ typedef struct elf32_phdr{
 #define SHN_COMMON	0xfff2
 #define SHN_HIRESERVE	0xffff
  
+/*section header*/
 typedef struct elf32_shdr {
   Elf32_Word	sh_name;
   Elf32_Word	sh_type;
@@ -314,7 +316,6 @@ typedef struct elf32_shdr {
 #define NT_METAG_CBUF	0x500		/* Metag catch buffer registers */
 #define NT_METAG_RPIPE	0x501		/* Metag read pipeline state */
 #define NT_METAG_TLS	0x502		/* Metag TLS pointer */
-
 
 /* Note header in a PT_NOTE section */
 typedef struct elf32_note {
