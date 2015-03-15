@@ -16,6 +16,7 @@
 #include <block.h>
 #include <fs.h>
 #include <mm.h>
+#include <exec.h>
 
 #include <drivers/block/ramdisk.h>
 
@@ -39,7 +40,7 @@ void test_fs()
 {
 	char * path = strdup("/The Raven");
 	kprintf("Testing Filesystem...\n");
-	int f=open(path);//this appears to never return 
+	int f=open(path); 
 	free(path);
 	char a[2048];
 	read(f,a,2048);
@@ -63,16 +64,13 @@ void initalize_kernel(void * heap,void * multiboot_information)
 
 	init_disk(multiboot_information);
 	init_fs();
-
-	test_fs();
-
 	enable_keyboard();
 }
 
-/* this gets called right after boot.s */
+/* This gets called right after boot.s */
 void kernel_main(void * heap,void * multiboot_information)
 {
 	initalize_kernel(heap,multiboot_information);
-	/* run_init_shell(); TODO:this is what were shooting for. */ 
+	exec("/bin/sh");
 	panic("reached end of kernel_main");
 }

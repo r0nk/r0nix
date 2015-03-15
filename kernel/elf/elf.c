@@ -1,4 +1,4 @@
-#include <elf.h>
+#include "elf.h"
 #include <fs.h>
 
 struct elf32_hdr get_elf_hdr(int fd)
