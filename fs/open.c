@@ -12,7 +12,9 @@ int open(char *path/*, int oflag*/)
 	}
 	return -1;/* we didn't find it */
 cont:
+	kprintf("open before path...\n");
 	fdt[i].inode_index = inode_by_path(path,&inode);
 	fdt[i].head = 0;
+	kprintf("open after path...\n");
 	return i;
 }

@@ -71,6 +71,6 @@ void initalize_kernel(void * heap,void * multiboot_information)
 void kernel_main(void * heap,void * multiboot_information)
 {
 	initalize_kernel(heap,multiboot_information);
-	exec("/bin/hello");
+	exec("/hello");
 	panic("reached end of kernel_main");
 }
