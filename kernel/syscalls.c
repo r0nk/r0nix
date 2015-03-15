@@ -13,8 +13,10 @@ void system_call(struct Cpu_state *s)
 		case SYSCALL_READ:
 			s->eax = read(s->ebx,(void *)s->ecx,s->edi);
 			return;
-		case SYSCALL_CLOSE:
 		case SYSCALL_WRITE:
+			s->eax = write(s->ebx,(void *)s->ecx,s->edi);
+			return;
+		case SYSCALL_CLOSE:
 		case SYSCALL_FORK:
 		case SYSCALL_EXEC:
 			panic("nyi syscalled \n");

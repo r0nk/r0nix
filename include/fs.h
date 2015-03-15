@@ -12,6 +12,6 @@ struct file_descriptor fdt[FDT_SIZE];
 void init_fs();
 int read(int fildes,char * buf, int nbyte);
 int open(char *path/*, int oflag*/);
+int write(int fildes, const void * buf, int nbyte);
 
 #endif
-
