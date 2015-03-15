@@ -11,10 +11,12 @@ static char * till_next_slash(char ** path)
 	if(**path=='/')
 		(*path)++;
 	char *r = *path;
-	while(!(**path=='/' || **path=='\0'))
+	while((**path!='/' && **path!='\0'))
 		(*path)++;
-	**path='\0';
-	(*path)++;
+	if(**path=='/'){
+		**path='\0';
+		(*path)++;
+	}
 	return r;
 }
 
@@ -26,7 +28,7 @@ int inode_in_dir(struct ext2_inode dir,char * name)
 	for(i=0;;i++){
 		entry = ext2_get_dir_entry(dir,i);
 		if(!entry.inode){
-			kprintf("In inode_in_dir(): !entry.inode\n");
+			kprintf("err In inode_in_dir(): !entry.inode\n");
 			return 0;
 		}
 		if(!strcmp(entry.name,name)){
@@ -44,7 +46,7 @@ int inode_by_path(char * path,struct ext2_inode * inode)
 	char * next;
 	while(1){
 		next = till_next_slash(&path);
-		if(!next){/* if no more places to look, then we found it */
+		if(next==0){/* if no more places to look, then we found it */
 			return i_inode;
 		}
 		i_inode = inode_in_dir(*inode,next);

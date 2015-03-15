@@ -6,6 +6,7 @@
 
 void system_call(struct Cpu_state *s)
 {
+	kprintf("We got a syscall on aile %x\n",s->eax);
 	switch(s->eax){
 		case SYSCALL_OPEN:
 			s->eax = open((void *)s->ebx);
@@ -14,6 +15,7 @@ void system_call(struct Cpu_state *s)
 			s->eax = read(s->ebx,(void *)s->ecx,s->edi);
 			break;
 		case SYSCALL_WRITE:
+			kprintf("ebx:%x ecx:%x edi:%x\n",s->ebx,s->ecx,s->edi);
 			s->eax = write(s->ebx,(void *)s->ecx,s->edi);
 			break;
 		case SYSCALL_CLOSE:

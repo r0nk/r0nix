@@ -5,16 +5,15 @@
 int open(char *path/*, int oflag*/)
 {
 	struct ext2_inode inode;
-	int i;
-	for(i=0;i<256;i++){
+	int i=3;//start at three to avoid std-in,out,err
+	for(;i<256;i++){
 		if(fdt[i].inode_index==0)
 			goto cont;/* then we found a place to put ourselves */
 	}
+	kprintf("Couldn't find file to open, returning -1");
 	return -1;/* we didn't find it */
 cont:
-	kprintf("open before path...\n");
 	fdt[i].inode_index = inode_by_path(path,&inode);
 	fdt[i].head = 0;
-	kprintf("open after path...\n");
 	return i;
 }

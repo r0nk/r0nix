@@ -1,4 +1,5 @@
 #include <block.h>
+#include <kprint.h>
 #include "ext2.h"
 
 /* returns the actual location on the the disk for a given read head */
@@ -13,8 +14,11 @@ static int head_location(struct ext2_inode inode,int head)
 
 int ext2_read(struct ext2_inode inode, unsigned int head)
 {
-	if(head>inode.i_size)
+	if(head>inode.i_size){
+		kprintf("head>inode.i_size, head:%x, inode.i_size:%x\n",
+				head,inode.i_size);
 		return -1;
+	}
 	int hloc = head_location(inode,head);
 	return read_from_block_device(hloc);
 }
