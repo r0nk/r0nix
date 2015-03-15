@@ -10,3 +10,7 @@ It hands us a path, and we have to find the inode based on that path.
 We start at the root directory, then we search for each part of the directory 
 path, steping through the inodes along the way.
 
+------------------------------------------------------------------------------
+
+Ok, we've got enough of the ext2 done, now we need to improve our vfs
+
