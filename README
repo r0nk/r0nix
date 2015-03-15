@@ -2,3 +2,6 @@ r0nix is a unix like operating system currently still in development.
 
 Its mostly a personal project for me to learn unix better, and to act as a 
 stepping stone into linux kernel development.
+
+WARNING: r0nix is NOT yet considered safe to run on any hardware. Everything is still in kernelspace, so definitely don't try to run it on anything other then 
+a virtual machine.

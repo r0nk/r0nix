@@ -1,16 +1,14 @@
-/* just some psuedo-code for now */
+/* FIXME TODO most of this file has obvious issues */
 
-//void exec(char * program)
-//{
-//	get a program space ready for the program
-//	begin execution of the program.
-//}
+#include <fs.h>
+#include <elf.h>
 
-//void exec_init_shell()
-//{
-//	char * program;
-//	int fd  = open("/bin/r0sh");
-//	elf_hdr = get_elf_header(fd);
-//	program =(read the rest, based on the header)();
-//	exec(program);
-//}
+void exec_init_shell()
+{
+	void (*program)(void);
+	int fd  = open("/bin/r0sh");
+	struct elf32_hdr elf_hdr = get_elf_hdr(fd);
+	struct elf32_phdr elf_phdr = get_elf_phdr(fd);
+	program = (void *)elf_hdr.e_entry;
+	program();
+}

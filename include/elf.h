@@ -156,14 +156,14 @@ typedef struct elf32_sym{
 
 typedef struct elf32_hdr{
   unsigned char	e_ident[EI_NIDENT];
-  Elf32_Half	e_type;//4*13+16
+  Elf32_Half	e_type;
   Elf32_Half	e_machine;
   Elf32_Word	e_version;
-  Elf32_Addr	e_entry;  /* Entry point */
-  Elf32_Off	e_phoff;
+  Elf32_Addr	e_entry;     /* Entry point */
+  Elf32_Off	e_phoff;     /* program header offset */
   Elf32_Off	e_shoff;
   Elf32_Word	e_flags;
-  Elf32_Half	e_ehsize; /* Total size of the header */
+  Elf32_Half	e_ehsize;    /* Total size of the header */
   Elf32_Half	e_phentsize;
   Elf32_Half	e_phnum;
   Elf32_Half	e_shentsize;
@@ -323,5 +323,9 @@ typedef struct elf32_note {
   Elf32_Word	n_descsz;	/* Content size */
   Elf32_Word	n_type;		/* Content type */
 } Elf32_Nhdr;
+
+/* r0nix helper functions */
+struct elf32_hdr get_elf_hdr(int fd);
+struct elf32_phdr get_elf_phdr(int fd);
 
 #endif /* _UAPI_LINUX_ELF_H */

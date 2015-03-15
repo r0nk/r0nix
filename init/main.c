@@ -52,7 +52,7 @@ void initalize_kernel(void * heap,void * multiboot_information)
 {
 	/* we initalize the terminal early so we can see errors */
 	initialize_terminal();
-	kprintf("Hello r0nk!\n");
+	kprintf("- r0nix -\n");
 
 	init_mm(heap,16384);
 
