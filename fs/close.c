@@ -1,6 +1,14 @@
-void close(int fildes){
-	//find the file descriptor in the table,
-	//free it from the table
-	/*TODO because we don't have real FD's yet, we don't do anything here.*/
-	fildes++; return;
+#include <fs.h>
+#include <panic.h>
+#include <kprint.h>
+
+void close(int fildes)
+{
+	if(fildes>FDT_SIZE)
+		goto out_of_bounds;
+	fdt[fildes].inode_index = 0;//We just mark this fd as overwritable
+	return;
+out_of_bounds:
+	kprintf("Tried to close file index out of bounds %x",fildes);
+	panic("File close error");
 }
