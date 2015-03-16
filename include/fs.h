@@ -10,8 +10,9 @@ struct file_descriptor{
 struct file_descriptor fdt[FDT_SIZE];
 
 void init_fs();
-int read(int fildes,char * buf, int nbyte);
 int open(char *path/*, int oflag*/);
+int close(int fildes/*, int oflag*/);
+int read(int fildes,char * buf, int nbyte);
 int write(int fildes, const void * buf, int nbyte);
 
 #endif
