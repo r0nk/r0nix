@@ -11,6 +11,9 @@ void system_call(struct Cpu_state *s)
 		case SYSCALL_OPEN:
 			s->eax = open((void *)s->ebx);
 			break;
+		case SYSCALL_CLOSE:
+			s->eax = close((void *)s->ebx);
+			break;
 		case SYSCALL_READ:
 			s->eax = read(s->ebx,(void *)s->ecx,s->edi);
 			break;
@@ -18,10 +21,10 @@ void system_call(struct Cpu_state *s)
 			kprintf("ebx:%x ecx:%x edi:%x\n",s->ebx,s->ecx,s->edi);
 			s->eax = write(s->ebx,(void *)s->ecx,s->edi);
 			break;
-		case SYSCALL_CLOSE:
 		case SYSCALL_FORK:
+			panic("nyi fork syscalled");
 		case SYSCALL_EXEC:
-			panic("nyi syscalled");
+			panic("nyi exec syscalled");
 			break;
 	}
 	panic("Syscalled");
