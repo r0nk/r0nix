@@ -4,11 +4,12 @@
 #include <exec.h>
 #include <kprint.h>
 #include <panic.h>
+#include <time_stamp.h>
 
 #include "elf/elf.h"
 
 void exec(char * path){
-	kprintf("exec called...\n");
+	kprintf("exec called:%s\n",time_stamp(),path);
 	void (*program)(void);
 	int fd  = open(path);
 	if(fd<1){

@@ -2,7 +2,9 @@
 #include <string.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <time_stamp.h>
 #include <kprint.h>
+
 
 static void f_string(char * s)
 {
@@ -26,6 +28,12 @@ void kprintf(const char * format,...)
 
 	int i;
 	int max = strlen(format);
+
+	if(1){
+		f_string("[");
+		f_hex(time_stamp());
+		f_string("] ");
+	}
 
 	for(i=0;i<max;i++){
 		if(format[i]=='%'){

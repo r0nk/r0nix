@@ -1,11 +1,14 @@
-#include "ext2/ext2.h"
 #include <fs.h>
 #include <kprint.h>
+#include "ext2/ext2.h"
 
 int read(int fildes,char * buf, int nbyte)
 {
-	int i;
-	int c=0;
+	int i,c=0;
+	if(fildes==0){/* Then they're reading from standard input */
+	//	read_stdin(buf,nbyte);
+		;
+	}
 	for(i=0;i<nbyte;i++){
 		c=ext2_read(ext2_get_inode(fdt[fildes].inode_index),
 				fdt[fildes].head);

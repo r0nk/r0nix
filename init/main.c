@@ -17,6 +17,7 @@
 #include <fs.h>
 #include <mm.h>
 #include <exec.h>
+#include <time_stamp.h>
 
 #include <drivers/block/ramdisk.h>
 
@@ -54,6 +55,7 @@ void initalize_kernel(void * heap,void * multiboot_information)
 	/* we initalize the terminal early so we can see errors */
 	initialize_terminal();
 	kprintf("- r0nix -\n");
+	kprintf("initalizing kernel\n");
 
 	init_mm(heap,16384);
 
@@ -71,6 +73,6 @@ void initalize_kernel(void * heap,void * multiboot_information)
 void kernel_main(void * heap,void * multiboot_information)
 {
 	initalize_kernel(heap,multiboot_information);
-	exec("/hello");
+	exec("/r0sh");
 	panic("reached end of kernel_main");
 }

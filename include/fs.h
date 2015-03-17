@@ -15,4 +15,6 @@ int close(int fildes/*, int oflag*/);
 int read(int fildes,char * buf, int nbyte);
 int write(int fildes, const void * buf, int nbyte);
 
+int read_stdin(const void * buf, int nbyte);
+
 #endif
