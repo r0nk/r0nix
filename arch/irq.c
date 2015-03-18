@@ -1,4 +1,5 @@
 #include <keyboard.h>
+#include <kprint.h>
 #include <desc.h>
 #include <pic.h>
 #include <irq.h>
@@ -569,6 +570,5 @@ void initalize_interrupts()
 	initalize_idt();
 	idt_descr.size=(256*8)-1;
 	idt_descr.address=(unsigned int)idt_table;
-
 	load_idt(&idt_descr);
 }
