@@ -58,7 +58,6 @@ void initalize_kernel(void * heap,void * multiboot_information)
 
 	init_mm(heap,16384);
 
-	/* hmm, not sure this should go before initing the disk...*/
 	initalize_gdt();
 	initalize_interrupts();
 	initalize_pic(0x20,0x28);

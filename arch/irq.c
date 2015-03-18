@@ -279,6 +279,9 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 	}
 	if(vector==0x80){
 		system_call(&s);
+		/*under these conditions, the int is already acked*/
+		if(s.eax==SYSCALL_READ && s.ebx == 0)
+			return;
 		goto ret;
 	}
 	panic("non-handled interrupt");
