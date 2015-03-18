@@ -4,7 +4,7 @@
 #include <kprint.h>
 
 char dequeue(){
-	char ret = q[0];
+	char ret;
 	int i;
 
 	if(q_size==0){
@@ -13,6 +13,7 @@ char dequeue(){
 		while(q_size==0) 
 			asm("hlt");//wait till we get some input
 	}
+	ret=q[0];
 
 	for(i=0;i<q_size;i++)
 		q[i]=q[i+1];

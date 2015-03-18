@@ -6,7 +6,7 @@
 int write(int fildes, const void * buf, int nbyte)
 {
 	if(fildes!=1)
-		panic("Write attempt while fildes !=1, not writing to stdout NYI");
-	kprintf("write \" %s \" \n",buf);
+		panic("Write attempt while fildes !=1, NYI");
+	kprintf("write <%x> \"%s\" \n",buf,buf);
 	return nbyte;
 }
