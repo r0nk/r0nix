@@ -1,4 +1,4 @@
-/* FIXME TODO most of this file has obvious issues */
+/* FIXME TODO most of this file has obvious issues (no protection, etc) */
 
 #include <fs.h>
 #include <exec.h>
@@ -30,7 +30,8 @@ void exec(char * path){
 
 
 	kprintf("starting reading in program...\n");
-	kprintf("phdr:%x\n",phdr.p_filesz);
+	kprintf("phdr.filesz:%x\n",phdr.p_filesz);
+	kprintf("phdr.p_paddr:%x\n",phdr.p_paddr);
 	read_bytes=read(fd,(void *)phdr.p_paddr,phdr.p_filesz);
 	kprintf("bytes read, launching program...\n");
 

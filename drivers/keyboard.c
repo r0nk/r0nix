@@ -2,6 +2,7 @@
  * all keyboards, thus it should probably be renamed.
  */
 
+#include <mm.h>
 #include <keyboard.h>
 #include <io.h>
 #include <terminal.h>
@@ -62,6 +63,7 @@ void keyboard_irq()
 			shift_down=1;
 		}else{
 			str[0]=scancode_to_ascii(scancode);
+			enqueue(str[0]);
 			kprintf("%s",str);
 		}
 	}
