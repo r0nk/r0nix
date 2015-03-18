@@ -469,6 +469,7 @@ struct ext2_group_desc ext2_get_group_desc();
 void ext2_trace_inode(struct ext2_inode inode);
 struct ext2_inode ext2_get_inode(int inode);
 struct ext2_inode ext2_get_root_inode();
+void ext2_write_inode(struct ext2_inode inode,int inode_index);/*TODO*/
 
 void ext2_trace_dir(struct ext2_dir_entry_2 dir);
 struct ext2_dir_entry_2 ext2_get_dir_entry(struct ext2_inode inode,int index);
@@ -478,6 +479,6 @@ int inode_by_path(char * path,struct ext2_inode * inode);
 int ext2_read(struct ext2_inode inode, unsigned int head);
 void ext2_write(struct ext2_inode inode, unsigned int head,uint8_t value);
 
-/*related globals used by r0nix*/
 
+/*related globals used by r0nix*/
 int ext2_block_size;

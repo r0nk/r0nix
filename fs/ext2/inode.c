@@ -25,16 +25,21 @@ void ext2_trace_inode(struct ext2_inode in)
 	/* theres more here, but we cheat */
 };
 
-struct ext2_inode ext2_get_inode(int inode_num)
+int get_inode_offset(int inode_num)
 {
-	struct ext2_inode inode;
 	struct ext2_super_block sb = ext2_get_super_block(0);
 	int inodes_block_group = (inode_num-1) / sb.s_inodes_per_group;
 	struct ext2_group_desc gd = ext2_get_group_desc(inodes_block_group);
 	int inode_table_location = gd.bg_inode_table * ext2_block_size;
 	int index = (inode_num-1)%sb.s_inodes_per_group;
-	int inode_offset = inode_table_location + (index * sb.s_inode_size);
-	/* Now that we know the offset, we finally read the inode */
+	return inode_table_location + (index * sb.s_inode_size);
+}
+
+struct ext2_inode ext2_get_inode(int inode_num)
+{
+	struct ext2_inode inode;
+	struct ext2_super_block sb = ext2_get_super_block(0);
+	int inode_offset=get_inode_offset(inode_num);
 	char * p = (char *)&inode;
 	int i;
 	for(i=0;i<sb.s_inode_size;i++)
@@ -45,4 +50,14 @@ struct ext2_inode ext2_get_inode(int inode_num)
 struct ext2_inode ext2_get_root_inode()
 {
 	return ext2_get_inode(2);/* root dir always 2 */
+}
+
+void ext2_write_inode(struct ext2_inode inode,int inode_index)
+{
+	char * p = (char *)&inode;
+	int offset = get_inode_offset(inode_index);
+	int sz = sizeof(inode);
+	int i;
+	for(i=0;i<sz;i++)
+		write_to_block_device(offset+i,p[i]);
 }
