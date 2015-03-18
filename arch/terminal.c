@@ -43,7 +43,7 @@ void initialize_terminal()
 {
 	term.row = 0;
 	term.column = 0;
-	term.color = make_color(COLOR_RED, COLOR_BLACK);
+	term.color = make_color(COLOR_LIGHT_GREY, COLOR_BLACK);
 	term.buffer = (uint16_t*) 0xB8000;
 	size_t y,x;
 	for ( y = 0; y < VGA_HEIGHT; y++ ){
