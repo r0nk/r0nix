@@ -1,8 +1,29 @@
 ok, so now the next goal is getting a shell working.
 
 In order to do that, I'm going to want to have a ton of stuff
- * filesystem
- * processes
- * syscalls
+ [-] filesystem
+ [-] processes
+ [X] syscalls
 
+Filesystems:
+-----------
+[X] open
+[X] close
+[-] read /* indirect pointers not finished */
+[ ] write /*only writes to stdout*/
 
+Processes:
+---------
+[X] kexec
+[ ] fork()
+[ ] userspace exec
+
+Syscalls:
+---------
+/* The syscalls are there, not neccecarily the things behind them */
+[X] open
+[X] close
+[X] read
+[X] write
+[X] fork
+[X] execve
