@@ -34,7 +34,7 @@ void init_disk(struct Multiboot_Information * mbi)
 {
 	struct Multiboot_Module * ram_mod;
 	ram_mod = (void *)mbi->mods_addr;
-	gbda[0]=init_ramdisk(ram_mod);
+	root_block=init_ramdisk(ram_mod);
 }
 
 void test_fs()

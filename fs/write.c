@@ -1,12 +1,23 @@
 #include <panic.h>
 #include <kprint.h>
 #include <fs.h>
+#include "ext2/ext2.h"
 
-/*TODO as for right now, write only works with standard output */
-int write(int fildes, const void * buf, int nbyte)
+int write(int fildes, char * buf, int nbyte)
 {
-	if(fildes!=1)
-		panic("Write attempt while fildes !=1, NYI");
-	kprintf("%s",buf);
+	struct ext2_inode inode;
+	int i;
+
+	if(fildes==1){
+		kprintf("%s",buf);
+		return nbyte;
+	}
+
+	inode = ext2_get_inode(fdt[fildes].inode_index);
+
+	for(i=0;i<nbyte;i++){
+		ext2_write(inode,fdt[fildes].head,buf[i]);
+		fdt[fildes].head++;
+	}
 	return nbyte;
 }

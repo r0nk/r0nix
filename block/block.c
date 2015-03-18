@@ -1,18 +1,20 @@
 #include <block.h>
 #include <kprint.h>
 
-void write_to_block_device(unsigned long location, uint8_t value){
-	if(location > gbda[0].size){
+void write_to_block_device(unsigned long location, uint8_t value)
+{
+	if(location > root_block.size){
 		kprintf("block device write overflow!\n");
 		return;
 	}
-	gbda[0]._write(location,value);/* TODO shouldn't always be zero */
+	root_block._write(location,value);
 }
 
-uint8_t read_from_block_device(unsigned long location){
-	if(location > gbda[0].size){
+uint8_t read_from_block_device(unsigned long location)
+{
+	if(location > root_block.size){
 		kprintf("block device read overflow!\n");
 		return 0;
 	}
-	return gbda[0]._read(location);/* TODO shouldn't always be zero */
+	return root_block._read(location);
 }

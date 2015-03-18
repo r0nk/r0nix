@@ -476,6 +476,7 @@ struct ext2_dir_entry_2 ext2_get_dir_entry(struct ext2_inode inode,int index);
 int inode_by_path(char * path,struct ext2_inode * inode);
 
 int ext2_read(struct ext2_inode inode, unsigned int head);
+void ext2_write(struct ext2_inode inode, unsigned int head,uint8_t value);
 
 /*related globals used by r0nix*/
 

@@ -9,7 +9,7 @@ struct Block_Device{
 	void (*_write)(unsigned long location,uint8_t value);
 };
 
-struct Block_Device gbda[10];//global block device array;
+struct Block_Device root_block;
 
 void write_to_block_device( unsigned long location, uint8_t value);
 uint8_t read_from_block_device( unsigned long location);

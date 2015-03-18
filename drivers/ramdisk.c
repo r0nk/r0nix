@@ -20,7 +20,7 @@ void ramdisk_write(unsigned long location,uint8_t value)
 
 struct Block_Device init_ramdisk(void * mp)
 {
-	/*FIXME this gets passed wrong struct, it should be multi-boot info*/
+	/*TODO this gets passed wrong struct, it should be multi-boot info*/
 	struct Multiboot_Module * mm = mp;
 	struct Block_Device bd;
 	ramdisk1_addr = (void *) mm->mod_start;
