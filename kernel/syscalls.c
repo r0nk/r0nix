@@ -6,7 +6,6 @@
 
 void system_call(struct Cpu_state *s)
 {
-	kprintf("syscalled:%x\n",s->eax);
 	switch(s->eax){
 		case SYSCALL_OPEN:
 			s->eax = open((void *)s->ebx);

@@ -64,7 +64,7 @@ void keyboard_irq()
 		}else{
 			str[0]=scancode_to_ascii(scancode);
 			enqueue(str[0]);
-			kprintf("%x",str[0]);
+			kprintf("%s",str);
 		}
 	}
 }
