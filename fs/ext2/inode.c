@@ -62,8 +62,3 @@ void ext2_write_inode(struct ext2_inode inode,int inode_index)
 	for(i=0;i<sz;i++)
 		write_to_block_device(offset+i,p[i]);
 }
-
-void increase_inode_size(struct ext2_inode inode){
-	/*TODO*/
-	panic("NYI increase_inode_size() called");
-}

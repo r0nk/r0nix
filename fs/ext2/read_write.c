@@ -16,6 +16,20 @@ static int head_location(struct ext2_inode inode,int head)
 	return block_loc+(head%ext2_block_size);
 }
 
+void increase_inode_size(struct ext2_inode inode,int inode_index)
+{
+	int block_i;
+	inode.i_size++;
+	block_i = inode.i_size/ext2_block_size;
+	if(block_i>11)
+		panic("TODO indirect ext2 pointers nyi, i_i_s");
+	if(inode.i_block[block_i]==0){
+		/*TODO ext2_get_new_block() instead*/
+		panic("ext2 null size location i_i_s");
+	}
+	ext2_write_inode(inode,inode_index);
+}
+
 int ext2_read(struct ext2_inode inode, unsigned int head)
 {
 	if(head>inode.i_size){
@@ -28,12 +42,12 @@ int ext2_read(struct ext2_inode inode, unsigned int head)
 	return ret;
 }
 
-void ext2_write(struct ext2_inode inode, unsigned int head, uint8_t value)
+void ext2_write(int inode_index,struct ext2_inode inode, unsigned int head, 
+		uint8_t value)
 {
 	int hloc;
 	if(head>inode.i_size){
-		increase_inode_size(inode);//TODO
-		return;
+		increase_inode_size(inode,inode_index);
 	}
 	hloc = head_location(inode,head);
 	write_to_block_device(hloc,value);
