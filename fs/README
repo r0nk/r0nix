@@ -3,17 +3,3 @@ This is the filesystem directory.
 It is ment to house all the different filesystems in their own directories, and
 have the fs directory be filesystem agnostic, but for now, it only has ext2 
 specific functions, more can be added later.
-
-Ok, so were still in kernel space... how should we handle file descriptors?
-One global table maybe? stdout will always be the console then...
-Hmm...
-
-I think that will work for now, we will just have to figure out how to handle
-user space when we get there.
-
-Actually, we don't need full file handlers yet. 
-
-Every file has a different Inode, so we can just use inodes as fd's
-
-hacky and not the best way, but we can always improve it once we get it on its
-feet.

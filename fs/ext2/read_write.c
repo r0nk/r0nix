@@ -19,7 +19,7 @@ static int head_location(struct ext2_inode inode,int head)
 int ext2_read(struct ext2_inode inode, unsigned int head)
 {
 	if(head>inode.i_size){
-		kprintf("head>inode.i_size, head:%x, inode.i_size:%x\n",
+		kprintf("read:head>inode.i_size, head:%x, inode.i_size:%x\n",
 				head,inode.i_size);
 		return -1;
 	}
@@ -28,15 +28,13 @@ int ext2_read(struct ext2_inode inode, unsigned int head)
 	return ret;
 }
 
-/*TODO this has to change the size of the file.*/
 void ext2_write(struct ext2_inode inode, unsigned int head, uint8_t value)
 {
+	int hloc;
 	if(head>inode.i_size){
-		/*TODO this should first try to increase the size if possible */
-		kprintf("head>inode.i_size, head:%x, inode.i_size:%x\n",
-				head,inode.i_size);
+		increase_inode_size(inode);//TODO
 		return;
 	}
-	int hloc = head_location(inode,head);
+	hloc = head_location(inode,head);
 	write_to_block_device(hloc,value);
 }

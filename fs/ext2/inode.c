@@ -1,5 +1,6 @@
 #include <kprint.h>
 #include <block.h>
+#include <panic.h>
 #include "ext2.h"
 
 void ext2_trace_inode(struct ext2_inode in)
@@ -60,4 +61,9 @@ void ext2_write_inode(struct ext2_inode inode,int inode_index)
 	int i;
 	for(i=0;i<sz;i++)
 		write_to_block_device(offset+i,p[i]);
+}
+
+void increase_inode_size(struct ext2_inode inode){
+	/*TODO*/
+	panic("NYI increase_inode_size() called");
 }

@@ -1,3 +1,2 @@
-close syscall
-
-We also need to get indirect pointers working
+indirect pointers
+proper write capabilities.
