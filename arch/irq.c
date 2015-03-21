@@ -270,13 +270,13 @@ extern void interrupt_wrapper_253();
 extern void interrupt_wrapper_254();
 extern void interrupt_wrapper_255();
 
-
 void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
 	if(vector==0x21){
 		keyboard_irq();
 		goto ret;
 	}
+
 	if(vector==0x80){
 		system_call(&s);
 		/*under these conditions, the int is already acked*/
@@ -284,6 +284,7 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 			return;
 		goto ret;
 	}
+
 	panic("non-handled interrupt");
 ret:
 	acknowledge_interrupt(vector);
@@ -307,7 +308,6 @@ void initalize_idt_entry(int vector, void (*func)(void))
 
 	idt_table[vector].a=low_address;
 	idt_table[vector].a|=Selector<<16;
-
 }
 
 void initalize_idt(){
