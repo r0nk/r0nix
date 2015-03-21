@@ -16,7 +16,8 @@ int write(int fildes, char * buf, int nbyte)
 	inode = ext2_get_inode(fdt[fildes].inode_index);
 
 	for(i=0;i<nbyte;i++){
-		ext2_write(inode,fdt[fildes].head,buf[i]);
+		ext2_write(fdt[fildes].inode_index,inode,
+				fdt[fildes].head,buf[i]);
 		fdt[fildes].head++;
 	}
 	return nbyte;

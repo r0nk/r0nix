@@ -29,25 +29,11 @@
 #error "This kernel has to be compiled with a ix86-elf compiler."
 #endif
 
-/* TODO this should probably be moved elsewhere. */
 void init_disk(struct Multiboot_Information * mbi)
 {
 	struct Multiboot_Module * ram_mod;
 	ram_mod = (void *)mbi->mods_addr;
 	root_block=init_ramdisk(ram_mod);
-}
-
-void test_fs()
-{
-	char * path = strdup("/The Raven");
-	kprintf("Testing Filesystem...\n");
-	int f=open(path); 
-	free(path);
-	char a[2048];
-	read(f,a,2048);
-	a[2048]=0;
-	kprintf("file contents:\n");
-	kprintf("%s\n",a);
 }
 
 void initalize_kernel(void * heap,void * multiboot_information)
