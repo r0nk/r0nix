@@ -15,7 +15,6 @@ all: r0nix
 
 r0nix: $(OBJFILES)
 	$(CC) -T misc/linker.ld -o r0nix $(CFLAGS) $(OBJFILES) $(LIBS)
-
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(LIBS) $< -o $@
 
@@ -26,4 +25,3 @@ clean:
 	rm r0nix
 run:
 	./scripts/vmrun.sh
-
