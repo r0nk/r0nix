@@ -3,10 +3,6 @@
 #include <kprint.h>
 #include <io.h>
 
-void init_pci(){
-	kprintf("initalizing pci\n");
-}
-
 uint16_t pci_config_read_word(uint8_t bus,uint8_t slot,
 		uint8_t func, uint8_t offset)/*(offset is basically register)*/
 {
@@ -25,7 +21,6 @@ uint16_t pci_config_read_word(uint8_t bus,uint8_t slot,
 	return (uint16_t)((inl(CONFIG_DATA) >> ((offset&2)*8))&0xffff);
 }
 
-
 void pci_config_write_dword(uint8_t bus,uint8_t slot,
 		uint8_t func, uint8_t offset,uint32_t dword)
 {
@@ -42,4 +37,31 @@ void pci_config_write_dword(uint8_t bus,uint8_t slot,
 	outl(CONFIG_ADDRESS,address);
 	/* write out the data */
 	outl(CONFIG_DATA,dword);
+}
+
+void check_device(uint8_t bus, uint8_t device)
+{
+	uint8_t func = 0;
+	int vendorID = pci_config_read_word(bus,device,0,0);
+	if(vendorID == 0xFFFF) 
+		return;
+	kprintf("PCI device found! bus=%x,device=%x,vid=%x\n",
+			bus,device,vendorID);
+	kprintf(" device address:%x\n",pci_config_read_word(bus,device,0,0x10));
+}
+
+void scan_for_devices()
+{
+	int bus,device;
+
+	for(bus=0;bus<256;bus++)
+		for(device=0;device<32;device++)
+			check_device(bus,device);
+}
+
+void init_pci()
+{
+	kprintf("initalizing pci...\n");
+	scan_for_devices();
+	kprintf("pci initalized\n");
 }

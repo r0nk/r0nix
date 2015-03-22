@@ -50,6 +50,7 @@ void initalize_kernel(void * heap,void * multiboot_information)
 
 	init_disk(multiboot_information);
 	init_fs();
+
 	enable_keyboard();
 	init_pci();
 }
