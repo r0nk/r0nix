@@ -1,4 +1,4 @@
-CFLAGS=-ffreestanding -fbuiltin -Wall -Wextra -g
+CFLAGS=-ffreestanding -fbuiltin -Wall -Wextra -g -fdiagnostics-color
 LIBS=-Iinclude -nostdlib  -lgcc 
 CC=i686-elf-gcc
 AS=i686-elf-as

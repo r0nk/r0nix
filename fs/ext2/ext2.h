@@ -64,7 +64,7 @@ typedef unsigned long ext2_fsblk_t;
 /* (the Block Group Descriptor Table is just an array of these) */
 struct ext2_group_desc
 {
-	uint32_t	bg_block_bitmap;	/* Blocks bitmap block, _NOT_ the actual bitmap */
+	uint32_t	bg_block_bitmap;/* Blocks bitmap block, _NOT_ the actual bitmap */
 	uint32_t	bg_inode_bitmap;	/* Inodes bitmap block */
 	uint32_t	bg_inode_table;		/* Inodes table block */
 	uint16_t	bg_free_blocks_count;	/* Free blocks count */
@@ -269,14 +269,14 @@ struct ext2_super_block {
 	uint16_t	s_max_mnt_count;	/* Maximal mount count */
 	uint16_t	s_magic;		/* Magic signature */
 	uint16_t	s_state;		/* File system state */
-	uint16_t	s_errors;		/* Behaviour when detecting errors */
+	uint16_t	s_errors;	/* Behaviour when detecting errors */
 	uint16_t	s_minor_rev_level; 	/* minor revision level */
 	uint32_t	s_lastcheck;		/* time of last check */
 	uint32_t	s_checkinterval;	/* max. time between checks */
 	uint32_t	s_creator_os;		/* OS */
 	uint32_t	s_rev_level;		/* Revision level */
-	uint16_t	s_def_resuid;		/* Default uid for reserved blocks */
-	uint16_t	s_def_resgid;		/* Default gid for reserved blocks */
+	uint16_t	s_def_resuid;	/* Default uid for reserved blocks */
+	uint16_t	s_def_resgid;	/* Default gid for reserved blocks */
 	/*
 	 * These fields are for EXT2_DYNAMIC_REV superblocks only.
 	 *
@@ -466,7 +466,7 @@ struct ext2_group_desc ext2_get_group_desc();
 void ext2_trace_inode(struct ext2_inode inode);
 struct ext2_inode ext2_get_inode(int inode);
 struct ext2_inode ext2_get_root_inode();
-void increase_inode_size(struct ext2_inode inode,int inode_index);
+void increase_inode_size(struct ext2_inode * inode,int inode_index);
 void ext2_write_inode(struct ext2_inode inode,int inode_index);
 
 void ext2_trace_dir(struct ext2_dir_entry_2 dir);

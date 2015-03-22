@@ -18,7 +18,6 @@ struct ext2_group_desc ext2_get_group_desc(){
 	struct ext2_group_desc desc;
 	char * p = (char *)&desc;
 	int i;
-	/*TODO (24) should be replaced with (number of descriptors * desc_size) */
 	for(i=0;i<(24);i++)
 		p[i]=read_from_block_device(i+BGDT_OFFSET);
 	return desc;

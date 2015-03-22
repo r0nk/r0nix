@@ -5,7 +5,6 @@
 #include <time_stamp.h>
 #include <kprint.h>
 
-
 static void f_string(char * s)
 {
 	int max = strlen(s);
