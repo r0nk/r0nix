@@ -46,9 +46,6 @@ void check_device(uint8_t bus, uint8_t device)
 	if(vendorID == 0xFFFF) 
 		return;
 	pci_device[device]=deviceID;
-	kprintf("PCI device found! bus=%x,device id=%x,vendor id=%x\n",
-			bus,deviceID,vendorID);
-	kprintf(" device address:%x\n",pci_config_read_word(bus,device,0,0x10));
 }
 
 void scan_for_devices()
@@ -62,7 +59,5 @@ void scan_for_devices()
 
 void init_pci()
 {
-	kprintf("initalizing pci...\n");
 	scan_for_devices();
-	kprintf("pci initalized\n");
 }

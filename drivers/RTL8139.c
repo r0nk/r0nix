@@ -1,4 +1,5 @@
 #include <drivers/RTL8139.h>
+#include <drivers/pci.h>
 #include <kprint.h>
 #include <stdint.h>
 #include <io.h>
@@ -40,9 +41,11 @@ inline void enable_rx_tx()
 	outl(rtl_base_address + 0x37,0xC);
 }
 
-inline void enable_bus_mastering()
+inline void enable_bus_mastering(int devnum)
 {
-	;/*TODO*/
+	uint32_t a =(uint32_t) pci_config_read_word(0,devnum,0,0x4);
+	a|=0x2;
+	pci_config_write_dword(0,devnum,0,0x4,a);
 }
 
 void rtl_acknowledge_interrupt()
@@ -50,11 +53,11 @@ void rtl_acknowledge_interrupt()
 	outl(rtl_base_address+0x3E,0x1);
 }
 
-void init_RTL8139(uint32_t rtl_base_address)
+void init_RTL8139(int devnum)
 {
-	kprintf("initalizing RTL8139\n");
-	rtl_base_address=rtl_base_address;
-	//enable_bus_mastering();//TODO
+	kprintf("initalizing RTL8139, devnum:%x\n",devnum);
+	rtl_base_address=pci_config_read_word(0,devnum,0,0x10);
+	enable_bus_mastering( devnum);//TODO
 	power_on_rtl();
 	software_reset();
 	init_receive_buffer(rx_buffer);
