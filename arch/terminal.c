@@ -93,6 +93,8 @@ void terminal_putchar(char c)
 	if(c=='\n'){
 		term.column=0;
 		term.row++;
+	}else if (c=='\r'){
+		term.column=0;
 	}else{
 		terminal_putentryat(c, term.color, term.column, term.row);
 		term.column++;
