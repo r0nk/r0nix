@@ -41,7 +41,6 @@ void pci_config_write_dword(uint8_t bus,uint8_t slot,
 
 void check_device(uint8_t bus, uint8_t device)
 {
-	uint8_t func = 0;
 	int vendorID = pci_config_read_word(bus,device,0,0);
 	if(vendorID == 0xFFFF) 
 		return;
