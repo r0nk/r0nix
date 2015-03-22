@@ -284,7 +284,7 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 			return;
 		goto ret;
 	}
-
+	kprintf("vector:%x\n",vector);
 	panic("non-handled interrupt");
 ret:
 	acknowledge_interrupt(vector);

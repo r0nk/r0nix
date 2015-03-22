@@ -44,6 +44,7 @@ inline void enable_rx_tx()
 inline void enable_bus_mastering(int devnum)
 {
 	uint32_t a =(uint32_t) pci_config_read_word(0,devnum,0,0x4);
+	kprintf("rtl a:%x\n",a);
 	a|=0x2;
 	pci_config_write_dword(0,devnum,0,0x4,a);
 }
@@ -57,7 +58,7 @@ void init_RTL8139(int devnum)
 {
 	kprintf("initalizing RTL8139, devnum:%x\n",devnum);
 	rtl_base_address=pci_config_read_word(0,devnum,0,0x10);
-	enable_bus_mastering( devnum);//TODO
+//	enable_bus_mastering(devnum);//in our case, bios already enables this.
 	power_on_rtl();
 	software_reset();
 	init_receive_buffer(rx_buffer);
