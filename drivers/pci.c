@@ -42,10 +42,12 @@ void pci_config_write_dword(uint8_t bus,uint8_t slot,
 void check_device(uint8_t bus, uint8_t device)
 {
 	int vendorID = pci_config_read_word(bus,device,0,0);
+	int deviceID = pci_config_read_word(bus,device,0,2);
 	if(vendorID == 0xFFFF) 
 		return;
-	kprintf("PCI device found! bus=%x,device=%x,vid=%x\n",
-			bus,device,vendorID);
+	pci_device[device]=deviceID;
+	kprintf("PCI device found! bus=%x,device id=%x,vendor id=%x\n",
+			bus,deviceID,vendorID);
 	kprintf(" device address:%x\n",pci_config_read_word(bus,device,0,0x10));
 }
 
