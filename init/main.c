@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include <drivers/pci.h>
 #include <string.h>
 #include <kprint.h>
 #include <panic.h>
@@ -17,7 +18,6 @@
 #include <fs.h>
 #include <mm.h>
 #include <exec.h>
-#include <time_stamp.h>
 
 #include <drivers/block/ramdisk.h>
 
@@ -51,6 +51,7 @@ void initalize_kernel(void * heap,void * multiboot_information)
 	init_disk(multiboot_information);
 	init_fs();
 	enable_keyboard();
+	init_pci();
 }
 
 /* This gets called right after boot.s */
