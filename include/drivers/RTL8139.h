@@ -3,5 +3,6 @@
 #include <stdint.h>
 
 void init_RTL8139(int devnum);
+void rtl_acknowledge_interrupt();
 
 #endif

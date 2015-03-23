@@ -53,7 +53,7 @@ inline void enable_bus_mastering(int devnum)
 
 void rtl_acknowledge_interrupt()
 {
-	outl(rtl_base_address+0x3E,0x1);
+	outw(rtl_base_address+0x3E,0x1);
 }
 
 void init_RTL8139(int devnum)

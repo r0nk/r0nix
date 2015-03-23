@@ -1,4 +1,5 @@
 #include <keyboard.h>
+#include <drivers/RTL8139.h>
 #include <kprint.h>
 #include <desc.h>
 #include <pic.h>
@@ -276,6 +277,12 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 		goto ret;
 	if(vector==0x21){
 		keyboard_irq();
+		goto ret;
+	}
+
+	if(vector==0x2b){
+		kprintf("packet recived!");
+		rtl_acknowledge_interrupt();
 		goto ret;
 	}
 
