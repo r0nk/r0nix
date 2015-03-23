@@ -1,5 +1,6 @@
 #include <drivers/RTL8139.h>
 #include <drivers/pci.h>
+#include <pic.h>
 #include <kprint.h>
 #include <stdint.h>
 #include <io.h>
@@ -28,7 +29,7 @@ inline void init_receive_buffer(char * rx_buf)
 
 inline void set_imr_isr()
 {
-	outl(rtl_base_address+0x3c,0x5);/*sets the TOK and ROK bits high*/
+	outw(rtl_base_address+0x3C,0xE07F);
 }
 
 inline void configure_rcr()
@@ -38,15 +39,16 @@ inline void configure_rcr()
 
 inline void enable_rx_tx()
 {
-	outl(rtl_base_address + 0x37,0xC);
+	outb(rtl_base_address + 0x37,0xC);
 }
 
 inline void enable_bus_mastering(int devnum)
 {
 	uint32_t a =(uint32_t) pci_config_read_word(0,devnum,0,0x4);
 	kprintf("rtl a:%x\n",a);
-	a|=0x2;
-	pci_config_write_dword(0,devnum,0,0x4,a);
+	a|=0x4;
+	pci_config_write_word(0,devnum,11,0x4,a);
+	kprintf("rtl a:%x\n",a);
 }
 
 void rtl_acknowledge_interrupt()
@@ -56,13 +58,17 @@ void rtl_acknowledge_interrupt()
 
 void init_RTL8139(int devnum)
 {
-	kprintf("initalizing RTL8139, devnum:%x\n",devnum);
-	rtl_base_address=pci_config_read_word(0,devnum,0,0x10);
-//	enable_bus_mastering(devnum);//in our case, bios already enables this.
+	rtl_base_address=pci_config_read_word(0,devnum,0,0x10)-1;
+	kprintf("0x3c:%x",pci_config_read_word(0,devnum,0,0x3c));
+	unsigned char irqline = (unsigned char) 
+		pci_config_read_word(0,devnum,0,0x3c);
+//	enable_bus_mastering(devnum);//bios already does this
+
 	power_on_rtl();
 	software_reset();
 	init_receive_buffer(rx_buffer);
 	set_imr_isr();
 	configure_rcr();
 	enable_rx_tx();
+	clear_mask(irqline);
 }

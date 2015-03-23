@@ -1,4 +1,5 @@
 #include <io.h>
+#include <kprint.h>
 
 #define PIC1			0x20
 #define PIC2			0xA0
@@ -26,6 +27,36 @@ void acknowledge_interrupt(int vector)
 	outb(PIC1_COMMAND,0x20);
 }
 
+void clear_mask(unsigned char IRQline)
+{
+	uint16_t port;
+	uint8_t value;
+
+	if(IRQline < 8){
+		port = PIC1_DATA;
+	} else {
+		port = PIC2_DATA;
+		IRQline -=8;
+	}
+	value = inb(port) & ~(1 << IRQline);
+	outb(port,value);
+}
+
+void set_mask(unsigned char IRQline)
+{
+	uint16_t port;
+	uint8_t value;
+
+	if(IRQline < 8){
+		port = PIC1_DATA;
+	} else {
+		port = PIC2_DATA;
+		IRQline -=8;
+	}
+	value = inb(port) | (1 << IRQline);
+	outb(port,value);
+}
+
 void initalize_pic(int master_vector_offset,int slave_vector_offset)
 {
 	unsigned char mask1,mask2;
@@ -48,4 +79,6 @@ void initalize_pic(int master_vector_offset,int slave_vector_offset)
 
 	outb(PIC1_DATA, mask1);
 	outb(PIC2_DATA, mask2);
+
+
 }

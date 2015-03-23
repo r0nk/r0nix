@@ -42,8 +42,8 @@ static char scancode_to_ascii(int scancode)
 
 void enable_keyboard()
 {
-	outb(0x21,0xfd);
-	outb(0xa1,0xff);
+//	outb(0x21,0xfd);
+//	outb(0xa1,0xff);
 	asm("sti");
 }
 

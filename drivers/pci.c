@@ -39,6 +39,24 @@ void pci_config_write_dword(uint8_t bus,uint8_t slot,
 	outl(CONFIG_DATA,dword);
 }
 
+void pci_config_write_word(uint8_t bus,uint8_t slot,
+		uint8_t func, uint8_t offset,uint16_t word)
+{
+	uint32_t address;
+	uint32_t lbus  = (uint32_t)bus;
+	uint32_t lslot = (uint32_t)slot;
+	uint32_t lfunc = (uint32_t)func;
+
+	/* create configuration address */
+	address = (uint32_t)((lbus << 16) | (lslot << 11) | 
+		   (lfunc << 8) | (offset & 0xfc) | ((uint32_t)0x80000000));
+
+	/* write out the address */
+	outl(CONFIG_ADDRESS,address);
+	/* write out the data */
+	outw(CONFIG_DATA,word);
+}
+
 void check_device(uint8_t bus, uint8_t device)
 {
 	int vendorID = pci_config_read_word(bus,device,0,0);
