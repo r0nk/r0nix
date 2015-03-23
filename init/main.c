@@ -47,9 +47,9 @@ void initalize_kernel(void * heap,void * multiboot_information)
 
 	initalize_gdt();
 	initalize_interrupts();
+	//FIXME aparently the pic is throwing strange interrupts
 	initalize_pic(0x20,0x28);
 	enable_keyboard();
-	while(1);
 
 	init_disk(multiboot_information);
 	init_fs();

@@ -79,6 +79,5 @@ void initalize_pic(int master_vector_offset,int slave_vector_offset)
 
 	outb(PIC1_DATA, mask1);
 	outb(PIC2_DATA, mask2);
-
-
+	set_mask(0);//we dont want timer interrupts
 }

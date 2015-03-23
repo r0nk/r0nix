@@ -59,7 +59,6 @@ void rtl_acknowledge_interrupt()
 void init_RTL8139(int devnum)
 {
 	rtl_base_address=pci_config_read_word(0,devnum,0,0x10)-1;
-	kprintf("0x3c:%x",pci_config_read_word(0,devnum,0,0x3c));
 	unsigned char irqline = (unsigned char) 
 		pci_config_read_word(0,devnum,0,0x3c);
 //	enable_bus_mastering(devnum);//bios already does this
