@@ -39,7 +39,6 @@ void init_disk(struct Multiboot_Information * mbi)
 
 void initalize_kernel(void * heap,void * multiboot_information)
 {
-	/* we initalize the terminal early so we can see errors */
 	initialize_terminal();
 	kprintf("- r0nix -\n initalizing kernel...\n");
 
@@ -47,7 +46,6 @@ void initalize_kernel(void * heap,void * multiboot_information)
 
 	initalize_gdt();
 	initalize_interrupts();
-	//FIXME aparently the pic is throwing strange interrupts
 	initalize_pic(0x20,0x28);
 	enable_keyboard();
 
@@ -58,11 +56,9 @@ void initalize_kernel(void * heap,void * multiboot_information)
 	init_net();
 }
 
-/* This gets called right after boot.s */
 void kernel_main(void * heap,void * multiboot_information)
 {
 	initalize_kernel(heap,multiboot_information);
-	kprintf("finished initalizing, exec-ing /r0sh\n");
 	exec("/r0sh");
 	panic("reached end of kernel_main()");
 }
