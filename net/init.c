@@ -13,4 +13,7 @@ void init_net()
 	}
 	if(i==19)
 		kprintf("net: No devices found\n");
+
+	char * hello="ABCDEFGHIJKLMNOPQRSTUVWXYZ nananananaslkdfjasldfjasldkfjasldkfjasdklf batman sldfja;lsdkjfalsdkjfal;skdjf;lakjsd;flkajsdf;laksdjfalsdkjfa;sldkfjasdlkfjasl;dfkjasdkflajsdfkajsdflkasdjfasldkfjasdlkfjasdlfkjasdlkfjasdlkfjasdlkfjasdlkfjasdlkfjasdlfkjasdflkjasdlfkjasdlfkjasdflkajsdflkjsadlfkjasdlkfj";
+	rtl_transmit(hello,200);
 }

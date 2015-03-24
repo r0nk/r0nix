@@ -281,7 +281,6 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 	}
 
 	if(vector==0x2b){
-		kprintf("packet recived!");
 		rtl_acknowledge_interrupt();
 		goto ret;
 	}
