@@ -20,7 +20,7 @@
 #include <mm.h>
 #include <exec.h>
 
-#include <drivers/block/ramdisk.h>
+#include <drivers/ramdisk.h>
 
 #if defined(__linux__)
 #error "You must use a cross compiler."

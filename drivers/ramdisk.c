@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <multiboot.h>
 #include <block.h>
-#include <drivers/block/ramdisk.h>
+#include <drivers/ramdisk.h>
 #include <kprint.h>
 
 void * ramdisk1_addr; /*TODO FIXME this is a horrible ugly way of doing it*/
