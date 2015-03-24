@@ -59,6 +59,7 @@ void initalize_kernel(void * heap,void * multiboot_information)
 void kernel_main(void * heap,void * multiboot_information)
 {
 	initalize_kernel(heap,multiboot_information);
+	kprintf("150=%i",150);
 	exec("/r0sh");
 	panic("reached end of kernel_main()");
 }

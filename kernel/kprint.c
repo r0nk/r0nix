@@ -13,6 +13,13 @@ static void f_string(char * s)
 		terminal_putchar(s[i]);
 }
 
+static void f_int(int x)
+{
+	char s[9]="$$$$$$$$";
+	itoa(x,s);
+	f_string(s);
+}
+
 static void f_hex(unsigned int x)
 {
 	char s[9]="$$$$$$$$";
@@ -38,6 +45,9 @@ void kprintf(const char * format,...)
 		if(format[i]=='%'){
 			i++;
 			switch(format[i]){
+				case 'i':
+					f_int(va_arg(args,int));
+					break;
 				case 'x':
 					f_hex(va_arg(args,unsigned int));
 					break;
