@@ -4,7 +4,7 @@
 
 char rx_buffer[8192+16];
 void init_RTL8139(int devnum);
-void rtl_acknowledge_interrupt();
+void rtl_handle_interrupt();
 void rtl_transmit(char * data,int size);
 
 #endif

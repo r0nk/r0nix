@@ -281,7 +281,7 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 	}
 
 	if(vector==0x2b){
-		rtl_acknowledge_interrupt();
+		rtl_handle_interrupt();
 		goto ret;
 	}
 
