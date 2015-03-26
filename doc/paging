@@ -1,0 +1,43 @@
+_Paging_ (or linear-address translation) is the process of translating linear
+addresses so that they can be used to access memory or I/O devices.
+
+Paging translates each linear address to a _physical address_ and determines,
+for each translation, what accesses to the linear address are allowed 
+(the address's _access rights_) and the type of caching used for such 
+accesses(the address's _memory type_).
+
+
+Paging behavior is contolled by the following control bits:
+~	The WP and PG flags in control register CR0
+~	The PSE, PAE, PGE, PCIDE, SMEP, and SMAP flags in control register CR4
+~	The LME and NXE flags in the IA32_EFER MSR
+~	The AC flag in the EFLAGS register (bit 18).
+
+Software enables paging by using the MOV to CR0 instruction to set CR0.pg.
+Before doing so, software should ensure that control register CR3 contains
+the physical address of the first paging structure that the processor will
+use for linear-address translation and that structure is initalized as desired.
+
+There are three different paging modes, but we will just use 32bit.
+
+Hierarchial paging structures
+-----------------------------
+All three paging modes translate linear addresses use _hierarchial paging structures_. 
+
+Every paging structure is 4096 bytes in size and comprises a number of 
+individual _entries_. With 32-bit paging, each entry is 32 bits; there are 
+thus 1024 entries in each structure.
+
+The processor uses the upper portion of a linear address to identify a series 
+of paging-structure entries. The last of these entries identifies the 
+physical address of the region to which the linear address translates (called
+the _page frame_). The lower portion of the linear address (called the 
+_page offset_) identifies the specific address within that region to which
+the linear address translates.
+
+Each paging-structure entry contains a physical address, which is either the
+address of another paging structure or the address of a page frame. In the 
+first case, the entry is said to _reference_ the other paging structure;
+in the latter, the entry is said to _map a page_.
+
+
