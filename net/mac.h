@@ -2,17 +2,22 @@
 #define MAC
 #include <stdint.h>
 
-struct mac_address{
+#define MAX_MAC_LENGTH 1500
+
+struct mac_address {
 	uint8_t o[6];
 }__attribute__((packed));
 
-struct mac_packet{
+struct mac_packet {
 	uint64_t preamble_sfd;
 	struct mac_address destination;
 	struct mac_address source;
 	uint16_t length;
+	uint8_t data[MAX_MAC_LENGTH];
 }__attribute__((packed));
 
-char * mac_encap(char * packet,int size,struct mac_address destination);
+struct mac_address our_mac;
+
+struct mac_packet mac_create_pkt(char * packet, int size, int type);
 
 #endif
