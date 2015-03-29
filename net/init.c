@@ -19,4 +19,7 @@ void init_net()
 		return;
 	}
 	send_arp_request();
+	char * hello = "hello world!";
+	struct mac_packet mpkt=mac_create_pkt((void*)&hello, 12, 0x800);
+	rtl_transmit((void*)&mpkt,12 + (sizeof(mpkt)-MAX_MAC_LENGTH));
 }

@@ -21,8 +21,8 @@ uint16_t pci_config_read_word(uint8_t bus,uint8_t slot,
 	return (uint16_t)((inl(CONFIG_DATA) >> ((offset&2)*8))&0xffff);
 }
 
-void pci_config_write_dword(uint8_t bus,uint8_t slot,
-		uint8_t func, uint8_t offset,uint32_t dword)
+void pci_config_write_dword(uint8_t bus,uint8_t slot,uint8_t func, 
+		uint8_t offset,uint32_t dword)
 {
 	uint32_t address;
 	uint32_t lbus  = (uint32_t)bus;
