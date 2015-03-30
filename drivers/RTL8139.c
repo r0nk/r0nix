@@ -44,12 +44,15 @@ inline void init_receive_buffer(char * rx_buf)
 
 inline void set_imr_isr()
 {
-	outw(rtl_base_address+0x3C,0xEF7F);
+	outw(rtl_base_address+0x3C,0xFFFF);
 }
 
 inline void configure_rcr()
 {
-	outl(rtl_base_address + 0x44,0xf | (1<<7));
+	uint32_t a = 0;
+	a = 0xf|(1<<7);
+	a = a^(1<<5);
+	outl(rtl_base_address + 0x44,a);
 }
 
 inline void enable_rx_tx()
@@ -60,30 +63,44 @@ inline void enable_rx_tx()
 inline void rtl_enable_config_write()
 {
 	int a = inb(rtl_base_address + 0x50);
-	a|=0xC0;
-	outb(rtl_base_address + 0x50,a);
+	outb(rtl_base_address + 0x50,(a|0xC0));
 }
 
 inline void enable_bus_mastering(int devnum)
 {
 	uint32_t a =(uint32_t) pci_config_read_word(0,devnum,0,0x4);
 	rtl_enable_config_write();
-	kprintf("rtl a:%x\n",a);
-	a|=0x4;
-	pci_config_write_dword(0,devnum,0,0x4,a);
-	kprintf("a:%x\n",a);
-	a = (uint32_t) pci_config_read_word(0,devnum,0,0x4);
-	kprintf("rtl a:%x\n",a);
+	pci_config_write_dword(0,devnum,0,0x4,(a|0x4));
+}
+
+inline void enable_crc()
+{
+	uint32_t a = inl(rtl_base_address+0x40);
+	a|=(1<<16);
+	outl(rtl_base_address+0x40,a);
+}
+
+inline void enable_loopback()
+{
+	uint32_t a = inl(rtl_base_address+0x40);
+	a|=(1<<17);
+	a|=(1<<18);
+	outl(rtl_base_address+0x40,a);
 }
 
 void rtl_receive_packet()
 {
-	uint16_t pkt_length=*(uint16_t*)(rx_buffer + read_ptr + 2);
+	uint16_t pkt_length=*(uint16_t*) (rx_buffer + read_ptr + 2);
 
 	/*TODO add something to handle the packet here*/
-	kprintf(" rtl packet recieved:\n%s",rx_buffer + read_ptr + 4);
+
 	/*update read pointer*/
-	read_ptr = (read_ptr + pkt_length + 7) &RX_READ_PONTER_MASK;
+	read_ptr = (read_ptr + pkt_length + 7) & RX_READ_PONTER_MASK;
+
+	/*(its a circular buffer)*/
+	if(read_ptr > RX_BUF_SIZE)
+		read_ptr-=RX_BUF_SIZE;
+
 	outw(rtl_base_address+CAPR, read_ptr-0x10);
 }
 
@@ -95,9 +112,12 @@ void rtl_handle_interrupt()
 
 	status = inw(rtl_base_address+0x3E);
 
+	kprintf("interrupt rtl status: %x\n",status);
+
 	if(status&TER){
 		panic("RTL TER set");
-	}else if (status&RER){
+	}
+	if (status&RER){
 		panic("RTL RER set");
 	}
 
@@ -105,7 +125,8 @@ void rtl_handle_interrupt()
 		tx_status = inl(rtl_base_address+0x10+offset);
 		if(tx_status&TX_TOK)
 			outl(rtl_base_address+0x10+offset,0);
-	} else if(status&ROK){
+	}
+	if(status&ROK){
 		rtl_receive_packet();
 	}
 
@@ -153,5 +174,7 @@ void init_RTL8139(int devnum)
 	set_imr_isr();
 	configure_rcr();
 	enable_rx_tx();
+//	enable_loopback();
+//	enable_crc();
 	clear_mask(irqline);
 }

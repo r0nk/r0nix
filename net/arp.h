@@ -19,6 +19,7 @@ struct arp_packet{
 	uint32_t spa;/* sender protocol address */
 	struct mac_address tha;/*target hardware address*/
 	uint32_t tpa;/*target protocol address*/
+	uint8_t padding[200];/*padding to reach size requirements*/
 }__attribute__((packed));
 
 void send_arp_request();

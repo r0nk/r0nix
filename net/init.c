@@ -18,8 +18,8 @@ void init_net()
 		kprintf("net: No devices found.\n");
 		return;
 	}
-	send_arp_request();
+//	send_arp_request();
 	char * hello = "hello world!";
-	struct mac_packet mpkt=mac_create_pkt((void*)&hello, 12, 0x800);
-	rtl_transmit((void*)&mpkt,12 + (sizeof(mpkt)-MAX_MAC_LENGTH));
+	struct mac_packet mpkt=mac_create_pkt((void *)hello, 12, 0x800);
+	rtl_transmit((void*)&mpkt, 50 + (sizeof(mpkt)-MAX_MAC_LENGTH));
 }

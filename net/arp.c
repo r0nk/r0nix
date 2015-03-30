@@ -2,7 +2,6 @@
 #include "mac.h"
 #include "arp.h"
 
-
 /*__builtin_bswap */
 void send_arp_request()
 {
@@ -16,8 +15,12 @@ void send_arp_request()
 	apkt.sha = our_mac;
 	apkt.spa = 0xabcdefab;/*constant because we dont have proto yet*/
 	apkt.tpa = 0x08080808;/*yay google!*/
+	int i;
+	for(i=0;i<200;i++)
+		apkt.padding[i]=0;
 
 	struct mac_packet mpkt;
-	mpkt=mac_create_pkt((void*)&apkt, sizeof(apkt), ETHRTYPE_ARP);
-	rtl_transmit((void*)&mpkt,sizeof(apkt) + (sizeof(mpkt)-MAX_MAC_LENGTH));
+	mpkt=mac_create_pkt((void*)&apkt, sizeof(apkt)+200, ETHRTYPE_ARP);
+	rtl_transmit((void*)&mpkt,
+			sizeof(apkt)+200 + (sizeof(mpkt)-MAX_MAC_LENGTH));
 }

@@ -9,7 +9,6 @@ struct mac_address {
 }__attribute__((packed));
 
 struct mac_packet {
-	uint64_t preamble_sfd;
 	struct mac_address destination;
 	struct mac_address source;
 	uint16_t length;

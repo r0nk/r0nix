@@ -275,6 +275,7 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 {
 	if(vector==0x20)/*then its just a timer, we don't have to care*/
 		goto ret;
+
 	if(vector==0x21){
 		keyboard_irq();
 		goto ret;
@@ -287,7 +288,9 @@ void generic_interrupt_handler(struct Cpu_state s,int vector)
 
 	if(vector==0x80){
 		system_call(&s);
-		/*under these 'if' conditions, the int is already acked*/
+		/* under these 'if' conditions, the int is already acked...
+		 * TODO:...which is a super messy way of doing it.
+		 */
 		if(s.eax==SYSCALL_READ && s.ebx == 0)
 			return;
 		goto ret;
