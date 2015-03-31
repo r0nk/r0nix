@@ -6,6 +6,8 @@
 #include <panic.h>
 #include <io.h>
 
+#include "../net/mac.h"
+
 /* much of this comes from wiki.osdev.org/RTL8139 */
 /* TODO: lots and lots of magic numbers that should be replaced here.*/
 
@@ -86,6 +88,22 @@ inline void enable_loopback()
 	a|=(1<<17);
 	a|=(1<<18);
 	outl(rtl_base_address+0x40,a);
+}
+
+inline void configure_mac_addr()
+{
+	our_mac.o[0]=inb(rtl_base_address+0x0);
+	our_mac.o[1]=inb(rtl_base_address+0x1);
+	our_mac.o[2]=inb(rtl_base_address+0x2);
+	our_mac.o[3]=inb(rtl_base_address+0x3);
+	our_mac.o[4]=inb(rtl_base_address+0x4);
+	our_mac.o[5]=inb(rtl_base_address+0x5);
+	kprintf("[0]:%x\n",our_mac.o[0]);
+	kprintf("[1]:%x\n",our_mac.o[1]);
+	kprintf("[2]:%x\n",our_mac.o[2]);
+	kprintf("[3]:%x\n",our_mac.o[3]);
+	kprintf("[4]:%x\n",our_mac.o[4]);
+	kprintf("[5]:%x\n",our_mac.o[5]);
 }
 
 void rtl_receive_packet()
@@ -173,6 +191,7 @@ void init_RTL8139(int devnum)
 	init_receive_buffer(rx_buffer);
 	set_imr_isr();
 	configure_rcr();
+	configure_mac_addr();
 	enable_rx_tx();
 //	enable_loopback();
 //	enable_crc();

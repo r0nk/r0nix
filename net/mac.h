@@ -8,6 +8,8 @@ struct mac_address {
 	uint8_t o[6];
 }__attribute__((packed));
 
+struct mac_address our_mac;
+
 struct mac_packet {
 	struct mac_address destination;
 	struct mac_address source;
