@@ -98,12 +98,6 @@ inline void configure_mac_addr()
 	our_mac.o[3]=inb(rtl_base_address+0x3);
 	our_mac.o[4]=inb(rtl_base_address+0x4);
 	our_mac.o[5]=inb(rtl_base_address+0x5);
-	kprintf("[0]:%x\n",our_mac.o[0]);
-	kprintf("[1]:%x\n",our_mac.o[1]);
-	kprintf("[2]:%x\n",our_mac.o[2]);
-	kprintf("[3]:%x\n",our_mac.o[3]);
-	kprintf("[4]:%x\n",our_mac.o[4]);
-	kprintf("[5]:%x\n",our_mac.o[5]);
 }
 
 void rtl_receive_packet()
@@ -129,8 +123,6 @@ void rtl_handle_interrupt()
 	uint32_t tx_status;
 
 	status = inw(rtl_base_address+0x3E);
-
-	kprintf("interrupt rtl status: %x\n",status);
 
 	if(status&TER){
 		panic("RTL TER set");
