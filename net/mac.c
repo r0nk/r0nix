@@ -4,7 +4,6 @@
 
 #include "mac.h"
 
-
 /* just broadcast to all for now */
 struct mac_address dest_mac = {{0xff,0xff,0xff,0xff,0xff,0xff}};
 

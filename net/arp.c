@@ -2,7 +2,6 @@
 #include "mac.h"
 #include "arp.h"
 
-/*__builtin_bswap */
 void send_arp_request()
 {
 	struct arp_packet apkt;
