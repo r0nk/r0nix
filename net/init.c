@@ -2,8 +2,10 @@
 #include <drivers/pci.h>
 #include <drivers/RTL8139.h>
 #include <kprint.h>
+#include "ipv4.h"
 #include "arp.h"
 #include "mac.h"
+#include "util.h"
 
 void init_net()
 {
@@ -18,5 +20,6 @@ void init_net()
 		kprintf("net: No devices found.\n");
 		return;
 	}
-	send_arp_request();
+//	send_arp_request();
+	ping(0x08080808);
 }

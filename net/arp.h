@@ -6,8 +6,6 @@
 #define ARP_HRD_ETHERNET 1
 #define ARP_OP_REQUEST 1
 #define ARP_OP_REPLY 2
-#define ETHRTYPE_IPV4 0x800
-#define ETHRTYPE_ARP 0x806
 
 struct arp_packet{
 	uint16_t hrd;/*hardware field*/
