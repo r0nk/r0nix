@@ -53,7 +53,7 @@ void initalize_kernel(void * heap,void * multiboot_information)
 	init_fs();
 
 	init_pci();
-	init_net();
+//	init_net();
 }
 
 void kernel_main(void * heap,void * multiboot_information)

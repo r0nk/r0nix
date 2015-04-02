@@ -23,5 +23,5 @@ r0nix: $(OBJFILES)
 clean:
 	rm $(OBJFILES)
 	rm r0nix
-run:
+run: r0nix
 	./scripts/vmrun.sh
