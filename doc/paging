@@ -18,10 +18,10 @@ Before doing so, software should ensure that control register CR3 contains
 the physical address of the first paging structure that the processor will
 use for linear-address translation and that structure is initalized as desired.
 
-There are three different paging modes, but we will just use 32bit.
+/*There are three different paging modes, but we will just use 32bit.*/
 
 Hierarchial paging structures
------------------------------
+--------------------------------------------------------------------------------
 All three paging modes translate linear addresses use _hierarchial paging structures_. 
 
 Every paging structure is 4096 bytes in size and comprises a number of 
@@ -39,5 +39,145 @@ Each paging-structure entry contains a physical address, which is either the
 address of another paging structure or the address of a page frame. In the 
 first case, the entry is said to _reference_ the other paging structure;
 in the latter, the entry is said to _map a page_.
+
+The first paging structure used for any translation is located at the physical
+address in CR3. A linear address is translated using the following iterative
+procedure. 
+
+With 32-bit paging, each paging structure comprises 1024 entries. For this
+reason, the translation process uses 10 bits at a time from a 32-bit linear
+address. Bits 31:22 identify the first paging-structure entry and bits 21:12
+identify a second. The latter identifies the page frame. Bits 11:0 of the
+linear address are the page offset within the 4-KByte page frame.
+
+The translation process completes by identifying a page frame; the page frame
+is part of the _translation_ of the original linear address.
+In some cases, however, the paging structures may be configured so that
+translation process terminates before identifying a page frame. This occurs
+if process encounters a paging-structure entry that is marked "not present" or
+in which a reserved bit is set. In this case, there is no translation for the
+linear address; an access to that address causes a page-fault exception.
+
+
+32-bit paging
+--------------------------------------------------------------------------------
+A logical processor uses 32-bit paging if CR0.PG==1 and CR4.PAE==0. 
+32-bit paging translates 32-bit linear addresses to 40-bit physical addresses.
+Although 40 bits corresponds to 1 TByte, linear addresses are limited to 32 
+bits; at most 4 GBytes of linear-address space may be accessed at any given 
+time.
+
+32-bit paging uses a hierarchy of paging structures to produce a translation
+for a linear address. CR3 is used to locate the first paging-structure, the
+page directory. 
+32-bit paging may map linear addresses to either 4-Kbyte pages or 4-MByte
+pages.  The following items describe the 32-bit paging process in more detail 
+as well as how the page size is determined:
+	* A 3-KByte naturally aligned page directory is located at the 
+	physical address specified in bits 31:12 of CR3. A page directory 
+	comprises 1024 32-bit entries (PDEs). A PDE is selected using the 
+	physical address defined as follows:
+	 - Bits 39:32 are all 0.
+	 - Bits 31:12 are from CR3.
+	 - Bits 11:2 are bits 31:22 of the linear address.
+	 - Bits 1:0 are 0.
+
+Because a PDE is identified using bits 32:22 of the linear address, It controls
+access to a 4-MByte region of the linear-address space. Use of the PDE depends
+on the CR.PSE and the PDE's PS flag (bit 7):
+	* If CR4.PSE == 1 and the PDE's PS flag is 1, the PDE maps a 4-MByte
+	 page. /*...*/
+	* If CR4.PSE == 0 or the PDE's PS flag is 0, a 4-KByte naturally 
+	 aligned page table is located at the physical address specified
+	 in bits 31:12 of the PDE. A Page table comprises 1024 32-bit entries
+	 (PTEs). /*...*/
+	* Because a PTE is identified using bits 31:12 of the linear address,
+	 every PTE maps a 4-KByte page. /*...*/
+
+If a paging-structure entry's P flag (bit 0) is 0 or if the entry sets any
+reserved bit, the entry is used NEITHER to reference another paging-structure
+entry NOR to map a page. There is no translation for a linear address whose
+translation would use such a paging-structure entry; a reference to such a 
+linear address causes a page-fault exception.
+
+With 32-bit paging, there are reserved bits only if CR4.PSE = 1:
+	* If the P flag and the PS flag (bit 7) of a PDE are both 1, the bits
+	 reserved depend on MAXPHYADDR whether the PSE-36 mechanism is
+	 supported. 
+	 - If the PSE-36 mechanism is NOT supported, 
+	 	bits 21:13 are reserved
+	 - else
+	 	bits 21:(M-19) are reserved, where M is the minimum of 40 and
+		MAXPHYADDR
+	* If the PAT is not supported:
+	 - If the P flag of a PTE is 1, bit 7 is reserved.
+	 - If the P flag and the PS flag of a PDE are both 1, bit 12 is reserved
+(If CR4.PSE = 0, no bits are reserved with 32-bit paging.)
+
+A reference using a linear address that is successfully translated to a physical
+address is performed only if allowed by the access rights of the translation.
+
+Acess Rights
+--------------------------------------------------------------------------------
+Whether an access is permitted by a translation is determined by the access
+rights specified by the paging-structure entries controlling the translation;
+paging-mode modifiers in CR0, CR4, and the IA32_EFER MSR; EFLAGS.AC; and the
+mode of the access.
+Every access to a linear address is either a 
+	_supervisor-mode access_ 
+or a
+	_user-mode access_
+For all instruction fetches and most data accesses, this  distinction is 
+determined by the current privilege level (CPL): accesses made while CPL < 3 
+are supervisor-mode accesses, while accesses made while CPL = 3 are user-mode
+accesses.
+
+Some operations implicitly access system data structures with linear addresses;
+the resulting accesses to those data structures are supervisor-mode accesses
+regardless of CPL. Examples of such accesses include the following: 
+ * accesses to the global descriptor table (GDT) or local descriptor table (LDT)
+  to load a segment descriptor; 
+ * accesses to the interrupt descriptor table (IDT) when delivering an 
+  interrupt or exception; 
+ * and accesses to the task-state segment (TSS) as part of a task switch or 
+  change of CPL.
+
+All these accesses are called _Implicit supervisor-mode accesses_ regardless of
+CPL. Other accesses made while CPL < 3 are called 
+_explicit supervisor-mode accesses_.
+
+Access rights are also controlled by the _mode_ of a linear address as specifed
+by the paging-structure entries controlling the translation of the linear 
+address. If the U/S flag (bit 2) is 0 in at least one of the paging-structure
+entries, the address is a _supervisor-mode address_. Otherwise, the address is
+a _user-mode address_.
+
+A processor may cache information from the paging-structure entries in TLBs and
+paging-structure caches. These structures may include information about access
+rights. The processor may enforce access rights based on the TLBs and 
+paging-structure caches instead of on the paging structures in memory.
+
+
+Page-Fault Exceptions
+--------------------------------------------------------------------------------
+Accesses using linear addresses may cause _page-fault exceptions_.An access to
+a linear address may cause page-fault exception for either of two reasons:
+	- no translation for the linear address;
+or
+	- there is a translation for the linear address, but its access rights
+	do not permit the access.
+
+
+Accessed and Dirty flags
+--------------------------------------------------------------------------------
+For any paging-structure entry that is used during linear-address translation,
+bit 5 is the _accessed_ flag. For paging-structure entries that map a page,
+bit 6 is the _dirty_ flag.
+
+Paging and Memory Typing
+--------------------------------------------------------------------------------
+The _memory type_ of a memory access refers to the type of caching used for 
+that access.
+
 
 

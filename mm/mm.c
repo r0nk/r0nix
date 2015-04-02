@@ -1,5 +1,6 @@
 #include <mm.h>
 #include <panic.h>
+#include "paging/paging.h"
 
 #define MAX_HEAP_ALLOC 1024
 #define HEAP_BLOCK_SIZE 1024
@@ -12,6 +13,8 @@ void init_mm(void * heap,unsigned long long heapsize)
 	mm_heap = heap;
 	mm_heap_bitmap = 0;
 	mm_heapsize = heapsize;
+
+	init_paging();
 
 	q=kmalloc(1000);
 	q_size=0;
