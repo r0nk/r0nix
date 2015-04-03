@@ -1,6 +1,6 @@
 #include <mm.h>
 #include <panic.h>
-#include "paging/paging.h"
+#include "paging.h"
 
 #define MAX_HEAP_ALLOC 1024
 #define HEAP_BLOCK_SIZE 1024

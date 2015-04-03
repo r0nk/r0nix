@@ -1,0 +1,20 @@
+In protected mode, the Intel 64 and IA-32 architectures provide a protection 
+mechanism that operates at both the segment level and the page level. This 
+protection mechanism provides the ability to limit access to certain segments
+or pages based on privilege levels.
+
+Critical operating-system code and data can be protected by placing them in
+more privileged segments then those containing applications code. 
+
+When the protection mechanism is used, each memory reference is checked to 
+verify that it satisfies various protection checks. All checks are made before 
+the memory cycle is started; any violation results in an exception. Because
+checks are performed in parallel with address translation, there is no 
+performance penalty. The protection checks that are performed fall into the
+following categories:
+	* limit checks
+	* type checks
+	* Privilege level checks.
+	* Restriction of addressable domain.
+	* Restriction of procedure entry-points.
+	* Restriction of instruction set.
