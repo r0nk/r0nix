@@ -1,29 +1,5 @@
-ok, so now the next goal is getting a shell working.
+ok, so we have a version of paging in place.
 
-In order to do that, I'm going to want to have a ton of stuff
- [-] filesystem
- [-] processes
- [X] syscalls
+However, we still need to secure ourselves in the form of getting out of ring
+zero.
 
-Filesystems:
------------
-[X] open
-[X] close
-[-] read /* indirect pointers not finished */
-[ ] write /*only writes to stdout*/
-
-Processes:
----------
-[X] kexec
-[ ] fork()
-[ ] userspace exec
-
-Syscalls:
----------
-/* The syscalls are there, not neccecarily the things behind them */
-[X] open
-[X] close
-[X] read
-[X] write
-[X] fork
-[X] execve

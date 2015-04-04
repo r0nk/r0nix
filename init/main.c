@@ -29,6 +29,9 @@
 #if !defined(__i386__)
 #error "This kernel has to be compiled with a ix86-elf compiler."
 #endif
+/*the linker script (misc/linker.ld) defines these*/
+extern int start_of_kernel;
+extern int end_of_kernel;
 
 void init_disk(struct Multiboot_Information * mbi)
 {
@@ -40,7 +43,7 @@ void init_disk(struct Multiboot_Information * mbi)
 void initalize_kernel(void * heap,void * multiboot_information)
 {
 	initialize_terminal();
-	kprintf("- r0nix -\n initalizing kernel...\n");
+	kprintf("- r0nix -\n");
 
 	init_mm(heap,16384);
 
@@ -59,6 +62,7 @@ void initalize_kernel(void * heap,void * multiboot_information)
 void kernel_main(void * heap,void * multiboot_information)
 {
 	initalize_kernel(heap,multiboot_information);
+	kprintf("kernel size: 0x%x bytes\n",&end_of_kernel-&start_of_kernel);
 	exec("/r0sh");
 	panic("reached end of kernel_main()");
 }

@@ -18,3 +18,27 @@ following categories:
 	* Restriction of addressable domain.
 	* Restriction of procedure entry-points.
 	* Restriction of instruction set.
+
+All protection violation results in an exception being generated.
+
+Setting the PE flag in register CR0 causes the processor to switch to protected
+mode, which in turn enables the segment-protection mechanism.
+
+The processor's segment-protection mechanism recognizes 4 privilege levels,
+numbered from 0 to 3. The greater numbers mean lesser privileges. 
+
+Current Privilege Level (CPL) - The CPL is the privilege level of the currently
+executing program or task. It is stored in bits 0 and 1 of the CS and SS segment
+registers. Normally, the CPL is equal to the privilege level of the code segment
+from which instructions are being fetched. The processor changes the CPL when
+program control is transferred to a code segment with a different privilege 
+level. The CPL is treated slightly differently when accessing conforming code
+segments. Conforming code segments can be accessed from any privilege level 
+that is equal to or numerically greater then the DPL of the conforming code
+segment. 
+
+Descriptor privilege level (DPL) - The DPL is the privilege level of a segment
+or gate.
+
+If the operating system uses multiple privilege levels it must create and load
+a TSS.

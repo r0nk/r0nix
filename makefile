@@ -15,11 +15,13 @@ all: r0nix
 
 r0nix: $(OBJFILES)
 	$(CC) -T misc/linker.ld -o r0nix $(CFLAGS) $(OBJFILES) $(LIBS)
+
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(LIBS) $< -o $@
 
 %.o: %.s
 	$(AS) -c $< -o $@
+
 clean:
 	rm $(OBJFILES)
 	rm r0nix

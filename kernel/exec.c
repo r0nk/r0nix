@@ -25,14 +25,12 @@ void exec(char * path){
 	close(fd);
 	fd = open(path);
 
-
 	read_bytes=read(fd,(void *)phdr.p_paddr,phdr.p_filesz);
 
 	if(read_bytes==phdr.p_memsz){
-		program();
+		program();//start executing the program in memory
 	}else{
 		kprintf("bytes read:%x",read_bytes);
 		panic("Unable to exec(), not enough bytes read");
 	}
-
 }
