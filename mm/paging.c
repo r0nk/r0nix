@@ -45,6 +45,7 @@ static void init_kpd()
 	}
 }
 
+#if 0
 void trace_kpd(){
 	int i,s;
 	kprintf("kpd:%x\n",kpd);
@@ -53,11 +54,11 @@ void trace_kpd(){
 		kprintf(" kpd[%i]:%x\n",i,kpd[i]);
 	}
 }
+#endif
 
 void init_paging()
 {
 	init_kpd();
 	enable_four_mb();
-	//trace_kpd();
 	load_crx(kpd);
 }
