@@ -11,15 +11,11 @@
 .long FLAGS
 .long CHECKSUM
 
+/*this is used as the kernel stack*/
 .section .bootstrap_stack, "aw", @nobits
 stack_bottom:
 .skip 16384 # 16 KiB
 stack_top:
-
-#.section .heap, "aw", @nobits
-heap_bottom:
-.skip 16384 # 16 KiB
-heap_top:
 
 .section .text
 .global _start
@@ -28,7 +24,6 @@ _start:
 	movl $stack_top, %esp
 
 	push %ebx /*Multi-boot header is stored in ebx, so we push it*/
-	push $heap_bottom
 
 	call kernel_main
 

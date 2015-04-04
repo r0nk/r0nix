@@ -2,20 +2,14 @@
 #include <panic.h>
 #include "paging.h"
 
-#define MAX_HEAP_ALLOC 1024
-#define HEAP_BLOCK_SIZE 1024
-static void * mm_heap;
-static unsigned long long mm_heapsize;
-static unsigned int mm_heap_bitmap;
+#define MAX_ALLOC 4194304
+#define HEAP_BLOCK_SIZE 4194304
 
-void init_mm(void * heap,unsigned long long heapsize)
+void init_mm()
 {
-	mm_heap = heap;
-	mm_heap_bitmap = 0;
-	mm_heapsize = heapsize;
-
 	init_paging();
 
+	/*queue initalization TODO should be moved */
 	q=kmalloc(1000);
 	q_size=0;
 }
@@ -23,26 +17,25 @@ void init_mm(void * heap,unsigned long long heapsize)
 void * kmalloc(int size)
 {
 	int i;
+	void * ret;
 
-	if(mm_heap_bitmap>=0xff)
+	panic("kmalloc NYI");
+
+/*
+	if(TODO)
 		panic("ran out of heap space.");
+*/
 
 	if(size>=HEAP_BLOCK_SIZE)
 		panic("tried to alloc > max alloc");
 
-	/*find the next free spot in the bitmap*/
-	for(i=0;i<16;i++)
-		if(!(mm_heap_bitmap & (1<<i)))
-			break;
+	/*TODO find the next free spot in the bitmap here*/
 
-	mm_heap_bitmap|=(1<<i);
-	return (mm_heap+(i*HEAP_BLOCK_SIZE));
+	return ret;
 }
 
 void free(void * p)
 {
-	if(p<mm_heap || p>(mm_heap+mm_heapsize))
-		panic("free value out of range");
-	int i = ((p-mm_heap)/HEAP_BLOCK_SIZE);
-	mm_heap_bitmap^=i;
+	/*TODO*/
+	panic("free NYI");
 }
