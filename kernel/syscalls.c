@@ -5,7 +5,7 @@
 #include <panic.h>
 #include <fs.h>
 
-void system_call(struct Cpu_state *s)
+void system_call(struct cpu_state *s)
 {
 	switch(s->eax){
 		case SYSCALL_OPEN:

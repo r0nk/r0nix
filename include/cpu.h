@@ -2,7 +2,7 @@
 #define CPU
 #include <stdint.h>
 
-struct Cpu_state{
+struct cpu_state{
 	uint32_t edi;
 	uint32_t esi;
 	uint32_t ebp;

@@ -10,6 +10,6 @@
 #define SYSCALL_EXEC  5 
 #define SYSCALL_REBOOT 0x99
 
-void system_call(struct Cpu_state * s);
+void system_call(struct cpu_state * s);
 
 #endif
