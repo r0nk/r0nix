@@ -1,7 +1,3 @@
-
 Our implementation of memory management is a simple bitmap,
-
-For filesizes, we use 1024 size blocks, so we mine as well use the same size for
-our heap.
 
 we use 4mb page size, and 32-bit paging mode.

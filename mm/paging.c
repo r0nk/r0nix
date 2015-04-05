@@ -2,9 +2,6 @@
 #include <kprint.h>
 #include "paging.h"
 
-/*just one, identity map, directory for the whole kernel for now*/
-struct pde kpd[PAGE_DIRECTORY_LENGTH]__attribute__((aligned(4096)));
-
 /*TODO:The inline here should probaly be moved to r0nix/arch/ */
 static void load_crx(struct pde * dir)
 {
@@ -24,7 +21,7 @@ static void enable_four_mb()
 	asm("mov %%eax,%%cr4":::"%eax");
 }
 
-static void init_kpd()
+static void init_kpd(void * kernel_start, void * kernel_end)
 {
 	int i;
 	for(i=0;i<PAGE_DIRECTORY_LENGTH;i++){
@@ -40,9 +37,13 @@ static void init_kpd()
 		kpd[i].write_through=0;
 		kpd[i].super=0;
 		kpd[i].read_write=1;
-		kpd[i].present=1;
+		kpd[i].present=0;
 		kpd[i].frame_addr=i;
 	}
+	if((kernel_end-kernel_start)>PAGE_SIZE)
+		panic("kernel bigger then a single page");
+	int ki = ((unsigned int)kernel_start)/PAGE_SIZE;
+	kpd[ki].present=1;/* let paging know the kernel space is allocated */
 }
 
 #if 0
@@ -56,9 +57,9 @@ void trace_kpd(){
 }
 #endif
 
-void init_paging()
+void init_paging(void * kernel_start, void * kernel_end)
 {
-	init_kpd();
+	init_kpd(kernel_start,kernel_end);
 	enable_four_mb();
 	load_crx(kpd);
 }

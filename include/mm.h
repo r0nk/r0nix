@@ -1,7 +1,7 @@
 #ifndef MM
 #define MM
 
-void init_mm();
+void init_mm(void * kernel_start,void * kernel_end);
 void * kmalloc(int size);
 void free(void * p);
 

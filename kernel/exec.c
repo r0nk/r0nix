@@ -1,5 +1,3 @@
-/* FIXME TODO most of this file has obvious issues (no protection, etc) */
-
 #include <fs.h>
 #include <exec.h>
 #include <kprint.h>
@@ -9,28 +7,22 @@
 #include "elf/elf.h"
 
 void exec(char * path){
-	void (*program)(void);
 	int fd  = open(path);
-	if(fd<1){
-		kprintf("fd:%x",fd);
-		panic("Couldn't exec, fd<1");
-		return;/* should never occur */
-	}
-	unsigned int read_bytes=0;
+	if(fd<1)
+		panic("exec:fd<1");
+	unsigned int read_bytes = 0;
 	struct elf32_hdr hdr = get_elf_hdr(fd);
 	struct elf32_phdr phdr = get_elf_phdr(fd);
 	program = (void *)hdr.e_entry;
 
-	/*set the fd to zero*/
+	/*set the fd read head to zero*/
 	close(fd);
 	fd = open(path);
 
-	read_bytes=read(fd,(void *)phdr.p_paddr,phdr.p_filesz);
-
-	if(read_bytes==phdr.p_memsz){
-		program();//start executing the program in memory
-	}else{
-		kprintf("bytes read:%x",read_bytes);
-		panic("Unable to exec(), not enough bytes read");
-	}
+	/*TODO read in the whole file to its given page*/
+	panic("exec: read destination nyi");
+	if(read_bytes!=phdr.p_memsz)
+		panic("exec: not enough bytes read from file");
+	
+	/*TODO add it to the schedular and stuff*/
 }

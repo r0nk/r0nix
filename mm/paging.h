@@ -1,9 +1,12 @@
 #ifndef PAGING
 #define PAGING
 
-/* NOTE with 4mb pages, bits 21 through 12 are reversed! 
- * (we use 4mb pages)
- */
+/* with 4mb pages, bits 21 through 12 are reversed! (and we use 4mb pages) */
+
+#define PAGE_DIRECTORY_LENGTH 1024 /* = (4gb / 4mb) */
+
+/*we should probably try to use something different here */
+#define PAGE_SIZE 4194304
 
 struct pde { /*page directory entry*/
 	unsigned int present: 1;/*must be 1 to map*/
@@ -23,8 +26,11 @@ struct pde { /*page directory entry*/
 	unsigned int frame_addr: 10;
 }__attribute__((packed));
 
-#define PAGE_DIRECTORY_LENGTH 1024 /* = (4gb / 4mb) */
+/* Just one identity map directory for the whole kernel for now,
+ * to serve as the root paging directory.
+ */
+struct pde kpd[PAGE_DIRECTORY_LENGTH]__attribute__((aligned(4096)));
 
-void init_paging();
+void init_paging(void * kernel_start, void * kernel_end);
 
 #endif

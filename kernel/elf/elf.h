@@ -328,4 +328,7 @@ typedef struct elf32_note {
 struct elf32_hdr get_elf_hdr(int fd);
 struct elf32_phdr get_elf_phdr(int fd);
 
+void trace_elf_hdr(struct elf32_hdr hdr);
+void trace_elf_phdr(struct elf32_phdr hdr);
+
 #endif /* _UAPI_LINUX_ELF_H */

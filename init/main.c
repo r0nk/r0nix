@@ -43,9 +43,8 @@ void init_disk(struct Multiboot_Information * mbi)
 void initalize_kernel(void * multiboot_information)
 {
 	initialize_terminal();
-	kprintf("- r0nix -\n");
 
-	init_mm();
+	init_mm(&start_of_kernel,&end_of_kernel);
 
 	initalize_gdt();
 	initalize_interrupts();
@@ -62,7 +61,7 @@ void initalize_kernel(void * multiboot_information)
 void kernel_main(void * multiboot_information)
 {
 	initalize_kernel(multiboot_information);
-	kprintf("kernel size: 0x%x bytes\n",&end_of_kernel-&start_of_kernel);
+	kprintf("//r0nix\n");
 	exec("/r0sh");
 	panic("reached end of kernel_main()");
 }
