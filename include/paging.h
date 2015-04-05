@@ -20,7 +20,6 @@ struct pde { /*page directory entry*/
 	unsigned int global: 1;
 	unsigned int ignored: 3;
 	unsigned int pat: 1; /* indirectly determines memory type */
-				/*(also reboots the flux capacitor)*/
 	unsigned int addr_bits: 4;
 	unsigned int reserved: 5;
 	unsigned int frame_addr: 10;
@@ -30,6 +29,9 @@ struct pde { /*page directory entry*/
  * to serve as the root paging directory.
  */
 struct pde kpd[PAGE_DIRECTORY_LENGTH]__attribute__((aligned(4096)));
+
+/*the page the kernel is stored in kpd*/
+int k_page_index;
 
 void init_paging(void * kernel_start, void * kernel_end);
 

@@ -42,8 +42,8 @@ static void init_kpd(void * kernel_start, void * kernel_end)
 	}
 	if((kernel_end-kernel_start)>PAGE_SIZE)
 		panic("kernel bigger then a single page");
-	int ki = ((unsigned int)kernel_start)/PAGE_SIZE;
-	kpd[ki].present=1;/* let paging know the kernel space is allocated */
+	k_page_index = ((unsigned int)kernel_start)/PAGE_SIZE;
+	kpd[k_page_index].present=1;/* let paging know the kernel space is allocated */
 }
 
 #if 0

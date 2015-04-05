@@ -1,9 +1,7 @@
 #include <panic.h>
+#include <scheduler.h>
 
-#include "scheduler.h"
-#include "process.h"
-
-/* TODO this should be an array of pointers to processes */
+/* this should be an array of pointers to processes */
 struct process sched_procs[MAX_PROCESSES];/* all the current processes */
 
 /* current_process is an index into the sched_procs array, rather then a PID */
