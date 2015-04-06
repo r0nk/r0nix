@@ -271,8 +271,9 @@ extern void interrupt_wrapper_253();
 extern void interrupt_wrapper_254();
 extern void interrupt_wrapper_255();
 
-void generic_interrupt_handler(struct cpu_state s,int vector)
+void generic_interrupt_handler(struct cpu_state s)
 {
+	int vector = s.eip;/*some unfortunate,neccecary, hackyness here*/
 	if(vector<20){
 		kprintf("<!>\n");
 		switch(vector){
