@@ -8,21 +8,29 @@
 
 #include "elf/elf.h"
 
-#define STACK_POINTER 0xA5000000
+#define STACK_POINTER 0x05000000
 
 void setup_pages(struct process * proc,struct elf32_phdr phdr,void * proc_page)
 {
 	proc->pdir[k_page_index] = kpd[k_page_index];/* keep kernel in memory */
-	int pi = (int)phdr.p_vaddr>>21;/* page index for process */
-	proc->pdir[pi].frame_addr = ((uint32_t)proc_page)>>21;
+	int pi = (int)phdr.p_vaddr>>22;/* page index for process */
+	proc->pdir[pi].frame_addr = ((uint32_t)proc_page)>>22;
+	proc->pdir[pi].pat = 0;
+	proc->pdir[pi].super = 0;
+	proc->pdir[pi].write_through = 0;
+	proc->pdir[pi].cache_disable = 1;
 	proc->pdir[pi].read_write = 1;
+	proc->pdir[pi].reserved = 0;
+	proc->pdir[pi].addr_bits = 0;
 	proc->pdir[pi].page_size = 1;
 	proc->pdir[pi].present = 1;
-	void * stack = kmalloc(9001);
-	proc->pdir[STACK_POINTER>>21].frame_addr = ((uint32_t)stack)>>21;
-	proc->pdir[STACK_POINTER>>21].read_write = 1;
-	proc->pdir[STACK_POINTER>>21].page_size = 1;
-	proc->pdir[STACK_POINTER>>21].present = 1;
+	void * stack = kmalloc(0x9001);
+	proc->pdir[STACK_POINTER>>22].frame_addr = ((uint32_t)stack)>>22;
+	proc->pdir[STACK_POINTER>>22].read_write = 1;
+	proc->pdir[STACK_POINTER>>22].reserved = 0;
+	proc->pdir[STACK_POINTER>>22].addr_bits = 0;
+	proc->pdir[STACK_POINTER>>22].page_size = 1;
+	proc->pdir[STACK_POINTER>>22].present = 1;
 }
 
 void load_registers(struct process * proc, uint32_t entry_point)
@@ -30,7 +38,7 @@ void load_registers(struct process * proc, uint32_t entry_point)
 	proc->regs.edi=0;
 	proc->regs.esi=0;
 	proc->regs.ebp=0;
-	proc->regs.esp=STACK_POINTER;
+	proc->regs.esp=STACK_POINTER+0x9001;
 	proc->regs.ebx=0;
 	proc->regs.edx=0;
 	proc->regs.ecx=0;

@@ -3,6 +3,8 @@
 #include <panic.h>
 #include <kprint.h>
 
+char q[1000];
+
 char dequeue(){
 	char ret;
 	int i;

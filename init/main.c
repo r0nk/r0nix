@@ -64,7 +64,7 @@ void initalize_kernel(void * multiboot_information)
 void kernel_main(void * multiboot_information)
 {
 	initalize_kernel(multiboot_information);
-	kprintf(".r0nix\n");
+	kprintf("/r0nix/\n");
 	exec_inital("/r0sh");
 	panic("reached end of kernel_main()");
 }

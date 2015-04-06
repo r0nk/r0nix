@@ -1,6 +1,7 @@
 #ifndef CPU
 #define CPU
 #include <stdint.h>
+#include <kprint.h>
 
 /* a cpu_state gets pushed onto the stack on every interrupt */
 struct cpu_state{

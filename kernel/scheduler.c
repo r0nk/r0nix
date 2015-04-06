@@ -1,4 +1,5 @@
 #include <panic.h>
+#include <kprint.h>
 #include <paging.h>
 #include <scheduler.h>
 
@@ -18,11 +19,41 @@ int next_process()
 	return current_process+1;
 }
 
+void jump(struct cpu_state state)
+{
+	/*
+	 * We can't just popa and then iret, because popa moves our stack.
+	 * So, we have to manually push the return pointer onto the new stack,
+	 * then popa-iret.
+	 */
+	uint32_t * stack = (void *)state.esp;
+	/*push the state onto the stack*/
+	*(--stack) = 2;
+	*(--stack) = state.esp;
+	*(--stack) = state.eflags;
+	*(--stack) = state.cs;
+	*(--stack) = state.eip;
+	*(--stack) = state.ecx;
+	*(--stack) = state.edx;
+	*(--stack) = state.ebx;
+	*(--stack) = state.esp;/*doesn't get pop-ped*/
+	*(--stack) = state.ebp;
+	*(--stack) = state.esi;
+	*(--stack) = state.edi;
+
+	asm("mov %%eax,%%esp;\n\t"
+			"popa;\n\t"::"a"(stack));
+	asm("iret;\n\t");
+
+	panic("reached end of jump");
+}
+
 void task_switch(int index)
 {
 	current_process = index;
 	load_crx(sched_procs[index].pdir);
-	panic("task_switch() nyi");
+	jump(sched_procs[index].regs);
+	panic("task_switch after jump");
 }
 
 /* called every schedule cycle,

@@ -9,15 +9,13 @@ void init_mm(void * kernel_start,void * kernel_end)
 {
 	init_paging(kernel_start,kernel_end);
 
-	/*queue initalization. TODO should be moved.*/
-	q=kmalloc(1000);
 	q_size=0;
 }
 
 inline void * next_free_spot()
 {
 	unsigned int i;
-	for(i=0;i<PAGE_DIRECTORY_LENGTH;i++){
+	for(i=3;i<PAGE_DIRECTORY_LENGTH;i++){
 		if(kpd[i].present==0){
 			kpd[i].present=1;
 			return (void *) (i<<22);/*this is a bit tricky*/
