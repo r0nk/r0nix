@@ -44,7 +44,7 @@ void load_registers(struct process * proc, uint32_t entry_point)
 	proc->regs.ecx=0;
 	proc->regs.eax=0;
 	proc->regs.eip=entry_point;
-	proc->regs.cs=1;
+	proc->regs.cs=0x8;
 	proc->regs.eflags=0x202;
 }
 

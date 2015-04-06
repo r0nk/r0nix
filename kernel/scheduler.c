@@ -28,11 +28,12 @@ void jump(struct cpu_state state)
 	 */
 	uint32_t * stack = (void *)state.esp;
 	/*push the state onto the stack*/
-	*(--stack) = 2;
+	*(--stack) = 0x10;
 	*(--stack) = state.esp;
 	*(--stack) = state.eflags;
 	*(--stack) = state.cs;
 	*(--stack) = state.eip;
+	*(--stack) = state.eax;
 	*(--stack) = state.ecx;
 	*(--stack) = state.edx;
 	*(--stack) = state.ebx;
