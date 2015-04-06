@@ -37,7 +37,7 @@ struct elf32_hdr get_elf_hdr(int fd)
 	struct elf32_hdr hdr;
 	char * p =(void *) &hdr;
 	read(fd,p,sizeof(hdr));
-	trace_elf_hdr(hdr);
+//	trace_elf_hdr(hdr);
 	return hdr;
 }
 

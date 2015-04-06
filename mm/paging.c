@@ -1,25 +1,6 @@
 #include <panic.h>
 #include <kprint.h>
-#include "paging.h"
-
-/*TODO:The inline here should probaly be moved to r0nix/arch/ */
-static void load_crx(struct pde * dir)
-{
-	asm("mov %0,%%eax"::"r"(dir):"%eax");
-	asm("mov %%eax,%%cr3":::"%eax");
-
-	asm("mov %%cr0,%%eax":::"%eax");
-	asm("or $0x80000000,%%eax":::"%eax");
-	asm("mov %%eax,%%cr0":::"%eax");
-}
-
-/*TODO:The inline here should probaly be moved to r0nix/arch/ */
-static void enable_four_mb()
-{
-	asm("mov %%cr4,%%eax":::"%eax");
-	asm("or $0x00000010,%%eax":::"%eax");
-	asm("mov %%eax,%%cr4":::"%eax");
-}
+#include <paging.h>
 
 static void init_kpd(void * kernel_start, void * kernel_end)
 {

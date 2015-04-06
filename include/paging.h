@@ -35,4 +35,8 @@ int k_page_index;
 
 void init_paging(void * kernel_start, void * kernel_end);
 
+/*x86 specific stuff, should probably be moved*/
+void load_crx(struct pde * dir);
+void enable_four_mb();
+
 #endif

@@ -19,6 +19,7 @@
 #include <fs.h>
 #include <mm.h>
 #include <exec.h>
+#include <scheduler.h>
 
 #include <drivers/ramdisk.h>
 
@@ -56,12 +57,14 @@ void initalize_kernel(void * multiboot_information)
 
 	init_pci();
 //	init_net();
+	
+	init_scheduler();
 }
 
 void kernel_main(void * multiboot_information)
 {
 	initalize_kernel(multiboot_information);
-	kprintf("//r0nix\n");
+	kprintf(".r0nix\n");
 	exec_inital("/r0sh");
 	panic("reached end of kernel_main()");
 }

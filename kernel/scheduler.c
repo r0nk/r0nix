@@ -1,4 +1,5 @@
 #include <panic.h>
+#include <paging.h>
 #include <scheduler.h>
 
 /* this should be an array of pointers to processes */
@@ -20,7 +21,7 @@ int next_process()
 void task_switch(int index)
 {
 	current_process = index;
-	/*TODO*/
+	load_crx(sched_procs[index].pdir);
 	panic("task_switch() nyi");
 }
 
