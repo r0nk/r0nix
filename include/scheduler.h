@@ -11,9 +11,17 @@ struct process {
 
 #define MAX_PROCESSES 100
 
+/* this should be an array of pointers to processes */
+struct process sched_procs[MAX_PROCESSES];/* all the current processes */
+
+/* current_process is an index into the sched_procs array, rather then a PID */
+int current_process;
+int total_processes;
+
+
 void sched_tick();
 void replace_current_process(struct process replacer);
-void add_process(struct process p);
+int add_process(struct process p);
 void init_scheduler();
 
 #endif

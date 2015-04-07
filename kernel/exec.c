@@ -10,6 +10,7 @@
 
 #define STACK_POINTER 0x05000000
 
+/*TODO: this function is really ugly*/
 void setup_pages(struct process * proc,struct elf32_phdr phdr,void * proc_page)
 {
 	proc->pdir[k_page_index] = kpd[k_page_index];/* keep kernel in memory */

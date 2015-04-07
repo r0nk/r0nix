@@ -3,13 +3,6 @@
 #include <paging.h>
 #include <scheduler.h>
 
-/* this should be an array of pointers to processes */
-struct process sched_procs[MAX_PROCESSES];/* all the current processes */
-
-/* current_process is an index into the sched_procs array, rather then a PID */
-int current_process;
-int total_processes;
-
 /* next_process returns the sched_procs index for the next process to be run */
 int next_process()
 {
@@ -45,8 +38,7 @@ void jump(struct cpu_state state)
 	asm("mov %%eax,%%esp;\n\t"
 			"popa;\n\t"::"a"(stack));
 	asm("iret;\n\t");
-
-	panic("reached end of jump");
+	panic("jump: reached after iret call,should never occur.");
 }
 
 void task_switch(int index)
@@ -54,7 +46,6 @@ void task_switch(int index)
 	current_process = index;
 	load_crx(sched_procs[index].pdir);
 	jump(sched_procs[index].regs);
-	panic("task_switch after jump");
 }
 
 /* called every schedule cycle,
@@ -70,12 +61,16 @@ void replace_current_process(struct process replacer)
 	sched_procs[current_process]=replacer;
 }
 
-void add_process(struct process p)
+int add_process(struct process p)
 {
+	int pid;
 	total_processes++;
 	if(total_processes>MAX_PROCESSES)
 		panic("total processes > max");
 	sched_procs[total_processes]=p;
+	pid=total_processes;/*<-- TODO: this isn't quite right yet */
+	p.pid=total_processes;
+	return pid;
 }
 
 void init_scheduler()
