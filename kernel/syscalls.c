@@ -4,6 +4,7 @@
 #include <cpu.h>
 #include <panic.h>
 #include <fs.h>
+#include <fork.h>
 
 void system_call(struct cpu_state *s)
 {
@@ -21,7 +22,7 @@ void system_call(struct cpu_state *s)
 			s->eax = write(s->ebx,(void *)s->ecx,s->edi);
 			break;
 		case SYSCALL_FORK:
-			panic("nyi fork syscalled");
+			s->eax = fork();
 		case SYSCALL_EXEC:
 			panic("nyi exec syscalled");
 			break;
