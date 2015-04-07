@@ -18,7 +18,6 @@ struct process sched_procs[MAX_PROCESSES];/* all the current processes */
 int current_process;
 int total_processes;
 
-
 void sched_tick();
 void replace_current_process(struct process replacer);
 int add_process(struct process p);

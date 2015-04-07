@@ -23,8 +23,9 @@ void system_call(struct cpu_state *s)
 			break;
 		case SYSCALL_FORK:
 			s->eax = fork();
+			break;
 		case SYSCALL_EXEC:
-			panic("nyi exec syscalled");
+			panic("nyi exec system called");
 			break;
 		case SYSCALL_REBOOT:
 			/*hack, causes a triple fault, which causes reboot*/

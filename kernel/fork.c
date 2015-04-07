@@ -2,21 +2,22 @@
 #include <scheduler.h>
 #include <fork.h>
 
-struct process clone_process(struct process orig)
+/*allocate new pages for a process clone*/
+void change_pages(struct process *clone)
 {
-	struct process clone = orig;
-	/* copy-paste all the clones pages */
-	/* TODO FIXME right now, we just let the two processes overwrite 
-	 * eachother. Obviously terribad, so fix this asap.
-	 */
-	return clone;
+	/*TODO*/
+	clone++;
 }
 
-/*TODO struct process is too big to throw around the stack*/
+/*TODO FIXME doesn't use new pages, all around hacky and bad*/
 int fork(){
 	int pid;
-	struct process clone = clone_process(sched_procs[current_process]);
-	clone.regs.eax=0;/*set the return value for the clone to 0*/
-	pid = add_process(clone);
+	total_processes++;
+	if(total_processes>MAX_PROCESSES)
+		panic("fork:total processes > max");
+	sched_procs[total_processes]=sched_procs[current_process];
+	/*set the return value for the clone to 0*/
+	sched_procs[total_processes].regs.eax=0;
+	pid=total_processes;
 	return pid;
 }

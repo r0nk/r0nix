@@ -13,7 +13,7 @@ struct cpu_state{
 	uint32_t edx;
 	uint32_t ecx;
 	uint32_t eax;
-	/*<sometimes error code right here>*/
+	uint32_t vector;
 	uint32_t eip;
 	uint32_t cs;
 	uint32_t eflags;

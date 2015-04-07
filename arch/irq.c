@@ -6,6 +6,7 @@
 #include <irq.h>
 #include <cpu.h>
 #include <io.h>
+#include <scheduler.h>
 #include <syscalls.h>
 #include <panic.h>
 
@@ -273,10 +274,10 @@ extern void interrupt_wrapper_255();
 
 void generic_interrupt_handler(struct cpu_state s)
 {
-	int vector = s.eip;/*some unfortunate,neccecary, hackyness here*/
-	if(vector<20){
+	int sched=0;/*wether or not to schedule after this interrupt*/
+	if(s.vector<20){
 		kprintf("<!>\n");
-		switch(vector){
+		switch(s.vector){
 			case 0:
 				kprintf("fault: divide error\n");
 				break;
@@ -344,20 +345,23 @@ void generic_interrupt_handler(struct cpu_state s)
 		goto non_handled;
 	}
 
-	if(vector==0x20)/*then its just a timer, we don't have to care*/
+	if(s.vector==0x20)/*then its just a timer, we don't have to care*/
 		goto ret;
 
-	if(vector==0x21){
+	if(s.vector==0x21){
 		keyboard_irq();
 		goto ret;
 	}
 
-	if(vector==0x2b){
+	if(s.vector==0x2b){
 		rtl_handle_interrupt();
 		goto ret;
 	}
 
-	if(vector==0x80){
+	if(s.vector==0x80){
+		/*we know a process called us, so we save our state*/
+		sched_procs[current_process].regs=s;
+		sched=1;
 		system_call(&s);
 		/* under these 'if' conditions, the int is already acked...
 		 * TODO:...which is a super messy way of doing it.
@@ -368,10 +372,14 @@ void generic_interrupt_handler(struct cpu_state s)
 	}
 
 non_handled:
-	kprintf("vector:%x\n",vector);
+	kprintf("s.vector:%x\n",s.vector);
 	panic("non-handled interrupt");
 ret:
-	acknowledge_interrupt(vector);
+	acknowledge_interrupt(s.vector);
+	if(sched){
+		s=sched_procs[current_process].regs;/*we mighta changed em*/
+		sched_tick();
+	}
 }
 
 void initalize_idt_entry(int vector, void (*func)(void))
