@@ -1,6 +1,6 @@
 #include <mm.h>
 #include <panic.h>
-#include "paging.h"
+#include <paging.h>
 
 #define MAX_ALLOC 4194304
 #define HEAP_BLOCK_SIZE 4194304
@@ -8,7 +8,6 @@
 void init_mm(void * kernel_start,void * kernel_end)
 {
 	init_paging(kernel_start,kernel_end);
-
 	q_size=0;
 }
 
