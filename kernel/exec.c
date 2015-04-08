@@ -30,6 +30,8 @@ void setup_pages(struct process * proc,struct elf32_phdr phdr,void * proc_page)
 	proc->pdir[pi].present = 1;
 	void * stack = kmalloc(0x9001);
 	proc->pdir[STACK_POINTER>>22].frame_addr = ((uint32_t)stack)>>22;
+	proc->pdir[STACK_POINTER>>22].pat = 0;
+	proc->pdir[STACK_POINTER>>22].super = 0;
 	proc->pdir[STACK_POINTER>>22].read_write = 1;
 	proc->pdir[STACK_POINTER>>22].reserved = 0;
 	proc->pdir[STACK_POINTER>>22].addr_bits = 0;
@@ -66,6 +68,8 @@ struct process file_to_process(char * path)
 		panic(" file_to_process: multi-segment program header,nyi ");
 
 	void * proc_page = kmalloc(phdr.p_memsz);
+
+	kprintf("after proc page");
 
 	setup_pages(&proc,phdr,proc_page);
 

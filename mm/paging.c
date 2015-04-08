@@ -1,6 +1,7 @@
 #include <panic.h>
 #include <kprint.h>
 #include <paging.h>
+#include <stdint.h>
 
 static void init_kpd(void * kernel_start, void * kernel_end)
 {
@@ -27,8 +28,23 @@ static void init_kpd(void * kernel_start, void * kernel_end)
 	kpd[k_page_index].present=1;/* let paging know the kernel space is allocated */
 }
 
-#if 0
-void trace_kpd(){
+/*copy-paste all the contents of a page*/
+void copy_page(uint8_t * source, uint8_t * destination)
+{
+	flush_tlb_single((unsigned long)source);
+	flush_tlb_single((unsigned long)destination);
+	kprintf("copying pages\n");
+	kprintf("source:%x\n",source);
+	kprintf("destination:%x\n",destination);
+	int i;
+	for(i=0;i<PAGE_SIZE;i++){
+		destination[i]=source[i];
+	}
+	kprintf("end page_copy\n");
+}
+
+void trace_kpd()
+{
 	int i,s;
 	kprintf("kpd:%x\n",kpd);
 	for(i=0;i<12;i++){
@@ -36,7 +52,6 @@ void trace_kpd(){
 		kprintf(" kpd[%i]:%x\n",i,kpd[i]);
 	}
 }
-#endif
 
 void init_paging(void * kernel_start, void * kernel_end)
 {

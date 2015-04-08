@@ -1,5 +1,6 @@
 #ifndef PAGING
 #define PAGING
+#include <stdint.h>
 
 /* with 4mb pages, bits 21 through 12 are reversed! (and we use 4mb pages) */
 
@@ -34,8 +35,11 @@ struct pde kpd[PAGE_DIRECTORY_LENGTH]__attribute__((aligned(4096)));
 int k_page_index;
 
 void init_paging(void * kernel_start, void * kernel_end);
+void copy_page(uint8_t * source, uint8_t * destination);
+void trace_kpd();
 
 /*x86 specific stuff, should probably be moved*/
+void flush_tlb_single(unsigned long addr);
 void load_crx(struct pde * dir);
 void enable_four_mb();
 

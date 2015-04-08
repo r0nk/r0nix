@@ -1,6 +1,7 @@
 #include <mm.h>
 #include <panic.h>
 #include <paging.h>
+#include <kprint.h>
 
 #define MAX_ALLOC 4194304
 #define HEAP_BLOCK_SIZE 4194304
@@ -17,6 +18,7 @@ inline void * next_free_spot()
 	for(i=3;i<PAGE_DIRECTORY_LENGTH;i++){
 		if(kpd[i].present==0){
 			kpd[i].present=1;
+			kprintf("malloced: %i,returning %x\n",i,i<<22);
 			return (void *) (i<<22);/*this is a bit tricky*/
 		}
 	}
@@ -31,6 +33,7 @@ void * kmalloc(int size)
 	ret = next_free_spot();
 	if(!ret)
 		panic("mm: couldn't find free spot (possibly out of them)");
+	flush_tlb_single((unsigned long)ret);
 	return ret;
 }
 

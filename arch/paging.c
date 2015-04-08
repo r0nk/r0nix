@@ -1,5 +1,18 @@
 /*the x86 specific paging functions*/
 #include <paging.h>
+#include <panic.h>
+
+void invalidate_all()
+{
+	int i;
+	for(i=0;i<1024;i++)
+		flush_tlb_single(i<<22);
+}
+
+void flush_tlb_single(unsigned long addr)
+{
+	asm ("invlpg (%0)"::"r" (addr) : "memory");
+}
 
 void load_crx(struct pde * dir)
 {
