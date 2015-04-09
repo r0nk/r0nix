@@ -20,7 +20,7 @@ int total_processes;
 
 void sched_tick();
 void replace_current_process(struct process replacer);
-int add_process(struct process p);
+struct process * get_free_process();
 void init_scheduler();
 
 #endif

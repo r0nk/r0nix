@@ -4,41 +4,31 @@
 #include <panic.h>
 #include <time_stamp.h>
 #include <mm.h>
+#include <paging.h>
 #include <scheduler.h>
 
 #include "elf/elf.h"
 
-#define STACK_POINTER 0x05000000
+#define STACK_POINTER 0x08000000
 
-/*TODO: this function is really ugly*/
 void setup_pages(struct process * proc,struct elf32_phdr phdr,void * proc_page)
 {
 	int i;
-//	for(i=0;i<PAGE_DIRECTORY_LENGTH;i++)
-//		proc->pdir[i].present=0;
+	for(i=0;i<PAGE_DIRECTORY_LENGTH;i++)
+		proc->pdir[i].present=0;
 	proc->pdir[k_page_index] = kpd[k_page_index];/* keep kernel in memory */
 	int pi = (int)phdr.p_vaddr>>22;/* page index for process */
+	proc->pdir[pi]=create_pde();
 	proc->pdir[pi].frame_addr = ((uint32_t)proc_page)>>22;
-	proc->pdir[pi].pat = 0;
-	proc->pdir[pi].super = 0;
-	proc->pdir[pi].write_through = 0;
-	proc->pdir[pi].cache_disable = 1;
-	proc->pdir[pi].read_write = 1;
-	proc->pdir[pi].reserved = 0;
-	proc->pdir[pi].addr_bits = 0;
-	proc->pdir[pi].page_size = 1;
-	proc->pdir[pi].present = 1;
+	proc->pdir[pi].present=1;
+
 	void * stack = kmalloc(0x9001);
+	proc->pdir[STACK_POINTER>>22]=create_pde();
 	proc->pdir[STACK_POINTER>>22].frame_addr = ((uint32_t)stack)>>22;
-	proc->pdir[STACK_POINTER>>22].pat = 0;
-	proc->pdir[STACK_POINTER>>22].super = 0;
-	proc->pdir[STACK_POINTER>>22].read_write = 1;
-	proc->pdir[STACK_POINTER>>22].reserved = 0;
-	proc->pdir[STACK_POINTER>>22].addr_bits = 0;
-	proc->pdir[STACK_POINTER>>22].page_size = 1;
 	proc->pdir[STACK_POINTER>>22].present = 1;
 }
 
+/*FIXME:this appears to modify the kpd*/
 void load_registers(struct process * proc, uint32_t entry_point)
 {
 	proc->regs.edi=0;
@@ -54,10 +44,9 @@ void load_registers(struct process * proc, uint32_t entry_point)
 	proc->regs.eflags=0x202;
 }
 
-/* parse the executable file and store it into the returned process */
-struct process file_to_process(char * path)
+/* parse the executable file and store it into the process */
+void file_to_process(char * path,struct process * proc)
 {
-	struct process proc;
 	int fd  = open(path);
 	if(fd<1)
 		panic(" file_to_process: fd<1 ");
@@ -69,9 +58,7 @@ struct process file_to_process(char * path)
 
 	void * proc_page = kmalloc(phdr.p_memsz);
 
-	kprintf("after proc page");
-
-	setup_pages(&proc,phdr,proc_page);
+	setup_pages(proc,phdr,proc_page);
 
 	/* this sets the fd read head to zero */
 	close(fd);
@@ -81,9 +68,7 @@ struct process file_to_process(char * path)
 	if(read(fd,proc_page,phdr.p_memsz)!=(int)phdr.p_memsz)
 		panic("file_to_process: not enough bytes read from file");
 	
-	load_registers(&proc,hdr.e_entry);
-
-	return proc;
+	load_registers(proc,hdr.e_entry);
 }
 
 void jump(struct cpu_state state)
@@ -120,13 +105,14 @@ void jump(struct cpu_state state)
 /* This creates the inital process (which always has pid 1) */
 void exec_inital(char * path)
 {
-	struct process p1 = file_to_process(path);
-	add_process(p1);
+	struct process * p1;
+	p1 = get_free_process();
+       	file_to_process(path,p1);
 	sched_tick();
 	jump(sched_procs[current_process].regs);
 }
 
 void exec(char * path)
 {
-	replace_current_process(file_to_process(path));
+	file_to_process(path,&sched_procs[current_process]);
 }

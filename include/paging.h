@@ -36,6 +36,9 @@ int k_page_index;
 
 void init_paging(void * kernel_start, void * kernel_end);
 void copy_page(uint8_t * source, uint8_t * destination);
+void map(struct pde * dir, int i, void * addr);
+int next_free_spot(struct pde * dir);
+struct pde create_pde();
 void trace_kpd();
 
 /*x86 specific stuff, should probably be moved*/

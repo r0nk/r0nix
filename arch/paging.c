@@ -1,5 +1,6 @@
 /*the x86 specific paging functions*/
 #include <paging.h>
+#include <kprint.h>
 #include <panic.h>
 
 void invalidate_all()
@@ -16,6 +17,8 @@ void flush_tlb_single(unsigned long addr)
 
 void load_crx(struct pde * dir)
 {
+	kprintf("loading CR3:%x\n",dir);
+
 	asm("mov %0,%%eax"::"r"(dir):"%eax");
 	asm("mov %%eax,%%cr3":::"%eax");
 

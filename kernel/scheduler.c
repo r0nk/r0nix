@@ -12,7 +12,6 @@ int next_process()
 	return current_process+1;
 }
 
-
 void task_switch(int index)
 {
 	current_process = index;
@@ -32,14 +31,13 @@ void replace_current_process(struct process replacer)
 	sched_procs[current_process]=replacer;
 }
 
-int add_process(struct process p)
+struct process * get_free_process()
 {
 	total_processes++;
 	if(total_processes>MAX_PROCESSES)
 		panic("total processes > max");
-	sched_procs[total_processes]=p;
-	p.pid=total_processes;
-	return p.pid;
+	sched_procs[total_processes].pid=total_processes;
+	return &(sched_procs[total_processes]);
 }
 
 void init_scheduler()
