@@ -79,12 +79,11 @@ void jump(struct cpu_state state)
 	 */
 	uint32_t * stack = (void *)state.esp;
 	/*push the state onto the stack*/
-	*(--stack) = 0x10;//stack segment
-	*(--stack) = state.esp;
+//	*(--stack) = 0x10;//stack segment
+//	*(--stack) = state.esp;
 	*(--stack) = state.eflags;
 	*(--stack) = state.cs;
 	*(--stack) = state.eip;
-	*(--stack) = state.vector;
 	*(--stack) = state.eax;
 	*(--stack) = state.ecx;
 	*(--stack) = state.edx;
@@ -94,10 +93,9 @@ void jump(struct cpu_state state)
 	*(--stack) = state.esi;
 	*(--stack) = state.edi;
 
-	asm("mov %%eax,%%esp;\n\t"
-			"popa;\n\t"::"a"(stack));
-	asm("add $4,%esp");
-	asm("iret;\n\t");
+	asm("mov %%eax,%%esp;"::"a"(stack));
+	asm("popa;");
+	asm("iret;");
 	panic("jump: reached after iret call,should never occur.");
 }
 
@@ -108,7 +106,6 @@ void exec_inital(char * path)
 	p1 = get_free_process();
        	file_to_process(path,p1);
 	sched_tick();
-	jump(sched_procs[current_process].regs);
 }
 
 void exec(char * path)

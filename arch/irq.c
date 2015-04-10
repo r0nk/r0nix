@@ -365,13 +365,15 @@ void generic_interrupt_handler(struct cpu_state s)
 	if(s.vector==0x80){
 		/*we know a process called us, so we save our state*/
 		sched_procs[current_process].regs=s;
+		sched_procs[current_process].regs.esp+=16;
 		sched=1;
 		system_call(&s);
 		/* under these 'if' conditions, the int is already acked...
 		 * TODO:...which is a super messy way of doing it.
 		 */
-		if(s.eax==SYSCALL_READ && s.ebx == 0)
-			return;
+		/*FIXME we have to disable it for now, needs to be fixed*/
+//		if(s.eax==SYSCALL_READ && s.ebx == 0)
+//			return;
 		goto ret;
 	}
 

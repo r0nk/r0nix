@@ -40,6 +40,7 @@ ENTRY(_start)
 		*(COMMON)
 			*(.bss)
 			*(.bootstrap_stack)
+		k_stack = .;
 	}
 
 	end_of_kernel = .;

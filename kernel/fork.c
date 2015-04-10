@@ -11,7 +11,6 @@ void replace_page(struct pde * dir,int pi){
 	uint8_t * tmp_page;/*the processes (dir) tmp page*/
 	int tmp_pi;/*the index of the processes tmp page*/
 
-
 	k_page=kmalloc(PAGE_SIZE-1);
 	tmp_pi = next_free_spot(dir);
 
