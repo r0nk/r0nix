@@ -44,6 +44,7 @@ void trace_kpd();
 /*x86 specific stuff, should probably be moved*/
 void flush_tlb_single(unsigned long addr);
 void load_crx(struct pde * dir);
+void load_crx_jump(struct pde * dir);
 void enable_four_mb();
 
 #endif

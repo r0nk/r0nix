@@ -11,6 +11,7 @@ void replace_page(struct pde * dir,int pi){
 	uint8_t * tmp_page;/*the processes (dir) tmp page*/
 	int tmp_pi;/*the index of the processes tmp page*/
 
+
 	k_page=kmalloc(PAGE_SIZE-1);
 	tmp_pi = next_free_spot(dir);
 
@@ -22,7 +23,7 @@ void replace_page(struct pde * dir,int pi){
 	copy_page(replaced_page,tmp_page);
 
 	/*store the new page in the old page's spot*/
-	dir[pi].frame_addr=(unsigned int)tmp_page>>22;
+	dir[pi].frame_addr=(unsigned int)k_page>>22;
 
 	dir[tmp_pi].present=0;/*free the dir tmp page*/
 }
@@ -30,6 +31,7 @@ void replace_page(struct pde * dir,int pi){
 /*allocate and copy new pages for a process clone*/
 void get_new_pages(struct process * proc)
 {
+	load_crx(proc->pdir);
 	int i;
 	for(i=0;i<PAGE_DIRECTORY_LENGTH;i++){
 		if(i==k_page_index)
@@ -42,11 +44,11 @@ void get_new_pages(struct process * proc)
 /*TODO FIXME all around hacky and bad*/
 int fork(){
 //	kprintf("fork called\n");
-//	load_crx(kpd); 
 	struct process * proc = get_free_process();
 	(*proc)=sched_procs[current_process];
 	get_new_pages(proc);
 	/*set the return value for the clone to 0*/
 	sched_procs[total_processes].regs.eax=0;
+	load_crx(sched_procs[current_process].pdir);
 	return total_processes;
 }

@@ -47,8 +47,9 @@ static void init_kpd(void * kernel_start, void * kernel_end)
 
 void map(struct pde * dir, int i, void * addr)
 {
-	dir[i].present=1;
+	dir[i]=create_pde();
 	dir[i].frame_addr=((unsigned int)addr)>>22;
+	dir[i].present=1;
 }
 
 /* copy-paste all the contents of a page onto another */

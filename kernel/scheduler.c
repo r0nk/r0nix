@@ -15,7 +15,7 @@ int next_process()
 void task_switch(int index)
 {
 	current_process = index;
-	load_crx(sched_procs[index].pdir);
+	load_crx_jump(sched_procs[index].pdir);
 }
 
 /* called every schedule cycle,

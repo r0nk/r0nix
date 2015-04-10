@@ -28,7 +28,6 @@ void setup_pages(struct process * proc,struct elf32_phdr phdr,void * proc_page)
 	proc->pdir[STACK_POINTER>>22].present = 1;
 }
 
-/*FIXME:this appears to modify the kpd*/
 void load_registers(struct process * proc, uint32_t entry_point)
 {
 	proc->regs.edi=0;

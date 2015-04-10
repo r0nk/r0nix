@@ -5,9 +5,11 @@
 #include <panic.h>
 #include <fs.h>
 #include <fork.h>
+#include <scheduler.h>
 
 void system_call(struct cpu_state *s)
 {
+	kprintf("syscalled->%x\n",s->eax);
 	switch(s->eax){
 		case SYSCALL_OPEN:
 			s->eax = open((void *)s->ebx);
