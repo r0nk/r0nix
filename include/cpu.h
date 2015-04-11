@@ -18,5 +18,4 @@ struct cpu_state{
 	uint32_t cs;
 	uint32_t eflags;
 };
-
 #endif
