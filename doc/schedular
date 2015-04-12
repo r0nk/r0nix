@@ -1,1 +1,0 @@
-We're currently getting a deadlock because we can't return from a interrupt that waits for keyboard input, and to get keyboard input, we have to return from that interrupt.

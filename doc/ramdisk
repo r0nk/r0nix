@@ -1,4 +1,0 @@
-Ok, we can use a "initrd" or "inital ramdisk" to start with. The bootloader
-gives us this ramdisk to start with, its location is specified in the 
-Multiboot information data structure.
-

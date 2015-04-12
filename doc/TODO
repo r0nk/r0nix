@@ -1,5 +1,0 @@
-ok, so we have a version of paging in place.
-
-However, we still need to secure ourselves in the form of getting out of ring
-zero.
-

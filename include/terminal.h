@@ -8,8 +8,6 @@ enum vga_color;
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 
-
-
 struct Terminal{
 	size_t row;
 	size_t column;

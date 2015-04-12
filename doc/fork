@@ -1,4 +1,0 @@
-ok, So the next syscall we should do is fork();
-
-fork() clones a running process. Meaning we need some sort of process
-handler/scheduler thing.

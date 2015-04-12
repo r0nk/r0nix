@@ -14,7 +14,154 @@
  * This file handles setting up the interrupts.
  */
 
+void initalize_idt();
+
 extern void generic_interrupt_wrapper();
+void exception_handler(int vector){
+	kprintf("<!>\n");
+	switch(vector){
+		case 0:
+			kprintf("fault: divide error\n");
+			break;
+		case 1:
+			kprintf("fault/trap: debug exception\n");
+			break;
+		case 2:
+			kprintf("Nonmaskable Interrupt\n");
+			break;
+		case 3:
+			kprintf("breakpoint\n");
+			break;
+		case 4:
+			kprintf("overflow\n");
+			break;
+		case 5:
+			kprintf("BOUND range exceeded\n");
+			break;
+		case 6:
+			kprintf("Invalid opcode\n");
+			break;
+		case 7:
+			kprintf("device not available\n");
+			break;
+		case 8:
+			kprintf("Double fault\n");
+			break;
+		case 9:
+			kprintf("Coprocessor Segment Overrun\n");
+			break;
+		case 10:
+			kprintf("invalid TSS\n");
+			break;
+		case 11:
+			kprintf("Segment Not Present\n");
+			break;
+		case 12:
+			kprintf("stack-segment fault\n");
+			break;
+		case 13:
+			kprintf("General Protection\n");
+			break;
+		case 14:
+			kprintf("page fault\n");
+			break;
+		case 15:
+			kprintf("Intel Reserved\n");
+			break;
+		case 16:
+			kprintf("x87 FPU floating-point error\n");
+			break;
+		case 17:
+			kprintf("alignment check\n");
+			break;
+		case 18:
+			kprintf("machine check\n");
+			break;
+		case 19:
+			kprintf("SIMD Floating-Point Exception\n");
+			break;
+		case 20:
+			kprintf("Virtualization Exception\n");
+			break;
+	}
+}
+
+void generic_interrupt_handler(struct cpu_state s)
+{
+	int sched=0;/*wether or not to schedule after this interrupt*/
+	if(s.vector<20){
+		exception_handler(s.vector);
+		goto non_handled;
+	}
+
+	if(s.vector==0x20)/*then its just a timer, we don't have to care*/
+		goto ret;
+
+	if(s.vector==0x21){
+		keyboard_irq();
+		goto ret;
+	}
+
+	if(s.vector==0x2b){
+		rtl_handle_interrupt();
+		goto ret;
+	}
+
+	if(s.vector==0x80){
+		/*we know a process called us, so we save our state*/
+		sched_procs[current_process].regs=s;
+		sched_procs[current_process].regs.esp+=16;
+		sched=1;
+		system_call(&s);
+		/* under these 'if' conditions, the int is already acked...
+		 * TODO:...which is a super messy way of doing it.
+		 */
+		/*FIXME we have to disable it for now, needs to be fixed*/
+//		if(s.eax==SYSCALL_READ && s.ebx == 0)
+//			return;
+		goto ret;
+	}
+
+non_handled:
+	kprintf("s.vector:%x\n",s.vector);
+	panic("non-handled interrupt");
+ret:
+	acknowledge_interrupt(s.vector);
+	if(sched){
+		s=sched_procs[current_process].regs;/*we mighta changed em*/
+		sched_tick();
+	}
+}
+
+void initalize_idt_entry(int vector, void (*func)(void))
+{
+	unsigned long addr = (unsigned long)func;
+	int high_address = addr & 0xFFFF0000;
+	int low_address  = addr & 0x0000FFFF;
+	int DPL = 0;/*descriptor privilege level*/
+	int P = 1;/*selector present flag*/
+	int Selector = 1<<3;/*segment selector for destination code segment.*/
+	int D = 1;/*size of gate: 1=32bit; 0=16bit*/
+	int type=14;
+	idt_table[vector].b=high_address;
+	idt_table[vector].b|=P<<15;
+	idt_table[vector].b|=DPL<<13;
+	idt_table[vector].b|=D<<11;
+	idt_table[vector].b|=type<<8;
+
+	idt_table[vector].a=low_address;
+	idt_table[vector].a|=Selector<<16;
+}
+
+void initalize_interrupts()
+{
+	initalize_idt();
+	idt_descr.size=(256*8)-1;
+	idt_descr.address=(unsigned int)idt_table;
+	load_idt(&idt_descr);
+}
+
+/* see you on the far side... */
 extern void interrupt_wrapper_0();
 extern void interrupt_wrapper_1();
 extern void interrupt_wrapper_2();
@@ -272,144 +419,7 @@ extern void interrupt_wrapper_253();
 extern void interrupt_wrapper_254();
 extern void interrupt_wrapper_255();
 
-void exception_handler(int vector){
-	kprintf("<!>\n");
-	switch(vector){
-		case 0:
-			kprintf("fault: divide error\n");
-			break;
-		case 1:
-			kprintf("fault/trap: debug exception\n");
-			break;
-		case 2:
-			kprintf("Nonmaskable Interrupt\n");
-			break;
-		case 3:
-			kprintf("breakpoint\n");
-			break;
-		case 4:
-			kprintf("overflow\n");
-			break;
-		case 5:
-			kprintf("BOUND range exceeded\n");
-			break;
-		case 6:
-			kprintf("Invalid opcode\n");
-			break;
-		case 7:
-			kprintf("device not available\n");
-			break;
-		case 8:
-			kprintf("Double fault\n");
-			break;
-		case 9:
-			kprintf("Coprocessor Segment Overrun\n");
-			break;
-		case 10:
-			kprintf("invalid TSS\n");
-			break;
-		case 11:
-			kprintf("Segment Not Present\n");
-			break;
-		case 12:
-			kprintf("stack-segment fault\n");
-			break;
-		case 13:
-			kprintf("General Protection\n");
-			break;
-		case 14:
-			kprintf("page fault\n");
-			break;
-		case 15:
-			kprintf("Intel Reserved\n");
-			break;
-		case 16:
-			kprintf("x87 FPU floating-point error\n");
-			break;
-		case 17:
-			kprintf("alignment check\n");
-			break;
-		case 18:
-			kprintf("machine check\n");
-			break;
-		case 19:
-			kprintf("SIMD Floating-Point Exception\n");
-			break;
-		case 20:
-			kprintf("Virtualization Exception\n");
-			break;
-	}
-}
-
-void generic_interrupt_handler(struct cpu_state s)
-{
-	int sched=0;/*wether or not to schedule after this interrupt*/
-	if(s.vector<20){
-		exception_handler(s.vector);
-		goto non_handled;
-	}
-
-	if(s.vector==0x20)/*then its just a timer, we don't have to care*/
-		goto ret;
-
-	if(s.vector==0x21){
-		keyboard_irq();
-		goto ret;
-	}
-
-	if(s.vector==0x2b){
-		rtl_handle_interrupt();
-		goto ret;
-	}
-
-	if(s.vector==0x80){
-		/*we know a process called us, so we save our state*/
-		sched_procs[current_process].regs=s;
-		sched_procs[current_process].regs.esp+=16;
-		sched=1;
-		system_call(&s);
-		/* under these 'if' conditions, the int is already acked...
-		 * TODO:...which is a super messy way of doing it.
-		 */
-		/*FIXME we have to disable it for now, needs to be fixed*/
-//		if(s.eax==SYSCALL_READ && s.ebx == 0)
-//			return;
-		goto ret;
-	}
-
-non_handled:
-	kprintf("s.vector:%x\n",s.vector);
-	panic("non-handled interrupt");
-ret:
-	acknowledge_interrupt(s.vector);
-	if(sched){
-		s=sched_procs[current_process].regs;/*we mighta changed em*/
-		sched_tick();
-	}
-}
-
-void initalize_idt_entry(int vector, void (*func)(void))
-{
-	unsigned long addr = (unsigned long)func;
-	int high_address = addr & 0xFFFF0000;
-	int low_address  = addr & 0x0000FFFF;
-	int DPL = 0;//descriptor privilege level
-	int P = 1;//selector present flag
-	int Selector = 1<<3;//segment selector for destination code segment. 
-	int D = 1;//size of gate: 1=32bit;0=16bit
-	int type=14;
-	idt_table[vector].b=high_address;
-	idt_table[vector].b|=P<<15;
-	idt_table[vector].b|=DPL<<13;
-	idt_table[vector].b|=D<<11;
-	idt_table[vector].b|=type<<8;
-
-	idt_table[vector].a=low_address;
-	idt_table[vector].a|=Selector<<16;
-}
-
 void initalize_idt(){
-	/* see you on the far side */
 	initalize_idt_entry(0,interrupt_wrapper_0);
 	initalize_idt_entry(1,interrupt_wrapper_1);
 	initalize_idt_entry(2,interrupt_wrapper_2);
@@ -666,10 +676,3 @@ void initalize_idt(){
 	initalize_idt_entry(255,interrupt_wrapper_255);
 }
 
-void initalize_interrupts()
-{
-	initalize_idt();
-	idt_descr.size=(256*8)-1;
-	idt_descr.address=(unsigned int)idt_table;
-	load_idt(&idt_descr);
-}
