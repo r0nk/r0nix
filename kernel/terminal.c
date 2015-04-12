@@ -1,43 +1,8 @@
-/* Wasn't really sure where to put this guy, so I just threw him in arch.
- * He maybe should be moved somwhere else.
- */
-
 #include <stdint.h>
 #include <stddef.h>
 #include <terminal.h>
 #include <string.h>
-
-enum vga_color
-{
-	COLOR_BLACK = 0,
-	COLOR_BLUE = 1,
-	COLOR_GREEN = 2,
-	COLOR_CYAN = 3,
-	COLOR_RED = 4,
-	COLOR_MAGENTA = 5,
-	COLOR_BROWN = 6,
-	COLOR_LIGHT_GREY = 7,
-	COLOR_DARK_GREY = 8,
-	COLOR_LIGHT_BLUE = 9,
-	COLOR_LIGHT_GREEN = 10,
-	COLOR_LIGHT_CYAN = 11,
-	COLOR_LIGHT_RED = 12,
-	COLOR_LIGHT_MAGENTA = 13,
-	COLOR_LIGHT_BROWN = 14,
-	COLOR_WHITE = 15,
-};
-
-inline uint8_t make_color(enum vga_color fg, enum vga_color bg)
-{
-	return fg | bg << 4;
-}
-
-uint16_t make_vgaentry(char c, uint8_t color)
-{
-	uint16_t c16 = c;
-	uint16_t color16 = color;
-	return c16 | color16 << 8;
-}
+#include <drivers/vga.h>
 
 void initialize_terminal()
 {
