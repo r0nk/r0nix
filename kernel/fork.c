@@ -6,8 +6,8 @@
 #include <paging.h>
 
 void replace_page(struct pde * dir,int pi){
-	uint8_t * replaced_page;/*the processes page to replace*/
-	uint8_t * k_page;/*the kernels replacement page*/
+	uint8_t * page_to_replace;/*the processes page to replace*/
+	uint8_t * k_page;/*the kernels new page*/
 	uint8_t * tmp_page;/*the processes (dir) tmp page*/
 	int tmp_pi;/*the index of the processes tmp page*/
 
@@ -17,9 +17,9 @@ void replace_page(struct pde * dir,int pi){
 	map(dir,tmp_pi,k_page);
 
 	tmp_page = (void *) (tmp_pi<<22);
-	replaced_page = (void *) (pi<<22);
+	page_to_replace = (void *) (pi<<22);
 
-	copy_page(replaced_page,tmp_page);
+	copy_page(page_to_replace,tmp_page);
 
 	/*store the new page in the old page's spot*/
 	dir[pi].frame_addr=(unsigned int)k_page>>22;
@@ -30,24 +30,21 @@ void replace_page(struct pde * dir,int pi){
 /*allocate and copy new pages for a process clone*/
 void get_new_pages(struct process * proc)
 {
-	load_crx(proc->pdir);
 	int i;
+	load_crx(proc->pdir);
 	for(i=0;i<PAGE_DIRECTORY_LENGTH;i++){
 		if(i==k_page_index)
 			continue;/*don't replace the kernel*/
 		if(proc->pdir[i].present)
 			replace_page(proc->pdir,i);
 	}
+	load_crx(sched_procs[current_process].pdir);
 }
 
-/*TODO FIXME all around hacky and bad*/
 int fork(){
-//	kprintf("fork called\n");
-	struct process * proc = get_free_process();
-	(*proc)=sched_procs[current_process];
-	get_new_pages(proc);
-	/*set the return value for the clone to 0*/
-	sched_procs[total_processes].regs.eax=0;
-	load_crx(sched_procs[current_process].pdir);
-	return total_processes;
+	struct process * clone = get_free_process();
+	(*clone)=sched_procs[current_process];
+	get_new_pages(clone);
+	clone->regs.eax=0;
+	return clone->pid;
 }
