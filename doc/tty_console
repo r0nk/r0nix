@@ -1,0 +1,11 @@
+Ok, so this is how i've interpreted the difference between tty, console, etc.
+
+A console is a piece of fruniture. Its the physical box thing. You can poke it.
+One per r0nix.
+
+A tty is a user interface. It has size, control keys, color stuffs, etc. You
+can't poke it. Multiple ttys per r0nix.
+
+A pipe is a queue based structure, every tty has one. It has read-write(only).
+Not every pipe is related to a terminal, however.
+
