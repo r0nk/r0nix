@@ -17,6 +17,7 @@
 void initalize_idt();
 
 extern void generic_interrupt_wrapper();
+
 void exception_handler(int vector){
 	kprintf("<!>\n");
 	switch(vector){
@@ -113,12 +114,6 @@ void generic_interrupt_handler(struct cpu_state s)
 		sched_procs[current_process].regs.esp+=16;
 		sched=1;
 		system_call(&s);
-		/* under these 'if' conditions, the int is already acked...
-		 * TODO:...which is a super messy way of doing it.
-		 */
-		/*FIXME we have to disable it for now, needs to be fixed*/
-//		if(s.eax==SYSCALL_READ && s.ebx == 0)
-//			return;
 		goto ret;
 	}
 

@@ -10,11 +10,10 @@ char dequeue(){
 	int i;
 
 	if(q_size==0){
-		asm("sti");
-		acknowledge_interrupt(0x80);
-		while(q_size==0) 
-			asm("hlt");//wait till we get some input
+	 	/*halt the thread and do stuff*/
+		panic("q_size=0");
 	}
+
 	ret=q[0];
 
 	for(i=0;i<q_size;i++)
