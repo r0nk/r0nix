@@ -33,14 +33,14 @@ void system_call(struct cpu_state *s)
 			load_idt(0);
 			asm("int3");
 			break;
+		case SYSCALL_GETPID:
+			s->eax = current_process;
+			break;
 		case SYSCALL_EXIT:
 			panic("SYSCALL_EXIT NYI");
 			break;
 		case SYSCALL_FSTAT:
 			panic("SYSCALL_FSTAT NYI");
-			break;
-		case SYSCALL_GETPID:
-			panic("SYSCALL_GETPID NYI");
 			break;
 		case SYSCALL_ISATTY:
 			panic("SYSCALL_ISATTY NYI");
